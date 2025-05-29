@@ -27,7 +27,7 @@ These are the other items that are currently on the wishlist that I would like t
 1. Radio (obtain specific radio stations).
 2. Radio knob (to switch between stations).
 
-## Simple Design Architecture
+## Simple High-level Design Architecture
 ![GadgetBuddyArchitecture](https://github.com/user-attachments/assets/93aa00ef-e8a5-475b-8d41-6e0748dac4e1)
 
 ## Current Focus
