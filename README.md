@@ -3,7 +3,7 @@ I am a personal fan of the fallout franchise ranging down to Fallout 3. I think 
 have always admired those devices in the game. The rustic and classic styles that were implemented in the design made me want to pursue my own creation/version of the pipboy. This is why I will be creating my own 
 personal embedded device that resembles a pipboy.
 
-![Untitled](https://github.com/user-attachments/assets/fb1897d2-c71e-400b-8209-96cbfc2160ee "Pipboy from Fallout 3")
+<img src="https://github.com/user-attachments/assets/fb1897d2-c71e-400b-8209-96cbfc2160ee" alt="Pipboy from Fallout 3" width="500" height="300">
 
 ## Plan
 Now this isn't a main project, it's more of a hobby project for myself. But I will be treating this project professionally, I will be following the guidelines of the SOLID framework, along with unit testing my code.
