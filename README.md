@@ -38,9 +38,3 @@ Designing and establishing a codebase that supports modular integrated testing w
 ## Essential Documents for developers
 Essential Documents when it comes to Unit Testing, Hardware, And Actions:
 1. ![Unit Testing with PlatformIO](https://github.com/FrankVanris2/GadgetBuddy/blob/main/Documentation/UnitTestingPlatformIO.md)
-
-
->>>>>>> Stashed changes
-
-
-
