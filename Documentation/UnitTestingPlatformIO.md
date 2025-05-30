@@ -37,13 +37,16 @@ lib_deps =
 pio test -e native
 ```
 
-**2. Compile and Upload Source Code:** To compile and upload your source code for the specified hardware environment, use:
+**2. Compile and Upload Source Code:** To compile and upload your source code for the specified hardware environment, use: 
 
+**Boards:** uno, uno_r4_wifi, etc.
 ```sh
 pio run -e uno_r4_wifi
 ```
 
 When it comes to uploading code to a specific board, it get's quite annoying to see the native environment fail over and over again since it's meant for unit testing nothing else. That is why it is best to upload the code specifically to the board through this pio command:
+
+**Boards:** uno, uno_r4_wifi, etc.
 
 ```sh
 platformio run --target upload --environment uno_r4_wifi
