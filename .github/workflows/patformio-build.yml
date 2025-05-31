@@ -24,8 +24,5 @@ jobs:
       - name: Install PlatformIO
         run: pip install platformio
 
-      - name: Debug repository structure
-        run: ls -R
-
       - name: Build project
-        run: cd GadgetBuddy/GadgetBuddy && platformio run 
+        run: cd GadgetBuddy && platformio run 
