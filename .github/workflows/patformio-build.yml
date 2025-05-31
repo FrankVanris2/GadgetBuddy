@@ -25,4 +25,4 @@ jobs:
         run: pip install platformio
 
       - name: Build project
-        run: platformio run
+        run: cd GadgetBuddy/GadgetBuddy && platformio run 
