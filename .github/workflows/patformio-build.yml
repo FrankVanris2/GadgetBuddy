@@ -24,5 +24,8 @@ jobs:
       - name: Install PlatformIO
         run: pip install platformio
 
-      - name: Build project
-        run: cd GadgetBuddy && platformio run 
+      - name: Going into GadgetBuddy directory
+        run: cd GadgetBuddy
+
+      - name: Build with PlatformIO
+        run: platformio run -e uno
