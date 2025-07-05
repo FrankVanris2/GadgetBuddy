@@ -11,6 +11,11 @@ GadgetBuddyManager gadgetBuddyManager;
 
 LiquidCrystal_I2C lcd(0x27,20, 4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
+
+GadgetBuddyManager::GadgetBuddyManager() {
+    // Constructor can be used to initialize any member variables if needed
+}
+
 //setup for all setup functions
 void GadgetBuddyManager::setup() {
     lcd.init();                      // initialize the lcd 

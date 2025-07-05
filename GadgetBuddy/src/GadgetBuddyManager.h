@@ -5,12 +5,16 @@
 */
 #pragma once
 
-class GadgetBuddyManager {
+#include "MachineComponentsInterface.h"
+
+class GadgetBuddyManager : public MachineComponentsInterface {
 public:
 
-    void setup();
+    GadgetBuddyManager();
 
-    void loop();
+    void setup() override;
+    void loop() override;
+
 
 private:
 
