@@ -3,7 +3,7 @@
 * Date: 8/12/2024
 * Desc: the main where the manager will concurrently allow the gadget to run*/
 #include <Arduino.h>
-#include "GadgetBuddyManager.h"
+#include "manager/GadgetBuddyManager.h"
 
 
 //MAIN setup
@@ -13,6 +13,6 @@ void setup() {
 
 //MAIN loop
 void loop() {
-  //gadgetBuddyManager.loop();
+  gadgetBuddyManager.loop();
 }
 

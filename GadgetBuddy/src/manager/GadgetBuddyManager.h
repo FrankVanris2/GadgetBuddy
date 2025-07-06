@@ -5,7 +5,7 @@
 */
 #pragma once
 
-#include "MachineComponentsInterface.h"
+#include "Interfaces/MachineComponentsInterface.h"
 
 class GadgetBuddyManager : public MachineComponentsInterface {
 public:
