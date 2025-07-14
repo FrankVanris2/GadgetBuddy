@@ -2,7 +2,7 @@
 
 To ensure your unit tests and source code run correctly, follow these steps:
 
-### Configuration
+## Configuration
 
 **1. Add the Native Environment for Unit Testing:** In your `platformio.ini` file, include a `[env: native]` section for running Unity tests.:
 
@@ -29,12 +29,20 @@ lib_deps =
     throwtheswitch/Unity@^2.6.0
 ```
 
-### Running the Tests
+## Running the Tests
 
 **1. Run Unit Tests:** To run your unit tests with the native environment, use the following command:
 
+**a: Running things locally:**
+if you want to run things locally without the need of the arduino then you can do so by inputting the below command. This form of unit testing is meant for functionalities that don't rely on the arduino board itself.
 ```sh
 pio test -e native
+```
+
+**b: Running things through the microcontroller:**
+If you want to run things and test things through your microcontroller you can do so by inputting the below command. If there are specific hardware components that you need to unit test you can do so.
+```sh
+platformio test -e uno
 ```
 
 **2. Compile and Upload Source Code:** To compile and upload your source code for the specified hardware environment, use: 
@@ -44,6 +52,21 @@ pio test -e native
 pio run -e uno_r4_wifi
 ```
 
+## Preventing Platform clashes
+In order to ensure that both your native and local testing environments are not clashing, be sure to add the conditional macro statement inside of your microcontroller testing environment. This will be most essential when testing both seperately.
+
+```cpp
+// cpp uno example test file:
+#ifdef ARDUINO // Add this at the beginning
+#include <Arduino.h>
+#include <unity.h>
+
+// ... Your unit testing code here ...
+
+#endif // Add this ending conditional statement
+```
+
+## Uploading your code to Microcontroller
 When it comes to uploading code to a specific board, it get's quite annoying to see the native environment fail over and over again since it's meant for unit testing nothing else. That is why it is best to upload the code specifically to the board through this pio command:
 
 **Boards:** uno, uno_r4_wifi, etc.
