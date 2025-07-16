@@ -1,0 +1,36 @@
+/**
+ * By: Frank Vanris
+ * Date: 7/15/2025
+ * Desc: Creating a Circular Buffer Interface
+ */
+
+ #pragma once
+
+template<typename T>
+class CircularBufferInterface {
+public:
+    CircularBufferInterface(){}
+    virtual ~CircularBufferInterface(){}
+
+    // function for adding element to buffer
+    virtual void push_back(const T& val) = 0;
+
+    // function to remove an element from the buffer
+    virtual void pop_front() = 0;
+
+    // function to get the first element that's currently at the front
+    virtual T get_front() = 0;
+
+    // function to get the back element that's in the buffer
+    virtual T get_back() = 0;
+
+    // function to check if buffer is empty
+    virtual bool isEmpty() const = 0;
+
+    // function to check if buffer is full
+    virtual bool isFull() const = 0;
+
+    virtual int size() const = 0;
+
+    virtual void printBuffer() const = 0;
+};
