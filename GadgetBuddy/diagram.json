@@ -3,7 +3,20 @@
     "author": "Frank C Vanris",
     "editor": "wokwi",
     "parts": [
-        {"type": "wokwi-arduino-uno","id": "uno", "top": 120, "left": 10, "attrs":{}}
+        {"type": "wokwi-arduino-uno","id": "uno", "top": 120, "left": 10, "attrs":{}},
+        {
+            "type": "wokwi-lcd1602",
+            "id": "lcd1",
+            "top": 200,
+            "left": 300,
+            "attrs": { "pins": "i2c" }
+        }
     ],
-    "connections": []
+    "connections": [
+        [ "lcd1:GND", "uno:GND.1", "black", [ "h0" ]],
+        [ "lcd1:VCC", "uno:5V", "red", [ "h0" ]],
+        [ "lcd1:SDA", "uno:A4", "green", [ "h0" ]],
+        [ "lcd1:SCL", "uno:A5", "green", [ "h0" ]]
+    ],
+    "dependencies": {}
 }
