@@ -14,8 +14,8 @@
  class MockCircularBuffer : public CircularBufferInterface<T> {
  private: 
     T* buffer;
-    int front;
-    int back;
+    int writeIndex;
+    int readIndex;
     int capacity;
 
     
@@ -30,8 +30,8 @@
 
          //Dynamically allocate memory for the buffer using 'new'
          this->buffer = new T[this->capacity];
-         this->front = 0;
-         this->back = 0;
+         this->writeIndex = 0;
+         this->readIndex = 0;
       }
 
       ~MockCircularBuffer() override {
@@ -41,10 +41,10 @@
 
       void push_back(const T& val) override {
          if(isFull()) {
-            front = (front + 1) % capacity;
+            readIndex = (readIndex + 1) % capacity;
          }
-         buffer[back] = val;
-         back = (back + 1) % capacity;
+         buffer[writeIndex] = val;
+         writeIndex = (writeIndex + 1) % capacity;
       }
 
       void pop_front() override {
@@ -52,7 +52,7 @@
             // Serial.println("Error: CircularBuffer is empty. Cannot remove elements."); for actual arduino implementation
             return;
          }
-         front = (front + 1) % capacity;
+         readIndex = (readIndex + 1) % capacity;
       }
 
       T get_front() override {
@@ -60,7 +60,7 @@
             // Serial.println("Error: CircularrBuffer is empty. No front element."); For actual arduino implementation
             return T();
          }
-         return buffer[front]; // Return the element at the 'front' index
+         return buffer[readIndex]; // Return the element at the 'front' index
       }
       
       T get_back() override {
@@ -69,23 +69,23 @@
             return T();
          }
 
-         return buffer[(back - 1 + capacity) % capacity];
+         return buffer[(writeIndex - 1 + capacity) % capacity];
       }
 
       bool isEmpty() const override {
-         return back == front;
+         return writeIndex == readIndex;
       }
 
       bool isFull() const override {
-         return (back + 1) % capacity == front;
+         return (writeIndex + 1) % capacity == readIndex;
       }
 
       int size() const override {
-         if (back >= front) {
-            return back - front;
+         if (writeIndex >= readIndex) {
+            return writeIndex - readIndex;
          }
 
-         return capacity - (front - back);
+         return capacity - (readIndex - writeIndex);
       }
 
       void printBuffer() const {
@@ -93,12 +93,12 @@
             // Serial.println("[Buffer is empty]"); For actual arduino implementation
             return;
          }
-         int idx = front;
+         int idx = readIndex;
          // Serial.print("["); for arduino implementation
-         while(idx != back) {
+         while(idx != writeIndex) {
             // Serial.print(buffer[idx]); For arduino implementation
             idx = (idx + 1) % capacity;
-            if(idx != back) {
+            if(idx != writeIndex) {
                   // Serial.print(" "); For arduino Implementation
             }
          }
