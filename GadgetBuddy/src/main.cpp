@@ -8,7 +8,7 @@
 
 //MAIN setup
 void setup() {
-   gadgetBuddyManager.setup();
+  gadgetBuddyManager.setup();
 }
 
 //MAIN loop
