@@ -18,7 +18,7 @@
     
  public:
 
-   MockCircularBuffer(int _capacity) {
+   CircularBuffer(int _capacity) {
       if(_capacity < 0) {
          Serial.println("Error: Invalid capacity. Capacity cannot be negative. "); 
          while(true); // loop indefinitely
@@ -32,7 +32,7 @@
       this->readIndex = 0;
    }
 
-   ~MockCircularBuffer() override {
+   ~CircularBuffer() override {
       delete[] buffer; // Free the array memory
       buffer = nullptr; // Prevent dangling pointer
    }
