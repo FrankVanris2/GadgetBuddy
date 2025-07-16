@@ -1,0 +1,9 @@
+{
+    "version": 1,
+    "author": "Frank C Vanris",
+    "editor": "wokwi",
+    "parts": [
+        {"type": "wokwi-arduino-uno","id": "uno", "top": 120, "left": 10, "attrs":{}}
+    ],
+    "connections": []
+}
