@@ -6,64 +6,80 @@
  */
 
  #include <Arduino.h>
- #include "Buttons.h"
+#include "Buttons.h"
 
- #define MAX_BUTTON_VAL 3
- #define MIN_BUTTON_VAL 0
-
- const int LEFT_BUTTON = 13;
- const int RIGHT_BUTTON = 12;
-
- // Singelton
- Buttons buttons;
- 
- // Constructor (will be updated later)
- Buttons::Buttons() : 
-    mButtonVal(0), 
+// Constructor
+Buttons::Buttons(int leftPin, int rightPin, int minVal, int maxVal, unsigned long debounceDelayMs) :
+    mButtonVal(0),
+    mL_LastButtonState(LOW),
+    mR_LastButtonState(LOW),
     mLButtonState(LOW), 
-    mRButtonState(LOW),
-    mLIsPressed(false),
-    mRIsPressed(false)
+    mRButtonState(LOW), 
+    lLastDebounceTime(0), 
+    rLastDebounceTime(0), 
+    LEFT_BUTTON_PIN(leftPin),
+    RIGHT_BUTTON_PIN(rightPin),
+    MIN_BUTTON_VAL_LIMIT(minVal),
+    MAX_BUTTON_VAL_LIMIT(maxVal),
+    DEBOUNCE_DELAY_MS(debounceDelayMs)
 {}
 
- // setup function for my buttons
- void Buttons::setup() {
-    pinMode(LEFT_BUTTON, INPUT);
-    pinMode(RIGHT_BUTTON, INPUT);
- }
+// setup function for my buttons
+void Buttons::setup() {
+    pinMode(LEFT_BUTTON_PIN, INPUT_PULLUP);
+    pinMode(RIGHT_BUTTON_PIN, INPUT_PULLUP);
+}
 
- // loop function for my buttons
- void Buttons::loop() {
+// loop function for my buttons
+void Buttons::loop() {
+    // Read the current state of the buttons
+    int lReading = digitalRead(LEFT_BUTTON_PIN);
+    int rReading = digitalRead(RIGHT_BUTTON_PIN);
+    unsigned long currentTime = millis();
 
-    // Reading states of buttons
-    int lButtonState = digitalRead(LEFT_BUTTON);
-    int rButtonState = digitalRead(RIGHT_BUTTON);
+    // --- LEFT BUTTON DEBOUNCE AND LOGIC ---
+    leftButtonDebounce(lReading, currentTime);
+    
+    // --- RIGHT BUTTON DEBOUNCE AND LOGIC ---
+    rightButtonDebounce(rReading, currentTime);
+}
 
-    //left check
-    if(lButtonState != mLButtonState) {
-        if(lButtonState == HIGH && mLIsPressed == false) {
-            if(mButtonVal > MIN_BUTTON_VAL) {
-                mButtonVal--;
-            }
-            mLIsPressed = true;
-        } else if(lButtonState == LOW && mLIsPressed == true) {
-            mLIsPressed = false;
-        }
-        mLButtonState = lButtonState;
+// Left button debounce logic
+void Buttons::leftButtonDebounce(int reading, unsigned long currentTime) {
+    if (reading != mL_LastButtonState) {
+        lLastDebounceTime = currentTime;
     }
 
-    //right check
-    if(rButtonState != mRButtonState) {
-        if(rButtonState == HIGH && mRIsPressed == false) {
-            if(mButtonVal < MAX_BUTTON_VAL) {
-                mButtonVal++;
+    if ((currentTime - lLastDebounceTime) > DEBOUNCE_DELAY_MS) {
+        
+        if (reading != mLButtonState) {
+            mLButtonState = reading; 
+
+            if (mLButtonState == LOW) {
+                if (mButtonVal > MIN_BUTTON_VAL_LIMIT) {
+                    mButtonVal--;
+                }
             }
-            mRIsPressed = true;
-        } else if(rButtonState == LOW && mRIsPressed == true) {
-            mRIsPressed = false;
         }
-        mRButtonState = rButtonState;
+    }
+    mL_LastButtonState = reading; 
+}
+
+// Right button debounce logic
+void Buttons::rightButtonDebounce(int reading, unsigned long currentTime) {
+    if (reading != mR_LastButtonState) {
+        rLastDebounceTime = currentTime;
     }
 
- }
-
+    if ((currentTime - rLastDebounceTime) > DEBOUNCE_DELAY_MS) {
+        if (reading != mRButtonState) {
+            mRButtonState = reading; 
+            if (mRButtonState == LOW) { 
+                if (mButtonVal < MAX_BUTTON_VAL_LIMIT) { 
+                    mButtonVal++;
+                }
+            }
+        }
+    }
+    mR_LastButtonState = reading;
+}

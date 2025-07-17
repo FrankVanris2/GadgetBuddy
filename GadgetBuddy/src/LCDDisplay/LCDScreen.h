@@ -6,13 +6,14 @@
 
 #pragma once
 
+#include <LiquidCrystal_I2C.h>
 #include "Interfaces/MachineComponentsInterface.h"
-
+#include "Buttons/Buttons.h"
 
 class LCDScreen : MachineComponentsInterface {
 public:
 
-    LCDScreen();
+    LCDScreen(Buttons& buttons_ref);
 
     void setup() override;
     void loop() override;
@@ -21,8 +22,7 @@ public:
     void testPrintButtonMechanic();
 
 private:
+    LiquidCrystal_I2C lcd;
     int mScreenChange;
+    Buttons& mButtonsRef; // Store a reference to the Buttons object
 };
-
-// Singelton
-extern LCDScreen lcdScreen;
