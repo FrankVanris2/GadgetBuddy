@@ -38,48 +38,42 @@ void Buttons::loop() {
     unsigned long currentTime = millis();
 
     // --- LEFT BUTTON DEBOUNCE AND LOGIC ---
-    leftButtonDebounce(lReading, currentTime);
-    
+    processButtonDebounce(lReading, currentTime, 
+                          mL_LastButtonState, mLButtonState, 
+                          lLastDebounceTime, true);
+
     // --- RIGHT BUTTON DEBOUNCE AND LOGIC ---
-    rightButtonDebounce(rReading, currentTime);
+    processButtonDebounce(rReading, currentTime, 
+                          mR_LastButtonState, mRButtonState, 
+                          rLastDebounceTime, false);
 }
 
-// Left button debounce logic
-void Buttons::leftButtonDebounce(int reading, unsigned long currentTime) {
-    if (reading != mL_LastButtonState) {
-        lLastDebounceTime = currentTime;
+// Generalizes the debounce and action logic for a single button
+void Buttons::processButtonDebounce(int currentReading, unsigned long currentTime,
+                                    int& lastRawState, int& debouncedState,
+                                    unsigned long& lastDebounceTimer, 
+                                    bool isLeftButton) {
+
+    if (currentReading != lastRawState) {
+        lastDebounceTimer = currentTime;
     }
 
-    if ((currentTime - lLastDebounceTime) > DEBOUNCE_DELAY_MS) {
-        
-        if (reading != mLButtonState) {
-            mLButtonState = reading; 
+    if ((currentTime - lastDebounceTimer) > DEBOUNCE_DELAY_MS) {
+        if (currentReading != debouncedState) {
+            debouncedState = currentReading;
 
-            if (mLButtonState == LOW) {
-                if (mButtonVal > MIN_BUTTON_VAL_LIMIT) {
-                    mButtonVal--;
+            if (debouncedState == LOW) {
+                if (isLeftButton) {
+                    if (mButtonVal > MIN_BUTTON_VAL_LIMIT) {
+                        mButtonVal--;
+                    }
+                } else {
+                    if(mButtonVal < MAX_BUTTON_VAL_LIMIT) {
+                        mButtonVal++;
+                    }
                 }
             }
         }
     }
-    mL_LastButtonState = reading; 
-}
-
-// Right button debounce logic
-void Buttons::rightButtonDebounce(int reading, unsigned long currentTime) {
-    if (reading != mR_LastButtonState) {
-        rLastDebounceTime = currentTime;
-    }
-
-    if ((currentTime - rLastDebounceTime) > DEBOUNCE_DELAY_MS) {
-        if (reading != mRButtonState) {
-            mRButtonState = reading; 
-            if (mRButtonState == LOW) { 
-                if (mButtonVal < MAX_BUTTON_VAL_LIMIT) { 
-                    mButtonVal++;
-                }
-            }
-        }
-    }
-    mR_LastButtonState = reading;
+    lastRawState = currentReading;
 }

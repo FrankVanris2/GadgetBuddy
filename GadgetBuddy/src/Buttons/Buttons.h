@@ -15,10 +15,6 @@ public:
     void setup() override;
     void loop() override;
 
-    void leftButtonDebounce(int reading, unsigned long currentTime);
-    void rightButtonDebounce(int reading, unsigned long currentTime);
-    
-
     int getButtonVal() {
         return mButtonVal;
     }
@@ -31,10 +27,17 @@ private:
     unsigned long lLastDebounceTime; 
     unsigned long rLastDebounceTime; 
 
+    // Configuration parameters (now const member variables)
     const int LEFT_BUTTON_PIN;
     const int RIGHT_BUTTON_PIN;
     const int MIN_BUTTON_VAL_LIMIT;
     const int MAX_BUTTON_VAL_LIMIT;
     const unsigned long DEBOUNCE_DELAY_MS;
+
+    // Private helper function
+    void processButtonDebounce(int currentReading, unsigned long currentTime,
+                               int& lastRawState, int& debouncedState,
+                               unsigned long& lastDebounceTimer,
+                               bool isLeftButton);
  };
 
