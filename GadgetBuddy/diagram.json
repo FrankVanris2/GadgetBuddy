@@ -1,22 +1,25 @@
 {
-    "version": 1,
-    "author": "Frank C Vanris",
-    "editor": "wokwi",
-    "parts": [
-        {"type": "wokwi-arduino-uno","id": "uno", "top": 120, "left": 10, "attrs":{}},
-        {
-            "type": "wokwi-lcd1602",
-            "id": "lcd1",
-            "top": 200,
-            "left": 300,
-            "attrs": { "pins": "i2c" }
-        }
-    ],
-    "connections": [
-        [ "lcd1:GND", "uno:GND.1", "black", [ "h0" ]],
-        [ "lcd1:VCC", "uno:5V", "red", [ "h0" ]],
-        [ "lcd1:SDA", "uno:A4", "green", [ "h0" ]],
-        [ "lcd1:SCL", "uno:A5", "green", [ "h0" ]]
-    ],
-    "dependencies": {}
+  "version": 1,
+  "author": "Frank Vanris",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-breadboard", "id": "bb1", "top": 169.8, "left": -102.8, "attrs": {} },
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": -66.6, "left": -106.2, "attrs": {} },
+    {
+      "type": "wokwi-lcd2004",
+      "id": "lcd1",
+      "top": -41.6,
+      "left": 264.8,
+      "attrs": { "pins": "i2c" }
+    }
+  ],
+  "connections": [
+    [ "uno:5V", "bb1:tp.1", "red", [ "v28.7", "h-110.6" ] ],
+    [ "uno:GND.2", "bb1:tn.1", "black", [ "v38.3", "h-120.9", "v28.9" ] ],
+    [ "bb1:tp.2", "lcd1:VCC", "red", [ "h-0.8", "v-182.1", "h316.8" ] ],
+    [ "lcd1:GND", "bb1:tn.2", "black", [ "h-307.2", "v201.7" ] ],
+    [ "lcd1:SDA", "uno:A4", "green", [ "h-48", "v115.5" ] ],
+    [ "lcd1:SCL", "uno:A5", "green", [ "h-38.4", "v106" ] ]
+  ],
+  "dependencies": {}
 }
