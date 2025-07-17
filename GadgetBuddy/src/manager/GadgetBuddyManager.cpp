@@ -4,6 +4,7 @@
 * Desc: Creating a manager class that will hold all of the important setups
 * and loops for the gadget that I will be making*/
 #include "manager/GadgetBuddyManager.h"
+#include "Buttons/Buttons.h"
 #include "LCDDisplay/LCDScreen.h"
 
 //universal object
@@ -15,11 +16,14 @@ GadgetBuddyManager::GadgetBuddyManager() {
 
 //setup for all setup functions
 void GadgetBuddyManager::setup() {
+    buttons.setup();
     lcdScreen.setup();
 }
 
 
 //loop for all loop functions
 void GadgetBuddyManager::loop() {
+    buttons.loop();
+    lcdScreen.loop();
 
 }

@@ -16,6 +16,12 @@ public:
 
     void setup() override;
     void loop() override;
+
+    // for testing purposes
+    void testPrintButtonMechanic();
+
+private:
+    int mScreenChange;
 };
 
 // Singelton

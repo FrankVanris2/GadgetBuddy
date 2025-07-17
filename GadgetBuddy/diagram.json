@@ -11,6 +11,22 @@
       "top": -41.6,
       "left": 264.8,
       "attrs": { "pins": "i2c" }
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn1",
+      "top": 231.9,
+      "left": -24.3,
+      "rotate": 90,
+      "attrs": { "color": "blue", "xray": "1" }
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn2",
+      "top": 231.9,
+      "left": 33.3,
+      "rotate": 90,
+      "attrs": { "color": "blue", "xray": "1" }
     }
   ],
   "connections": [
@@ -19,7 +35,19 @@
     [ "bb1:tp.2", "lcd1:VCC", "red", [ "h-0.8", "v-182.1", "h316.8" ] ],
     [ "lcd1:GND", "bb1:tn.2", "black", [ "h-307.2", "v201.7" ] ],
     [ "lcd1:SDA", "uno:A4", "green", [ "h-48", "v115.5" ] ],
-    [ "lcd1:SCL", "uno:A5", "green", [ "h-38.4", "v106" ] ]
+    [ "lcd1:SCL", "uno:A5", "green", [ "h-38.4", "v106" ] ],
+    [ "bb1:9t.a", "bb1:tn.6", "black", [ "v0" ] ],
+    [ "bb1:7t.a", "uno:13", "cyan", [ "v-144", "h38" ] ],
+    [ "btn1:1.l", "bb1:9t.b", "", [ "$bb" ] ],
+    [ "btn1:2.l", "bb1:7t.b", "", [ "$bb" ] ],
+    [ "btn1:1.r", "bb1:9t.e", "", [ "$bb" ] ],
+    [ "btn1:2.r", "bb1:7t.e", "", [ "$bb" ] ],
+    [ "btn2:1.l", "bb1:15t.b", "", [ "$bb" ] ],
+    [ "btn2:2.l", "bb1:13t.b", "", [ "$bb" ] ],
+    [ "btn2:1.r", "bb1:15t.e", "", [ "$bb" ] ],
+    [ "btn2:2.r", "bb1:13t.e", "", [ "$bb" ] ],
+    [ "bb1:15t.a", "bb1:tn.11", "black", [ "v0" ] ],
+    [ "bb1:13t.a", "uno:12", "cyan", [ "h-28.8", "v-134.4", "h18.7" ] ]
   ],
   "dependencies": {}
 }
