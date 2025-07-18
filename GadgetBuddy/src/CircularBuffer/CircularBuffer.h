@@ -6,7 +6,6 @@
 
  #pragma once
  #include "Interfaces/CircularBufferInterface.h"
- #include <Arduino.h>
 
  template<class T>
  class CircularBuffer : public CircularBufferInterface<T> {
@@ -18,43 +17,92 @@
     
  public:
 
-   /// @brief This is the circular buffer constructor.
-   /// @param _capacity 
-   CircularBuffer(int _capacity);
+    CircularBuffer(int _capacity) {
+        if(_capacity < 0) {
+            Serial.println("Error: Invalid capacity. Capacity cannot be negative. "); 
+            while(true); // loop indefinitely
+        }
 
-   /// @brief Destructor for the circular buffer.
-   ~CircularBuffer() override;
+        this->capacity = _capacity + 1;
 
-   /// @brief Method to push back elements into the circular buffer.
-   /// @param val 
-   void push_back(const T& val) override;
-      
-   
-   /// @brief Method that pops the elements at the front of the buffer.
-   void pop_front() override;
+        //Dynamically allocate memory for the buffer using 'new'
+        this->buffer = new T[this->capacity];
+        this->writeIndex = 0;
+        this->readIndex = 0;
+    }
 
-   /// @brief Gets the front element
-   /// @return front element of buffer
-   T get_front() override;
 
-   /// @brief Gets the back element
-   /// @return back element of buffer
-   T get_back() override;
+    ~CircularBuffer() override {
+        delete[] buffer; // Free the array memory
+        buffer = nullptr; // Prevent dangling pointer
+    }
 
-   /// @brief Checks if buffer is empty
-   /// @return true or false
-   bool isEmpty() const override;
+    void push_back(const T& val) override {
+        if(isFull()) {
+            readIndex = (readIndex + 1) % capacity;
+        }
+        buffer[writeIndex] = val;
+        writeIndex = (writeIndex + 1) % capacity;
+    }
 
-   /// @brief Checks if buffer is full
-   /// @return true or false
-   bool isFull() const override;
+    void pop_front() override {
+        if (isEmpty()) {
+            Serial.println("Error: CircularBuffer is empty. Cannot remove elements."); 
+            return;
+        }
+        readIndex = (readIndex + 1) % capacity;
+    }
 
-   /// @brief Checks the size of the buffer
-   /// @return current size of buffer with elements inside
-   int size() const override;
+    T get_front() override {
+        if(isEmpty()) {
+            Serial.println("Error: CircularrBuffer is empty. No front element."); 
+            return T();
+        }
 
-   /// @brief Prints out the contents within the Buffer
-   void printBuffer() const override;
+        return buffer[readIndex]; // Return the element at the 'front' index
+    }
+
+    T get_back() override {
+        if(isEmpty()) {
+            Serial.println("Error: CircularBuffer is empty. No back element."); 
+            return T();
+        }
+
+        return buffer[(writeIndex - 1 + capacity) % capacity];
+    }
+
+    bool isEmpty() const override {
+        return writeIndex == readIndex;
+    }
+
+    bool isFull() const override {
+        return (writeIndex + 1) % capacity == readIndex;
+    }
+
+    int size() const override {
+        if (writeIndex >= readIndex) {
+            return writeIndex - readIndex;
+        }
+
+        return capacity - (readIndex - writeIndex);
+    }
+
+    void printBuffer() const override {
+        if (isEmpty()) {
+            Serial.println("[Buffer is empty]");
+            return;
+        }
+        int idx = readIndex;
+        Serial.print("[");
+        while(idx != writeIndex) {
+            Serial.print(buffer[idx]);
+            idx = (idx + 1) % capacity;
+            if(idx != writeIndex) {
+                Serial.print(" ");
+            }
+        }
+        Serial.println("]");
+    }
 
  };
  
