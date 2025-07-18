@@ -10,7 +10,7 @@
 #include "Interfaces/MachineComponentsInterface.h"
 #include "Buttons/Buttons.h"
 
-class LCDScreen : MachineComponentsInterface {
+class LCDScreen : public MachineComponentsInterface {
 public:
 
     LCDScreen(Buttons& buttons_ref);
@@ -18,11 +18,18 @@ public:
     void setup() override;
     void loop() override;
 
-    // for testing purposes
-    void testPrintButtonMechanic();
-
 private:
+
+    // for testing purposes
+    void updateAndDisplayScreen();
+
+    // Displayed information
+    void displayMainScreen();
+    void displayTemp_HumidityScreen();
+    void displayAirQualityScreen();
+    void displayRadioScreen();
+
     LiquidCrystal_I2C lcd;
-    int mScreenChange;
+    int mCurrentScreenState;
     Buttons& mButtonsRef; // Store a reference to the Buttons object
 };
