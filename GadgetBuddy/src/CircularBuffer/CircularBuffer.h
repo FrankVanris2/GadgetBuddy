@@ -6,6 +6,7 @@
 
  #pragma once
  #include "Interfaces/CircularBufferInterface.h"
+ #include <Arduino.h>
 
  template<class T>
  class CircularBuffer : public CircularBufferInterface<T> {
