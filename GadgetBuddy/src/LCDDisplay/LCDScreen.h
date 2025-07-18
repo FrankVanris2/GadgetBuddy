@@ -5,6 +5,7 @@
  */
 
 #pragma once
+ #include  "data&states/ScreenStates.h"
 
 #include <LiquidCrystal_I2C.h>
 #include "Interfaces/MachineComponentsInterface.h"
@@ -19,10 +20,21 @@ public:
     void loop() override;
 
     // for testing purposes
-    void testPrintButtonMechanic();
+    void screenStateChanges(int screenState);
+
+    // Displayed information
+    void displayMainScreen();
+    void displayTemp_HumidityScreen();
+    void displayAirQualityScreen();
+    void displayRadioScreen();
+
+    void setScreenState(int screenState) {
+        mScreenChange = screenState;
+    }
 
 private:
     LiquidCrystal_I2C lcd;
     int mScreenChange;
     Buttons& mButtonsRef; // Store a reference to the Buttons object
+    ScreenStates screenStates;
 };

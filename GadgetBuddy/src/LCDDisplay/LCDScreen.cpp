@@ -7,6 +7,7 @@
  #include <LiquidCrystal_I2C.h>
  #include "LCDScreen.h"
  #include "Buttons/Buttons.h"
+  #include  "data&states/ScreenStates.h"
 
  
  LCDScreen::LCDScreen(Buttons& buttons_ref):
@@ -20,27 +21,66 @@
    
    lcd.backlight();
    lcd.setCursor(0,0);
-   lcd.print("BUTTON COUNT: ");
-   lcd.setCursor(0,1);
-   lcd.print("0");   
+   lcd.print("Main Screen");
+   
  }
 
  void LCDScreen::loop() {
-    // This is where the screen states will be for when the user clicks a button to
-    // move between different screens.
-
-    // FOR TESTING PURPOSES
-    testPrintButtonMechanic();
+    screenStateChanges(mScreenChange);
  }
 
  // this is for testing purposes to ensure that the buttons work
- void LCDScreen::testPrintButtonMechanic() {
-   if(mScreenChange != mButtonsRef.getButtonVal()) {
-      mScreenChange = mButtonsRef.getButtonVal();
-      lcd.clear();
-      lcd.setCursor(0,0);
-      lcd.print("BUTTON COUNT: ");
-      lcd.setCursor(0,1);
-      lcd.print(mScreenChange);
+ void LCDScreen::screenStateChanges(int screenState) {
+   if(screenState != mButtonsRef.getButtonVal()) {
+      screenState = mButtonsRef.getButtonVal();
+
+      switch(screenState) {
+
+         case MAIN_SCREEN:
+            lcd.clear();
+            displayMainScreen();
+            break;
+
+         case TEMP_HUMID_SCREEN:
+            lcd.clear();
+            displayTemp_HumidityScreen();
+            break;
+
+         case AIR_QUALITY_SCREEN:
+            lcd.clear();
+            displayAirQualityScreen();
+            break;
+         
+         case RADIO_SCREEN:
+            lcd.clear();
+            displayRadioScreen();
+            break;   
+      }
+
+      setScreenState(screenState);
    }
+ }
+
+ void LCDScreen::displayMainScreen() {
+   lcd.setCursor(0,0);
+   lcd.print("Main Screen");
+ }
+
+ void LCDScreen::displayTemp_HumidityScreen() {
+   lcd.setCursor(0,0);
+   lcd.print("Temperature &");
+   lcd.setCursor(0,1);
+   lcd.print("Humidity");
+   lcd.setCursor(0,2);
+   lcd.print("Screen");
+ }
+
+ void LCDScreen::displayAirQualityScreen() {
+   lcd.setCursor(0,0);
+   lcd.print("Air Quality Screen");
+ }
+
+ void LCDScreen::displayRadioScreen() {
+   lcd.setCursor(0,0);
+   lcd.print("Radio Screen");
  }

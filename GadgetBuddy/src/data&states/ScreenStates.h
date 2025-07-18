@@ -6,7 +6,7 @@ Desc: States between different screens.
 
 #pragma once
 
-enum class ScreenStates {
+enum ScreenStates {
     MAIN_SCREEN = 0,
     TEMP_HUMID_SCREEN,
     AIR_QUALITY_SCREEN,
