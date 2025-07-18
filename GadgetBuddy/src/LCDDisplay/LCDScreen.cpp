@@ -12,7 +12,7 @@
  
  LCDScreen::LCDScreen(Buttons& buttons_ref):
       lcd(0x27, 20, 4),
-      mScreenChange(0),
+      mCurrentScreenState(MAIN_SCREEN),
       mButtonsRef(buttons_ref)
 {}
 
@@ -20,44 +20,43 @@
     lcd.init();                      // initialize the lcd 
    
    lcd.backlight();
-   lcd.setCursor(0,0);
-   lcd.print("Main Screen");
-   
+   displayMainScreen();
  }
 
  void LCDScreen::loop() {
-    screenStateChanges(mScreenChange);
+    updateAndDisplayScreen();
  }
 
  // this is for testing purposes to ensure that the buttons work
- void LCDScreen::screenStateChanges(int screenState) {
-   if(screenState != mButtonsRef.getButtonVal()) {
-      screenState = mButtonsRef.getButtonVal();
+ void LCDScreen::updateAndDisplayScreen() {
+   int desiredScreenState = mButtonsRef.getButtonVal();
+   if(mCurrentScreenState != desiredScreenState) {
+      mCurrentScreenState = desiredScreenState;
+      lcd.clear();
 
-      switch(screenState) {
+      switch(mCurrentScreenState) {
 
          case MAIN_SCREEN:
-            lcd.clear();
             displayMainScreen();
             break;
 
          case TEMP_HUMID_SCREEN:
-            lcd.clear();
             displayTemp_HumidityScreen();
             break;
 
          case AIR_QUALITY_SCREEN:
-            lcd.clear();
             displayAirQualityScreen();
             break;
          
          case RADIO_SCREEN:
-            lcd.clear();
             displayRadioScreen();
-            break;   
+            break;  
+         
+         default:
+            lcd.setCursor(0,0);
+            lcd.print("Screen Error");
+            break;
       }
-
-      setScreenState(screenState);
    }
  }
 

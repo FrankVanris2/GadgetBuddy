@@ -5,13 +5,12 @@
  */
 
 #pragma once
- #include  "data&states/ScreenStates.h"
 
 #include <LiquidCrystal_I2C.h>
 #include "Interfaces/MachineComponentsInterface.h"
 #include "Buttons/Buttons.h"
 
-class LCDScreen : MachineComponentsInterface {
+class LCDScreen : public MachineComponentsInterface {
 public:
 
     LCDScreen(Buttons& buttons_ref);
@@ -19,8 +18,10 @@ public:
     void setup() override;
     void loop() override;
 
+private:
+
     // for testing purposes
-    void screenStateChanges(int screenState);
+    void updateAndDisplayScreen();
 
     // Displayed information
     void displayMainScreen();
@@ -28,13 +29,7 @@ public:
     void displayAirQualityScreen();
     void displayRadioScreen();
 
-    void setScreenState(int screenState) {
-        mScreenChange = screenState;
-    }
-
-private:
     LiquidCrystal_I2C lcd;
-    int mScreenChange;
+    int mCurrentScreenState;
     Buttons& mButtonsRef; // Store a reference to the Buttons object
-    ScreenStates screenStates;
 };
