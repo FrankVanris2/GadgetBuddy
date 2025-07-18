@@ -8,109 +8,53 @@
  #include "Interfaces/CircularBufferInterface.h"
  #include <Arduino.h>
 
- template<typename T>
+ template<class T>
  class CircularBuffer : public CircularBufferInterface<T> {
  private: 
     T* buffer;
     int writeIndex; //front
     int readIndex; //back
-    int capacity
+    int capacity;
     
  public:
 
-   CircularBuffer(int _capacity) {
-      if(_capacity < 0) {
-         Serial.println("Error: Invalid capacity. Capacity cannot be negative. "); 
-         while(true); // loop indefinitely
-      }
+   /// @brief This is the circular buffer constructor.
+   /// @param _capacity 
+   CircularBuffer(int _capacity);
 
-      this->capacity = _capacity + 1;
+   /// @brief Destructor for the circular buffer.
+   ~CircularBuffer() override;
 
-      //Dynamically allocate memory for the buffer using 'new'
-      this->buffer = new T[this->capacity];
-      this->writeIndex = 0;
-      this->readIndex = 0;
-   }
+   /// @brief Method to push back elements into the circular buffer.
+   /// @param val 
+   void push_back(const T& val) override;
+      
+   
+   /// @brief Method that pops the elements at the front of the buffer.
+   void pop_front() override;
 
-   ~CircularBuffer() override {
-      delete[] buffer; // Free the array memory
-      buffer = nullptr; // Prevent dangling pointer
-   }
+   /// @brief Gets the front element
+   /// @return front element of buffer
+   T get_front() override;
 
-   // Pushing elements into the circular buffer.
-   void push_back(const T& val) override {
-      if(isFull()) {
-         readIndex = (readIndex + 1) % capacity;
-      }
-      buffer[writeIndex] = val;
-      writeIndex = (writeIndex + 1) % capacity;
-   }
+   /// @brief Gets the back element
+   /// @return back element of buffer
+   T get_back() override;
 
-   // Popping elements at the front of the circular buffer.
-   void pop_front() override {
-      if (isEmpty()) {
-         Serial.println("Error: CircularBuffer is empty. Cannot remove elements."); 
-         return;
-      }
-      readIndex = (readIndex + 1) % capacity;
-   }
+   /// @brief Checks if buffer is empty
+   /// @return true or false
+   bool isEmpty() const override;
 
-   // Obtaining the front element within the circular buffer.
-   T get_front() override {
-      if(isEmpty()) {
-         Serial.println("Error: CircularrBuffer is empty. No front element."); 
-         return T();
-      }
+   /// @brief Checks if buffer is full
+   /// @return true or false
+   bool isFull() const override;
 
-      return buffer[readIndex]; // Return the element at the 'front' index
-   }
+   /// @brief Checks the size of the buffer
+   /// @return current size of buffer with elements inside
+   int size() const override;
 
-   // Getting back element within the circular buffer
-   T get_back() override {
-      if(isEmpty()) {
-         Serial.println("Error: CircularBuffer is empty. No back element."); 
-         return T();
-      }
-
-      return buffer[(writeIndex - 1 + capacity) % capacity];
-   }
-
-   // Function to check if circular buffer is empty
-   bool isEmpty() const override {
-      return writeIndex == readIndex;
-   }
-
-   // Function to check if circular buffer is full
-   bool isFull() const override {
-      return (writeIndex + 1) % capacity == readIndex;
-   }
-
-   // Function to return the size of the circular buffer
-   int size() const override {
-      if (writeIndex >= readIndex) {
-         return writeIndex - readIndex;
-      }
-
-      return capacity - (readIndex - writeIndex);
-   }
-
-   // Printing the elements within the circular buffer
-   void printBuffer() const {
-      if (isEmpty()) {
-         Serial.println("[Buffer is empty]");
-         return;
-      }
-      int idx = readIndex;
-      Serial.print("[");
-      while(idx != writeIndex) {
-         Serial.print(buffer[idx]);
-         idx = (idx + 1) % capacity;
-         if(idx != writeIndex) {
-               Serial.print(" ");
-         }
-      }
-      Serial.println("]");
-   }
+   /// @brief Prints out the contents within the Buffer
+   void printBuffer() const override;
 
  };
  
