@@ -6,9 +6,11 @@
 
  #pragma once
 
-template<typename T>
+template<class T>
 class CircularBufferInterface {
 public:
+    
+    //constructor and destructor
     CircularBufferInterface(){}
     virtual ~CircularBufferInterface(){}
 
@@ -30,7 +32,9 @@ public:
     // function to check if buffer is full
     virtual bool isFull() const = 0;
 
+    // getting the size of the circular buffer
     virtual int size() const = 0;
 
+    // printing the contents within the buffer
     virtual void printBuffer() const = 0;
 };

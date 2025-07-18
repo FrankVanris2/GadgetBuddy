@@ -3,9 +3,11 @@
 * Date: 8/12/2024
 * Desc: Contains all the important methods needed for the gadget to work
 */
-#pragma once
 
+#pragma once
 #include "Interfaces/MachineComponentsInterface.h"
+#include "Buttons/Buttons.h"
+#include "LCDDisplay/LCDScreen.h"
 
 class GadgetBuddyManager : public MachineComponentsInterface {
 public:
@@ -15,9 +17,9 @@ public:
     void setup() override;
     void loop() override;
 
-
 private:
-
+    Buttons mButtons; // Buttons object as a member
+    LCDScreen mLcdScreen; // LCDScreen object as a member
 };
 
 extern GadgetBuddyManager gadgetBuddyManager;
