@@ -6,11 +6,11 @@
 
  #pragma once
 
- #include "Interfaces/MachineComponentsInterface.h"
+ #include "Interfaces/TempHumidInterface.h"
  #include "DHT.h"
  #include "CircularBuffer/CircularBuffer.h"
 
-class TempHumidSensor : public MachineComponentsInterface {
+class TempHumidSensor : public TempHumidInterface {
 public:
     /// @brief Constructor for my Temperature/Humidity Sensor (DHT11)
     /// @param DataPin The pin that connects to my DHT11 Sensor
@@ -36,12 +36,15 @@ public:
         return mHumidityData;
     }
 
+    
+
 private:
     DHT dht;
-    CircularBuffer<int> tempAvgBuffer;
-    CircularBuffer<int> humidityAvgBuffer;
+    CircularBuffer<float> tempAvgBuffer;
+    CircularBuffer<float> humidityAvgBuffer;
     int mTemperatureData;
     int mHumidityData;
+    String mErrorMessage;
     unsigned long previousMillis;
 
     unsigned long DHT_INTERVAL;
@@ -50,15 +53,20 @@ private:
 
     /// @brief Obtaining the Temperature and Humidity Data from the
     /// DHT11 sensor.
-    void obtainingTemperature_HumidityData();
+    void obtainingTemperature_HumidityData() override;
 
     /// @brief Obtaining the Average of the temperature data.
     /// @param temp 
     /// @return averagedTemperature
-    int averagingTempData(int temp);
+    int averagingTempData(int temp) override;
 
     /// @brief Obtaining the Average of the humidity data.
     /// @param humidity 
     /// @return the averagedHumidity
-    int averagingHumidData(int humidity);
+    int averagingHumidData(int humidity) override;
+
+    /// @brief Obtaining Error if error occurs within DHT Sensor
+    /// @return an error message for what broke
+    String setError() override;
+
 };

@@ -12,6 +12,7 @@
     DATA_PIN(dataPin), 
     DHT_TYPE(dht_type),
     DHT_INTERVAL(dht_interval),
+    mErrorMessage(""),
     previousMillis(0),
     tempAvgBuffer(10),
     humidityAvgBuffer(10),
@@ -28,6 +29,15 @@
 
         // Do stuff here
     }
+ }
+
+ void TempHumidSensor::obtainingTemperature_HumidityData() {
+   float h = dht.readHumidity();
+   float t = dht.readTemperature();
+
+   if(isnan(h) || isnan(t)) {
+
+   }
  }
 
 
