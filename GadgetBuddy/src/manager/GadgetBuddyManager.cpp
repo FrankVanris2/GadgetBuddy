@@ -11,6 +11,7 @@ GadgetBuddyManager gadgetBuddyManager;
 
 GadgetBuddyManager::GadgetBuddyManager() : 
     mButtons(GB_LEFT_BUTTON_PIN, GB_RIGHT_BUTTON_PIN, GB_MIN_BUTTON_VAL, GB_MAX_BUTTON_VAL, GB_DEBOUNCE_DELAY), 
+    mTempHumidSensor(DHT11_PIN, DHTTYPE, DHT_INTERVAL),
     mLcdScreen(mButtons, mTempHumidSensor)
 { }
 

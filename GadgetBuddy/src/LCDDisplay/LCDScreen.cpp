@@ -15,13 +15,14 @@
       mButtonsRef(buttons_ref),
       mTempHumidRef(temphumid_ref),
       mTempHumidLastUpdateTime(0),
-      TEMP_HUMID_UPDATE_INTERAVAL_MS(5000)
+      TEMP_HUMID_UPDATE_INTERAVAL_S(5000)
 {}
 
  void LCDScreen::setup() {
    lcd.init();                      // initialize the lcd 
    lcd.backlight();
-   displayMainScreen();
+   //displayMainScreen();
+   updateAndDisplayScreen(); // testing
  }
 
  void LCDScreen::loop() {
@@ -90,7 +91,7 @@
    lcd.print(mTempHumidRef.getHumidityData(), 1);
    lcd.print(" %");
 
-   if(currentMillis - mTempHumidLastUpdateTime >= TEMP_HUMID_UPDATE_INTERAVAL_MS) {
+   if(currentMillis - mTempHumidLastUpdateTime >= TEMP_HUMID_UPDATE_INTERAVAL_S) {
       mTempHumidLastUpdateTime = currentMillis;
       lcd.setCursor(7,1);
       lcd.print("            ");

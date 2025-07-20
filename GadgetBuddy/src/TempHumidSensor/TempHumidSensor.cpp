@@ -6,7 +6,6 @@
 
  #include <Arduino.h>
  #include "TempHumidSensor.h"
- #include "data&states/PinDeclarationsConstants.h"
 
  // Define your error message as a const char* literal (stored in Flash)
 const char* DHT_READ_ERROR_MSG = "DHT Read Error!";
@@ -14,13 +13,17 @@ const char* NO_ERROR_MSG = nullptr; // Or an empty string literal "" if you pref
 
 
 
- TempHumidSensor::TempHumidSensor() :
-    dht(DHT11_PIN, DHTTYPE),
-    INTERVAL(DHT_INTERVAL),
+ TempHumidSensor::TempHumidSensor(int dataPin, int dht_type, unsigned long dhtInterval) :
+    DATA_PIN(dataPin),
+    DHT_TYPE(dht_type),
+    DHT_INTERVAL(dhtInterval),
+    dht(DATA_PIN, DHT_TYPE),
     mHasError(false),
     previousMillis(0),
     tempAvgBuffer(10),
-    humidityAvgBuffer(10)
+    humidityAvgBuffer(10),
+    mTemperatureData(0.0f),
+    mHumidityData(0.0f)
  {}
 
  void TempHumidSensor::setup() {
@@ -28,7 +31,7 @@ const char* NO_ERROR_MSG = nullptr; // Or an empty string literal "" if you pref
  }
 
  void TempHumidSensor::loop() {
-    if((unsigned long) (millis() - previousMillis) >= INTERVAL) {
+    if((unsigned long) (millis() - previousMillis) >= DHT_INTERVAL) {
         previousMillis = millis();
         obtainingTemperature_HumidityData();
     }

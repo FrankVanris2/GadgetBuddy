@@ -20,8 +20,8 @@ public:
 
 private:
     Buttons mButtons; // Buttons object as a member
-    LCDScreen mLcdScreen; // LCDScreen object as a member
     TempHumidSensor mTempHumidSensor; // DHT11 object as a member
+    LCDScreen mLcdScreen; // LCDScreen object as a member
 };
 
 extern GadgetBuddyManager gadgetBuddyManager;

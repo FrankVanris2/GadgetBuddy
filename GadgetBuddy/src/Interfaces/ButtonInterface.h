@@ -16,8 +16,6 @@ public:
     void setup() override = 0;
     void loop() override = 0;
 
-private:
-
     // function that focuses on Button debouncing
     virtual void processButtonDebounce(int currentReading, unsigned long currentTime,
                                int& lastRawState, int& debouncedState,

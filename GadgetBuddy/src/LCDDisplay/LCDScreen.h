@@ -21,15 +21,13 @@ public:
 
 private:
 
-    // for testing purposes
-    void updateAndDisplayScreen() override;
-
-    // Displayed information
-    void displayMainScreen() override;
-    void displayTemp_HumidityScreen() override;
-    void displayAirQualityScreen() override;
-    void displayRadioScreen() override;
-    void displayErrorScreen(const char* errorMessage) override;
+    // Private LCD Implementation details (Not needed within my LCD Interface)
+    void updateAndDisplayScreen();
+    void displayMainScreen();
+    void displayTemp_HumidityScreen();
+    void displayAirQualityScreen();
+    void displayRadioScreen();
+    void displayErrorScreen(const char* errorMessage);
 
     LiquidCrystal_I2C lcd;
     int mCurrentScreenState;
@@ -38,5 +36,5 @@ private:
 
     // Essential timer screen updates for given Screens
     unsigned long mTempHumidLastUpdateTime;
-    const unsigned long TEMP_HUMID_UPDATE_INTERAVAL_MS;
+    const unsigned long TEMP_HUMID_UPDATE_INTERAVAL_S;
 };
