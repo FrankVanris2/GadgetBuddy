@@ -36,7 +36,9 @@ public:
         return mHumidityData;
     }
 
-    
+    /// @brief Obtaining Error if error occurs within DHT Sensor
+    /// @return an error message for what broke
+    const char* getErrorMessage() override;
 
 private:
     DHT dht;
@@ -44,7 +46,7 @@ private:
     CircularBuffer<float> humidityAvgBuffer;
     int mTemperatureData;
     int mHumidityData;
-    String mErrorMessage;
+    bool mHasError;
     unsigned long previousMillis;
 
     unsigned long DHT_INTERVAL;
@@ -58,15 +60,11 @@ private:
     /// @brief Obtaining the Average of the temperature data.
     /// @param temp 
     /// @return averagedTemperature
-    int averagingTempData(int temp) override;
+    float averagingTempData(float temp) override;
 
     /// @brief Obtaining the Average of the humidity data.
     /// @param humidity 
     /// @return the averagedHumidity
-    int averagingHumidData(int humidity) override;
-
-    /// @brief Obtaining Error if error occurs within DHT Sensor
-    /// @return an error message for what broke
-    String setError() override;
+    float averagingHumidData(float humidity) override;
 
 };

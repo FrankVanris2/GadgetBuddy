@@ -7,10 +7,10 @@
 #pragma once
 
 #include <LiquidCrystal_I2C.h>
-#include "Interfaces/MachineComponentsInterface.h"
+#include "Interfaces/LCDInterface.h"
 #include "Buttons/Buttons.h"
 
-class LCDScreen : public MachineComponentsInterface {
+class LCDScreen : public LCDInterface {
 public:
 
     LCDScreen(Buttons& buttons_ref);
@@ -21,13 +21,13 @@ public:
 private:
 
     // for testing purposes
-    void updateAndDisplayScreen();
+    void updateAndDisplayScreen() override;
 
     // Displayed information
-    void displayMainScreen();
-    void displayTemp_HumidityScreen();
-    void displayAirQualityScreen();
-    void displayRadioScreen();
+    void displayMainScreen() override;
+    void displayTemp_HumidityScreen() override;
+    void displayAirQualityScreen() override;
+    void displayRadioScreen() override;
 
     LiquidCrystal_I2C lcd;
     int mCurrentScreenState;

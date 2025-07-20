@@ -24,11 +24,11 @@ private:
     virtual void obtainingTemperature_HumidityData() = 0;
 
     // Averaging the temperature data.
-    virtual int averagingTempData(int temp) = 0;
+    virtual float averagingTempData(float temp) = 0;
 
     // Averaging the humidity data.
-    virtual int averagingHumidData(int humidity) = 0;
+    virtual float averagingHumidData(float humidity) = 0;
 
-    virtual String setError() = 0;
+    virtual const char* getErrorMessage() = 0;
 
 };
