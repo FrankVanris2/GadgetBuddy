@@ -9,11 +9,12 @@
 #include <LiquidCrystal_I2C.h>
 #include "Interfaces/LCDInterface.h"
 #include "Buttons/Buttons.h"
+#include "TempHumidSensor/TempHumidSensor.h"
 
 class LCDScreen : public LCDInterface {
 public:
 
-    LCDScreen(Buttons& buttons_ref);
+    LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref);
 
     void setup() override;
     void loop() override;
@@ -28,8 +29,14 @@ private:
     void displayTemp_HumidityScreen() override;
     void displayAirQualityScreen() override;
     void displayRadioScreen() override;
+    void displayErrorScreen(const char* errorMessage) override;
 
     LiquidCrystal_I2C lcd;
     int mCurrentScreenState;
     Buttons& mButtonsRef; // Store a reference to the Buttons object
+    TempHumidSensor& mTempHumidRef; // Stores a reference to the DHT11 sensor
+
+    // Essential timer screen updates for given Screens
+    unsigned long mTempHumidLastUpdateTime;
+    const unsigned long TEMP_HUMID_UPDATE_INTERAVAL_MS;
 };

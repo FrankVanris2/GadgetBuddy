@@ -16,7 +16,7 @@ public:
     /// @param DataPin The pin that connects to my DHT11 Sensor
     /// @param dht_type The type of DHT sensor that I have on hand
     /// @param dht_interval The interval that it takes to obtain specific information from the sensor itself.
-    TempHumidSensor(int DataPin, int dht_type, unsigned long dht_interval);
+    TempHumidSensor();
 
     /// @brief setup function for the DHT11 sensor
     void setup() override;
@@ -41,7 +41,7 @@ public:
     const char* getErrorMessage() override;
 
 private:
-    DHT dht;
+    //DHT dht;
     CircularBuffer<float> tempAvgBuffer;
     CircularBuffer<float> humidityAvgBuffer;
     int mTemperatureData;
@@ -49,9 +49,8 @@ private:
     bool mHasError;
     unsigned long previousMillis;
 
-    unsigned long DHT_INTERVAL;
-    const int DATA_PIN;
-    const int DHT_TYPE;
+    unsigned long INTERVAL;
+    DHT dht;
 
     /// @brief Obtaining the Temperature and Humidity Data from the
     /// DHT11 sensor.

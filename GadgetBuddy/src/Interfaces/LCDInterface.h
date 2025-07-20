@@ -33,5 +33,6 @@ private:
     // Display Radio Screen.
     virtual void displayRadioScreen() = 0;
 
-
+    // Display Error Message if needed
+    virtual void displayErrorScreen(const char* errorMessage) = 0;
 };
