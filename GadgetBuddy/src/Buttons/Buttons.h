@@ -6,9 +6,9 @@
 
  #pragma once
 
- #include "Interfaces/MachineComponentsInterface.h"
+ #include "Interfaces/ButtonInterface.h"
 
- class Buttons : public MachineComponentsInterface {
+ class Buttons : public ButtonInterface {
 public:
     Buttons(int leftPin, int rightPin, int minVal, int maxVal, unsigned long debounceDelayMs);
 
@@ -38,6 +38,6 @@ private:
     void processButtonDebounce(int currentReading, unsigned long currentTime,
                                int& lastRawState, int& debouncedState,
                                unsigned long& lastDebounceTimer,
-                               bool isLeftButton);
+                               bool isLeftButton) override;
  };
 

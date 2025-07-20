@@ -7,29 +7,34 @@
 #pragma once
 
 #include <LiquidCrystal_I2C.h>
-#include "Interfaces/MachineComponentsInterface.h"
+#include "Interfaces/LCDInterface.h"
 #include "Buttons/Buttons.h"
+#include "TempHumidSensor/TempHumidSensor.h"
 
-class LCDScreen : public MachineComponentsInterface {
+class LCDScreen : public LCDInterface {
 public:
 
-    LCDScreen(Buttons& buttons_ref);
+    LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref);
 
     void setup() override;
     void loop() override;
 
 private:
 
-    // for testing purposes
+    // Private LCD Implementation details (Not needed within my LCD Interface)
     void updateAndDisplayScreen();
-
-    // Displayed information
     void displayMainScreen();
     void displayTemp_HumidityScreen();
     void displayAirQualityScreen();
     void displayRadioScreen();
+    void displayErrorScreen(const char* errorMessage);
 
     LiquidCrystal_I2C lcd;
     int mCurrentScreenState;
     Buttons& mButtonsRef; // Store a reference to the Buttons object
+    TempHumidSensor& mTempHumidRef; // Stores a reference to the DHT11 sensor
+
+    // Essential timer screen updates for given Screens
+    unsigned long mTempHumidLastUpdateTime;
+    const unsigned long TEMP_HUMID_UPDATE_INTERAVAL_S;
 };

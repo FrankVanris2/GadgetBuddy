@@ -11,4 +11,5 @@ enum ScreenStates {
     TEMP_HUMID_SCREEN,
     AIR_QUALITY_SCREEN,
     RADIO_SCREEN,
+    ERROR_SCREEN
 };

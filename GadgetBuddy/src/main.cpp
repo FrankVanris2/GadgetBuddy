@@ -8,6 +8,7 @@
 
 //MAIN setup
 void setup() {
+  Serial.begin(9600);
   gadgetBuddyManager.setup();
 }
 
