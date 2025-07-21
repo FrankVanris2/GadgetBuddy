@@ -278,6 +278,79 @@ void test_circular_wrap_around_pop(void) {
     TEST_ASSERT_TRUE(intBuffer.isEmpty());
 }
 
+// ## Circular Buffer Summation Tests ##
+void test_summation_buffer_operations(void) {
+    MockCircularBuffer<int> sumBuffer(5);
+    TEST_ASSERT_TRUE(sumBuffer.isEmpty());
+
+    for(int i = 0; i < 5; i++) {
+        sumBuffer.push_back(10);
+    }
+    TEST_ASSERT_TRUE(sumBuffer.isFull());
+    TEST_ASSERT_FALSE(sumBuffer.isEmpty());
+    TEST_ASSERT_EQUAL(50, sumBuffer.sum());
+
+    sumBuffer.clear();
+    for(int i = 0; i < 5; i++) {
+        sumBuffer.push_back(1 * i);
+    }
+    TEST_ASSERT_TRUE(sumBuffer.isFull());
+    TEST_ASSERT_EQUAL(5, sumBuffer.size());
+    TEST_ASSERT_EQUAL(10, sumBuffer.sum());
+}
+
+void test_float_summation_buffer_operations(void) {
+    MockCircularBuffer<float> sumFloatBuffer(10);
+    TEST_ASSERT_TRUE(sumFloatBuffer.isEmpty());
+
+    for (int i = 0; i < 10; ++i) {
+        float value = static_cast<float>(i) * 1.5f;  // Example: 0.0, 1.5, 3.0, ..., 13.5
+        sumFloatBuffer.push_back(value);
+    }
+    TEST_ASSERT_TRUE(sumFloatBuffer.isFull());
+    TEST_ASSERT_FALSE(sumFloatBuffer.isEmpty());
+    TEST_ASSERT_EQUAL(10, sumFloatBuffer.size());
+    TEST_ASSERT_EQUAL(67.5f, sumFloatBuffer.sum());
+}
+
+// ## Circular Buffer Clear Data Tests ##
+void test_clear_function_operation(void) {
+    MockCircularBuffer<int> clearBuffer(20);
+    TEST_ASSERT_TRUE(clearBuffer.isEmpty());
+    TEST_ASSERT_FALSE(clearBuffer.isFull());
+    TEST_ASSERT_EQUAL(0, clearBuffer.size());
+    for(int i = 0; i < 20; i++) {
+        clearBuffer.push_back(10);
+    }
+    TEST_ASSERT_TRUE(clearBuffer.isFull());
+    TEST_ASSERT_FALSE(clearBuffer.isEmpty());
+    TEST_ASSERT_EQUAL(20, clearBuffer.size());
+    
+    clearBuffer.clear();
+    TEST_ASSERT_TRUE(clearBuffer.isEmpty());
+    TEST_ASSERT_FALSE(clearBuffer.isFull());
+    TEST_ASSERT_EQUAL(0, clearBuffer.size());
+
+    clearBuffer.push_back(2);
+    clearBuffer.push_back(3);
+    TEST_ASSERT_FALSE(clearBuffer.isEmpty());
+    TEST_ASSERT_EQUAL(2, clearBuffer.size());
+
+    clearBuffer.clear();
+    TEST_ASSERT_TRUE(clearBuffer.isEmpty());
+
+    for(int i = 0; i < 100; i++) {
+        clearBuffer.push_back(1);
+    }
+    TEST_ASSERT_TRUE(clearBuffer.isFull());
+    TEST_ASSERT_EQUAL(20, clearBuffer.size());
+
+    clearBuffer.clear();
+    TEST_ASSERT_TRUE(clearBuffer.isEmpty());
+    TEST_ASSERT_FALSE(clearBuffer.isFull());
+    TEST_ASSERT_EQUAL(0, clearBuffer.size());
+}
+
 // ## Template Type Tests ##
 
 void test_char_buffer_operations(void) {
@@ -341,6 +414,13 @@ void test_circular_buffer_methods(void) {
     // Circular Behavior Tests
     RUN_TEST(test_circular_wrap_around_push);
     RUN_TEST(test_circular_wrap_around_pop);
+
+    // Circular Buffer Summation Tests
+    RUN_TEST(test_summation_buffer_operations);
+    RUN_TEST(test_float_summation_buffer_operations);
+
+    // ## Circular Buffer Clear Data Tests ##
+    RUN_TEST(test_clear_function_operation);
 
     // Template Type Tests
     RUN_TEST(test_char_buffer_operations);

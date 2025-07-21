@@ -79,6 +79,28 @@
         return (writeIndex + 1) % capacity == readIndex;
     }
 
+    T sum() const override {
+        T total = T(); // Initialize sum to default value
+        if(isEmpty()) {
+            return total;
+        }
+        int currentIdx = readIndex;
+        int current_size = size();
+
+        for(int i = 0; i < current_size; ++i) {
+            total += buffer[currentIdx];
+            currentIdx = (currentIdx + 1) % capacity;
+        }
+        return total;
+    }
+
+    void clear() override {
+        if(!isEmpty()) {
+            readIndex = 0;
+            writeIndex = 0;
+        }
+    }
+
     int size() const override {
         if (writeIndex >= readIndex) {
             return writeIndex - readIndex;
