@@ -17,14 +17,14 @@ GadgetBuddyManager::GadgetBuddyManager() :
 
 //setup for all setup functions
 void GadgetBuddyManager::setup() {
-    mButtons.setup();
     mTempHumidSensor.setup();
+    mButtons.setup();
     mLcdScreen.setup();
 }
 
 //loop for all loop functions
 void GadgetBuddyManager::loop() {
-    mButtons.loop();
     mTempHumidSensor.loop();
+    mButtons.loop();
     mLcdScreen.loop();
 }
