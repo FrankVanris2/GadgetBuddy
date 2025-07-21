@@ -18,16 +18,18 @@ const char* NO_ERROR_MSG = nullptr; // Or an empty string literal "" if you pref
     DHT_TYPE(dht_type),
     DHT_INTERVAL(dhtInterval),
     dht(DATA_PIN, DHT_TYPE),
-    mHasError(false),
-    previousMillis(0),
     tempAvgBuffer(10),
     humidityAvgBuffer(10),
     mTemperatureData(0.0f),
-    mHumidityData(0.0f)
+    mHumidityData(0.0f),
+    mHasError(false),
+    previousMillis(0)
+    
  {}
 
  void TempHumidSensor::setup() {
     dht.begin();
+    obtainingTemperature_HumidityData();
  }
 
  void TempHumidSensor::loop() {

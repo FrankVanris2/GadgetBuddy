@@ -13,9 +13,7 @@
       lcd(0x27, 20, 4),
       mCurrentScreenState(MAIN_SCREEN),
       mButtonsRef(buttons_ref),
-      mTempHumidRef(temphumid_ref),
-      mTempHumidLastUpdateTime(0),
-      TEMP_HUMID_UPDATE_INTERAVAL_S(5000)
+      mTempHumidRef(temphumid_ref)
 {}
 
  void LCDScreen::setup() {
@@ -47,7 +45,6 @@
    if(mCurrentScreenState != desiredScreenState) {
       mCurrentScreenState = desiredScreenState;
       lcd.clear();
-      mTempHumidLastUpdateTime = millis();
    }
 
    switch(mCurrentScreenState) {
@@ -76,8 +73,6 @@
  }
 
  void LCDScreen::displayTemp_HumidityScreen() {
-   unsigned long currentMillis = millis();
-
    lcd.setCursor(0,0);
    lcd.print("Temp/Humid Screen:");
    
@@ -90,14 +85,6 @@
    lcd.print("Humidity: ");
    lcd.print(mTempHumidRef.getHumidityData(), 1);
    lcd.print(" %");
-
-   if(currentMillis - mTempHumidLastUpdateTime >= TEMP_HUMID_UPDATE_INTERAVAL_S) {
-      mTempHumidLastUpdateTime = currentMillis;
-      lcd.setCursor(7,1);
-      lcd.print("            ");
-      lcd.setCursor(10,2);
-      lcd.print("          ");
-   }
  }
 
  void LCDScreen::displayAirQualityScreen() {
