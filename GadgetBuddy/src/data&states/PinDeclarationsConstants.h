@@ -15,5 +15,5 @@
 
 /** DHT11 essential information */
 #define DHT11_PIN 11
-#define DHT_INTERVAL 10000
+#define DHT_INTERVAL 5000
 #define DHTTYPE DHT11

@@ -10,7 +10,7 @@
 
 // Constructor
 Buttons::Buttons(int leftPin, int rightPin, int minVal, int maxVal, unsigned long debounceDelayMs) :
-    mButtonVal(0),
+    mButtonVal(minVal),
     mL_LastButtonState(LOW),
     mR_LastButtonState(LOW),
     mLButtonState(LOW), 
