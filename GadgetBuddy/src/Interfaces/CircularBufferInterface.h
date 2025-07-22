@@ -32,9 +32,12 @@ public:
     // function to check if buffer is full
     virtual bool isFull() const = 0;
 
-    //return the sum of all elements within the buffer
+    // return the sum of all elements within the buffer
     virtual T sum() const = 0;
 
+    // function that clears the circular buffer with all elements
+    virtual void clear() = 0;
+    
     // getting the size of the circular buffer
     virtual int size() const = 0;
 

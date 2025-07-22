@@ -54,6 +54,9 @@ public:
     /// @return all the summed elements within the buffer
     T sum() const override; // FIX: Added 'const' as it doesn't modify object state
 
+    /// @brief clear the buffer when needed
+    void clear() override;
+
     /// @brief Checks the size of the buffer
     /// @return current size of buffer with elements inside
     int size() const override; // GOOD: const-correct
@@ -158,6 +161,14 @@ T CircularBuffer<T>::sum() const {
         current_idx = (current_idx + 1) % capacity; // Move to the next logical element, wrapping around.
     }
     return total; // Return the calculated sum.
+}
+
+template <class T>
+void CircularBuffer<T>::clear() {
+    if(!isEmpty()) {
+        readIndex = 0;
+        writeIndex = 0;
+    }
 }
 
 template <class T>

@@ -33,8 +33,4 @@ private:
     int mCurrentScreenState;
     Buttons& mButtonsRef; // Store a reference to the Buttons object
     TempHumidSensor& mTempHumidRef; // Stores a reference to the DHT11 sensor
-
-    // Essential timer screen updates for given Screens
-    unsigned long mTempHumidLastUpdateTime;
-    const unsigned long TEMP_HUMID_UPDATE_INTERAVAL_S;
 };
