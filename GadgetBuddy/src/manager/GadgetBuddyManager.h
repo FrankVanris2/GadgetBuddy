@@ -4,7 +4,9 @@
 * Desc: Contains all the important methods needed for the gadget to work
 */
 
-#pragma once
+#ifndef GADGET_BUDDY_MANAGER_H
+#define GADGET_BUDDY_MANAGER_H
+
 #include "Interfaces/MachineComponentsInterface.h"
 #include "Buttons/Buttons.h"
 #include "LCDDisplay/LCDScreen.h"
@@ -25,3 +27,5 @@ private:
 };
 
 extern GadgetBuddyManager gadgetBuddyManager;
+
+#endif

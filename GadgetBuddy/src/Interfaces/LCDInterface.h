@@ -5,7 +5,8 @@
  * in the future.
  */
 
- #pragma once
+ #ifndef LCD_INTERFACE_H
+ #define LCD_INTERFACE_H
 
  #include "MachineComponentsInterface.h"
 
@@ -17,3 +18,5 @@ public:
     void loop() override = 0;
 
 };
+
+#endif

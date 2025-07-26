@@ -4,7 +4,8 @@
  * Desc: Creating a Circular Buffer Interface
  */
 
- #pragma once
+ #ifndef CIRCULAR_BUFFER_INTERFACE_H
+ #define CIRCULAR_BUFFER_INTERFACE_H
 
 template<class T>
 class CircularBufferInterface {
@@ -44,3 +45,5 @@ public:
     // printing the contents within the buffer
     virtual void printBuffer() const = 0;
 };
+
+#endif

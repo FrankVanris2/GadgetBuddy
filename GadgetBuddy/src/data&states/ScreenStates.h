@@ -4,7 +4,8 @@ Date: 4/5/2025
 Desc: States between different screens.
 */
 
-#pragma once
+#ifndef SCREEN_STATES_H
+#define SCREEN_STATES_H
 
 enum ScreenStates {
     MAIN_SCREEN = 0,
@@ -13,3 +14,5 @@ enum ScreenStates {
     RADIO_SCREEN,
     ERROR_SCREEN
 };
+
+#endif

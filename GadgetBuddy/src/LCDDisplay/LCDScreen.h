@@ -4,7 +4,8 @@
  * Desc: Implementing the LCD Screen for visualization purposes so that the user can see what is occurring visually on the LCDScreen
  */
 
-#pragma once
+#ifndef LCD_SCREEN_H
+#define LCD_SCREEN_H
 
 #include <LiquidCrystal_I2C.h>
 #include "Interfaces/LCDInterface.h"
@@ -34,3 +35,5 @@ private:
     Buttons& mButtonsRef; // Store a reference to the Buttons object
     TempHumidSensor& mTempHumidRef; // Stores a reference to the DHT11 sensor
 };
+
+#endif

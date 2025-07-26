@@ -4,7 +4,8 @@
  * Desc: Implementing my dht11 sensor to read temperature and humidity
  */
 
- #pragma once
+ #ifndef TEMP_HUMID_SENSOR_H
+ #define TEMP_HUMID_SENSOR_H
 
  #include "Interfaces/TempHumidInterface.h"
  #include "DHT.h"
@@ -69,3 +70,5 @@ private:
     /// @return the averagedHumidity
     float averagingHumidData(float humidity) override;
 };
+
+#endif

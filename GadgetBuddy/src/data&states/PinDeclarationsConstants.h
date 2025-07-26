@@ -4,7 +4,8 @@
  * Desc: Creating a file to store essential pins and data
  */
 
- #pragma once
+ #ifndef PIN_DECLARATION_CONSTANTS_H
+ #define PIN_DECLARATION_CONSTANTS_H
 
  /** Button essential information */
  #define GB_LEFT_BUTTON_PIN 13
@@ -17,3 +18,5 @@
 #define DHT11_PIN 11
 #define DHT_INTERVAL 5000
 #define DHTTYPE DHT11
+
+#endif
