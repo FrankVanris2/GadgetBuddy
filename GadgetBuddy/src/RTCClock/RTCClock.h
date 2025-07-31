@@ -10,7 +10,7 @@
 #include <Arduino.h>
 #include "Interfaces/RTCInterface.h"
 
-class RTCClock : RTCInterface {
+class RTCClock : public RTCInterface {
 public:
     
     // Constructor
