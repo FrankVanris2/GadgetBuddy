@@ -14,7 +14,5 @@
     
     void setup() override = 0;
     void loop() override = 0;
-
-    virtual const char* getErrorMessage() = 0;
  };
  #endif 

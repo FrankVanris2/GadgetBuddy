@@ -9,8 +9,9 @@
 #include <RTClib.h>
 #include <Arduino.h>
 #include "Interfaces/RTCInterface.h"
+#include "Interfaces/ErrorReportingInterface.h"
 
-class RTCClock : public RTCInterface {
+class RTCClock : public RTCInterface, public ErrorReportingInterface {
 public:
     
     // Constructor
@@ -28,9 +29,10 @@ public:
         return mTimeData;
     }
 
-    /// @brief Obtaining Error if error occurs within DHT Sensor
-    /// @return an error message for what broke
+    // ErrorReportingInterface methods
     const char* getErrorMessage() override;
+    bool hasError() override { return mHasError; }
+    void clearError() override { mHasError = false; }
 
 private:
     RTC_DS1307 rtc;
