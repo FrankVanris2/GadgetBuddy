@@ -4,13 +4,15 @@
  * Desc: Implementing my dht11 sensor to read temperature and humidity
  */
 
- #pragma once
+ #ifndef TEMP_HUMID_SENSOR_H
+ #define TEMP_HUMID_SENSOR_H
 
  #include "Interfaces/TempHumidInterface.h"
+ #include "Interfaces/ErrorReportingInterface.h"
  #include "DHT.h"
  #include "CircularBuffer/CircularBuffer.h"
 
-class TempHumidSensor : public TempHumidInterface {
+class TempHumidSensor : public TempHumidInterface, public ErrorReportingInterface {
 public:
     /// @brief Constructor for my Temperature/Humidity Sensor (DHT11)
     /// @param DataPin The pin that connects to my DHT11 Sensor
@@ -36,9 +38,10 @@ public:
         return mHumidityData;
     }
 
-    /// @brief Obtaining Error if error occurs within DHT Sensor
-    /// @return an error message for what broke
+    // ErrorReportingInterface methods
     const char* getErrorMessage() override;
+    bool hasError() override { return mHasError; }
+    void clearError() override { mHasError = false; }
 
 private:
     const int DATA_PIN;
@@ -69,3 +72,5 @@ private:
     /// @return the averagedHumidity
     float averagingHumidData(float humidity) override;
 };
+
+#endif

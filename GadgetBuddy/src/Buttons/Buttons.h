@@ -4,7 +4,8 @@
  * Desc: Creating a buttons class to change between different states of the screen.
  */
 
- #pragma once
+ #ifndef BUTTONS_H
+ #define BUTTONS_H
 
  #include "Interfaces/ButtonInterface.h"
 
@@ -40,4 +41,6 @@ private:
                                unsigned long& lastDebounceTimer,
                                bool isLeftButton) override;
  };
+
+ #endif
 

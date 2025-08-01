@@ -4,7 +4,8 @@
  * Desc: Creating a interface around the DHT11 Sensor
  */
 
- #pragma once
+ #ifndef TEMP_HUMID_INTERFACE_H
+ #define TEMP_HUMID_INTERFACE_H
 
  #include "MachineComponentsInterface.h"
 
@@ -20,3 +21,5 @@ public:
     virtual float averagingHumidData(float humidity) = 0;
     virtual const char* getErrorMessage() = 0;
 };
+
+#endif

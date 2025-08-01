@@ -4,7 +4,8 @@
  * Desc: This file is an Abstract class for the Arduino modes(Setup and Loop).
  */
 
- #pragma once
+ #ifndef MACHINE_COMPONENTS_INTERFACE_H
+ #define MACHINE_COMPONENTS_INTERFACE_H
  
 class MachineComponentsInterface {
  public:
@@ -12,3 +13,5 @@ class MachineComponentsInterface {
     virtual void loop() = 0;
     virtual ~MachineComponentsInterface() = default;
 };
+
+#endif

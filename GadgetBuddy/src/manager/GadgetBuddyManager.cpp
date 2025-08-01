@@ -12,11 +12,13 @@ GadgetBuddyManager gadgetBuddyManager;
 GadgetBuddyManager::GadgetBuddyManager() : 
     mButtons(GB_LEFT_BUTTON_PIN, GB_RIGHT_BUTTON_PIN, GB_MIN_BUTTON_VAL, GB_MAX_BUTTON_VAL, GB_DEBOUNCE_DELAY), 
     mTempHumidSensor(DHT11_PIN, DHTTYPE, DHT_INTERVAL),
-    mLcdScreen(mButtons, mTempHumidSensor)
+    mRtcClock(),
+    mLcdScreen(mButtons, mTempHumidSensor, mRtcClock)
 { }
 
 //setup for all setup functions
 void GadgetBuddyManager::setup() {
+    mRtcClock.setup();
     mTempHumidSensor.setup();
     mButtons.setup();
     mLcdScreen.setup();
@@ -24,6 +26,7 @@ void GadgetBuddyManager::setup() {
 
 //loop for all loop functions
 void GadgetBuddyManager::loop() {
+    mRtcClock.loop();
     mTempHumidSensor.loop();
     mButtons.loop();
     mLcdScreen.loop();

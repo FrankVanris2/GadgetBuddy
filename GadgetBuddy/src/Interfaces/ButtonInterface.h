@@ -4,7 +4,8 @@
  * Desc: Creating a button interface that is meant for the buttons class implementation
  */
 
- #pragma once
+ #ifndef BUTTON_INTERFACE_H
+ #define BUTTON_INTERFACE_H
 
  #include "MachineComponentsInterface.h"
 
@@ -22,3 +23,5 @@ public:
                                unsigned long& lastDebounceTimer,
                                bool isLeftButton) = 0;
 };
+
+#endif

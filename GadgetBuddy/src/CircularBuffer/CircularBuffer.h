@@ -4,7 +4,9 @@
  * Desc: Re-Implementing since the Uno doesn't have the standard C++ library, so using regular C-standard array
  */
 
-#pragma once
+#ifndef CIRCULAR_BUFFER_H
+#define CIRCULAR_BUFFER_H
+
 #include "Interfaces/CircularBufferInterface.h"
 #include <Arduino.h> // Keep this for Serial.println, as this is the Arduino-specific implementation
 
@@ -197,3 +199,5 @@ void CircularBuffer<T>::printBuffer() const {
     }
     Serial.println("]");
 }
+
+#endif
