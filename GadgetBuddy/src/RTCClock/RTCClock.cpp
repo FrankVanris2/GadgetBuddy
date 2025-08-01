@@ -18,8 +18,20 @@ void RTCClock::setup() {
         mHasError = true;
     }
 
-    // automatically sets date and time on PC
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+
+    if (isConnectedToComputer()) {
+        rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    } else {
+        if (!rtc.isrunning()) {
+            rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+        } else {
+            DateTime now = rtc.now();
+            if (!now.isValid()) {
+                mHasError = true;
+            }
+        }
+    }
+    
 }
 
 void RTCClock::loop() {
@@ -42,6 +54,10 @@ void RTCClock::recordDateAndTime() {
         return; 
     }
 
+    // Clear strings before formatting
+    mDateData = "";
+    mTimeData = "";
+
     // Formatted Date as: "MM/DD/YYYY"
     if (now.month() < 10) mDateData += "0";
     mDateData += String(now.month()) + "/";
@@ -63,4 +79,8 @@ const char* RTCClock::getErrorMessage() {
         return RTC_READ_ERROR_MSG;
     }
     return RTC_NO_ERROR_MSG;
+}
+
+bool RTCClock::isConnectedToComputer() {
+   return Serial && (millis() < 2000);
 }

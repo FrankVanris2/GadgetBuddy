@@ -11,11 +11,12 @@
 #include "Interfaces/LCDInterface.h"
 #include "Buttons/Buttons.h"
 #include "TempHumidSensor/TempHumidSensor.h"
+#include "RTCClock/RTCClock.h"
 
 class LCDScreen : public LCDInterface {
 public:
 
-    LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref);
+    LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtcc_ref);
 
     void setup() override;
     void loop() override;
@@ -34,6 +35,7 @@ private:
     int mCurrentScreenState;
     Buttons& mButtonsRef; // Store a reference to the Buttons object
     TempHumidSensor& mTempHumidRef; // Stores a reference to the DHT11 sensor
+    RTCClock& mRTCRef; // Stores a reference to the RTCClock
 };
 
 #endif

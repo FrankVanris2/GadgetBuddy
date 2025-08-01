@@ -40,5 +40,6 @@ private:
     String mDateData;
 
     void recordDateAndTime();
+    bool isConnectedToComputer();
 };
 #endif

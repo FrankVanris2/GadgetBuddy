@@ -9,11 +9,12 @@
   #include  "data&states/ScreenStates.h"
 
  
- LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref):
+ LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref):
       lcd(0x27, 20, 4),
       mCurrentScreenState(MAIN_SCREEN),
       mButtonsRef(buttons_ref),
-      mTempHumidRef(temphumid_ref)
+      mTempHumidRef(temphumid_ref),
+      mRTCRef(rtc_ref)
 {}
 
  void LCDScreen::setup() {
@@ -30,7 +31,17 @@
  // this is for testing purposes to ensure that the buttons work
  void LCDScreen::updateAndDisplayScreen() {
 
-   // Check for sensor error first
+   // Check for RTC error first
+   const char* rtcErrorMsg = mRTCRef.getErrorMessage();
+   if(rtcErrorMsg != nullptr) {
+      if(mCurrentScreenState != ERROR_SCREEN) {
+         lcd.clear();
+         mCurrentScreenState = ERROR_SCREEN;
+      }
+      displayErrorScreen(rtcErrorMsg);
+      return;
+   }
+   // Check for sensor error second
    const char* sensorErrorMsg = mTempHumidRef.getErrorMessage();
    if(sensorErrorMsg != nullptr) {
       if(mCurrentScreenState != ERROR_SCREEN) {
@@ -68,8 +79,18 @@
  }
 
  void LCDScreen::displayMainScreen() {
-   lcd.setCursor(0,0);
-   lcd.print("Main Screen");
+   lcd.setCursor(5,0);
+   lcd.print("GadgetBuddy");
+
+   // Date
+   lcd.setCursor(0,1);
+   lcd.print("Date: ");
+   lcd.print(mRTCRef.getDate());
+
+   // Time
+   lcd.setCursor(0,2);
+   lcd.print("Time: ");
+   lcd.print(mRTCRef.getTime());
  }
 
  void LCDScreen::displayTemp_HumidityScreen() {
