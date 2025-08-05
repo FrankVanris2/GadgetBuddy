@@ -14,7 +14,8 @@ AirQuality::AirQuality(int dataPin, unsigned long mq_interval) :
     MQ_INTERVAL(mq_interval),
     previousMillis(0),
     mHasError(false),
-    mAirQualityReading(0.0f)
+    mAirQualityReading(0.0f),
+    mCO2_PPM(0.0f)
 {}
 
 void AirQuality::setup() {
@@ -33,8 +34,28 @@ void AirQuality::loop() {
         } else {
             clearError();
             mAirQualityReading = static_cast<float>(raw_adc_reading);
+
+            // Manual PPM calculation
+            mCO2_PPM = calculatePPM(raw_adc_reading);
         }
     }
+}
+
+float AirQuality::calculatePPM(int adcReading) {
+    // Convert ADC to voltage
+    float voltage = (adcReading / 1023.0) * 5.0;
+
+    // Calculate sensor resistance
+    float sensorResistance = ((5.0 - voltage) / voltage) * 10000; // Assuming a 10k load resistor
+
+    // Calculate ratio (Rs/R0)
+    // R0 should be calibrated in clean air (around 76000 ohms for MQ135)
+    float R0 = 76000.0;
+    float ratio = sensorResistance / R0;
+
+    // MQ135 CO2 curve: PPM = 110.47 * pow(ratio, -2.862)
+    float ppm = 110.47 * pow(ratio, -2.862);
+    return ppm;
 }
 
 const char* AirQuality::getErrorMessage() {

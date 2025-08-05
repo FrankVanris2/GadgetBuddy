@@ -15,13 +15,17 @@ public:
     AirQualityScreenStrategy(AirQuality& sensor) : mSensorRef(sensor) {}
 
     void display(LiquidCrystal_I2C& lcd) override {
-        lcd.setCursor(0, 0);
+        lcd.setCursor(0,0);
         lcd.print("Air Quality:");
         
         lcd.setCursor(0,1);
-        lcd.print("ArQ = ");
-        lcd.print(mSensorRef.getAirQualityData(), 1);
+        lcd.print("CO2 = ");
+        lcd.print(mSensorRef.getCO2_PPM(), 1);
         lcd.print(" PPM");
+        
+        lcd.setCursor(0,2);
+        lcd.print("Status: ");
+        lcd.print(mSensorRef.getAirQualityData(), 1);
     }
 
     const char* getScreenName() override {

@@ -18,7 +18,7 @@ public:
     void loop() override;
 
     float getAirQualityData() const { return mAirQualityReading; }
-
+    float getCO2_PPM() const { return mCO2_PPM; }
     // ErrorReportingInterface methods
     const char* getErrorMessage() override;
     bool hasError() override { return mHasError; }
@@ -31,6 +31,9 @@ private:
     bool mHasError;
 
     float mAirQualityReading;
+    float mCO2_PPM;
+
+    float calculatePPM(int adcReading);
 
 };
 #endif
