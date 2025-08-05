@@ -8,7 +8,6 @@
 
 
 const char* RTC_READ_ERROR_MSG = "RTC Read Error!";
-const char* RTC_NO_ERROR_MSG = nullptr; 
 
 RTCClock::RTCClock() : mHasError(false), mTimeData(""), mDateData("") {}
 
@@ -21,27 +20,16 @@ void RTCClock::setup() {
 
     if (isConnectedToComputer()) {
         rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-    } else {
-        if (!rtc.isrunning()) {
-            rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-        } else {
-            DateTime now = rtc.now();
-            if (!now.isValid()) {
-                mHasError = true;
-            }
-        }
-    }
-    
+    } 
 }
 
-void RTCClock::loop() {
-    
+void RTCClock::loop() {   
     recordDateAndTime();
 }
 
 void RTCClock::recordDateAndTime() {
     if (mHasError) {
-        return; // Don't try to read if RTC failed to initialize
+        return; 
     }
 
     DateTime now = rtc.now();
@@ -78,9 +66,17 @@ const char* RTCClock::getErrorMessage() {
     if(mHasError) {
         return RTC_READ_ERROR_MSG;
     }
-    return RTC_NO_ERROR_MSG;
+    return nullptr;
 }
 
 bool RTCClock::isConnectedToComputer() {
-   return Serial && (millis() < 2000);
+   if (!Serial) {
+        return false; // Not connected to a computer
+   }
+
+   if (millis() < 5000) {
+        return true;
+   }
+
+   return false;
 }

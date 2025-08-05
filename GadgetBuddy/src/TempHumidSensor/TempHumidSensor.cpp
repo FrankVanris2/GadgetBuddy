@@ -9,7 +9,6 @@
 
  // Define your error message as a const char* literal (stored in Flash)
 const char* DHT_READ_ERROR_MSG = "DHT Read Error!";
-const char* NO_ERROR_MSG = nullptr; // Or an empty string literal "" if you prefer
 
 
 
@@ -46,7 +45,7 @@ const char* NO_ERROR_MSG = nullptr; // Or an empty string literal "" if you pref
       mHasError = true;
       Serial.println(DHT_READ_ERROR_MSG);
    } else {
-      mHasError = false;
+      clearError();
       mTemperatureData = averagingTempData(temp);
       mHumidityData = averagingHumidData(humidity);
    }
@@ -71,10 +70,10 @@ const char* NO_ERROR_MSG = nullptr; // Or an empty string literal "" if you pref
  }
 
  const char* TempHumidSensor::getErrorMessage() {
-   if (mHasError) {
+   if (hasError()) {
         return DHT_READ_ERROR_MSG;
     }
-    return NO_ERROR_MSG; // Return nullptr if no error
+    return nullptr; // Return nullptr if no error
 }
 
 

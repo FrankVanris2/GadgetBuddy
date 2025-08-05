@@ -29,7 +29,15 @@
       "attrs": { "color": "blue", "xray": "1" }
     },
     { "type": "wokwi-dht22", "id": "dht1", "top": -28.5, "left": -264.6, "attrs": {} },
-    { "type": "wokwi-ds1307", "id": "rtc1", "top": 304.7, "left": 68, "rotate": 90, "attrs": {} }
+    { "type": "wokwi-ds1307", "id": "rtc1", "top": 304.7, "left": 68, "rotate": 90, "attrs": {} },
+    {
+      "type": "wokwi-gas-sensor",
+      "id": "gas1",
+      "top": -142.5,
+      "left": 220.8,
+      "rotate": 180,
+      "attrs": {}
+    }
   ],
   "connections": [
     [ "uno:5V", "bb1:tp.1", "red", [ "v28.7", "h-110.6" ] ],
@@ -42,7 +50,15 @@
     [ "bb1:13t.a", "uno:12", "cyan", [ "h-28.8", "v-134.4", "h18.7" ] ],
     [ "dht1:VCC", "bb1:tp.3", "red", [ "v0" ] ],
     [ "dht1:GND", "bb1:tn.3", "black", [ "v0" ] ],
-    [ "dht1:SDA", "uno:11", "green", [ "v38.4", "h38.5", "v-211.2", "h240" ] ],
+    [ "dht1:SDA", "uno:11", "gold", [ "v38.4", "h38.5", "v-211.2", "h240" ] ],
+    [ "rtc1:GND", "bb1:tn.19", "black", [ "v0" ] ],
+    [ "rtc1:5V", "bb1:tp.18", "red", [ "v0" ] ],
+    [ "rtc1:SDA", "bb1:22t.e", "green", [ "v0" ] ],
+    [ "rtc1:SCL", "bb1:21t.e", "green", [ "v0" ] ],
+    [ "lcd1:SDA", "bb1:22t.d", "green", [ "v57.8", "h-86.4", "v182.4" ] ],
+    [ "lcd1:SCL", "bb1:21t.d", "green", [ "h-38.4", "v230.7" ] ],
+    [ "bb1:22t.c", "uno:A4", "green", [ "v-96", "h15" ] ],
+    [ "bb1:21t.c", "uno:A5", "green", [ "v-76.8", "h34.1" ] ],
     [ "btn1:1.l", "bb1:9t.b", "", [ "$bb" ] ],
     [ "btn1:2.l", "bb1:7t.b", "", [ "$bb" ] ],
     [ "btn1:1.r", "bb1:9t.e", "", [ "$bb" ] ],
@@ -56,14 +72,9 @@
     [ "rtc1:SDA", "bb1:22b.h", "", [ "$bb" ] ],
     [ "rtc1:SCL", "bb1:21b.h", "", [ "$bb" ] ],
     [ "rtc1:SQW", "bb1:20b.h", "", [ "$bb" ] ],
-    [ "rtc1:GND", "bb1:tn.19", "black", [ "v0" ] ],
-    [ "rtc1:5V", "bb1:tp.18", "red", [ "v0" ] ],
-    [ "rtc1:SDA", "bb1:22t.e", "green", [ "v0" ] ],
-    [ "rtc1:SCL", "bb1:21t.e", "green", [ "v0" ] ],
-    [ "lcd1:SDA", "bb1:22t.d", "green", [ "v57.8", "h-86.4", "v182.4" ] ],
-    [ "lcd1:SCL", "bb1:21t.d", "green", [ "h-38.4", "v230.7" ] ],
-    [ "bb1:22t.c", "uno:A4", "green", [ "v-96", "h15" ] ],
-    [ "bb1:21t.c", "uno:A5", "green", [ "v-76.8", "h34.1" ] ]
+    [ "gas1:VCC", "bb1:tp.13", "red", [ "h-48", "v307.8" ] ],
+    [ "gas1:GND", "bb1:tn.13", "black", [ "h-28.8", "v308.1" ] ],
+    [ "gas1:AOUT", "uno:A0", "gold", [ "h-144", "v192", "h25" ] ]
   ],
   "dependencies": {}
 }

@@ -8,17 +8,20 @@
 #define AIR_QUALITY_SCREEN_STRATEGY_H
 
 #include "Interfaces/DisplayStrategy.h"
+#include "AirQuality/AirQuality.h"
 
 class AirQualityScreenStrategy : public DisplayStrategy {
 public:
-    AirQualityScreenStrategy() {}
+    AirQualityScreenStrategy(AirQuality& sensor) : mSensorRef(sensor) {}
 
     void display(LiquidCrystal_I2C& lcd) override {
         lcd.setCursor(0, 0);
         lcd.print("Air Quality:");
         
         lcd.setCursor(0,1);
-        lcd.print("To be added ...");
+        lcd.print("ArQ = ");
+        lcd.print(mSensorRef.getAirQualityData(), 1);
+        lcd.print(" PPM");
     }
 
     const char* getScreenName() override {
@@ -26,6 +29,7 @@ public:
     }
 
 private:
+    AirQuality& mSensorRef;
 };
 
 #endif
