@@ -20,12 +20,12 @@ public:
         
         lcd.setCursor(0,1);
         lcd.print("CO2 = ");
-        lcd.print(mSensorRef.getCO2_PPM(), 1);
+        lcd.print(mSensorRef.getAirQualityData(), 1);
         lcd.print(" PPM");
         
         lcd.setCursor(0,2);
         lcd.print("Status: ");
-        lcd.print(mSensorRef.getAirQualityData(), 1);
+        lcd.print(mSensorRef.getRawADCReading(), 1);
     }
 
     const char* getScreenName() override {

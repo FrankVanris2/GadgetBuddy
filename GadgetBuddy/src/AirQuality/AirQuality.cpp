@@ -15,11 +15,16 @@ AirQuality::AirQuality(int dataPin, unsigned long mq_interval) :
     previousMillis(0),
     mHasError(false),
     mAirQualityReading(0.0f),
-    mCO2_PPM(0.0f)
+    mCO2_PPM(0.0f),
+    mR0(0.0f)
 {}
 
 void AirQuality::setup() {
     Serial.println("Initializing MQ setup.");
+    // IMPORTANT: the MQ sensor requires a burn-in period of up to 24-48 hours. It's best
+    // to keep it running during this period before calibrating.
+    // Call calibrateR0() after the burn-in period to set the R0 value;
+    // Call calibrateR0(); in GadgetBuddy::setup() AFTER burn-in.
 }
 
 void AirQuality::loop() {
