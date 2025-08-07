@@ -19,6 +19,7 @@ public:
     int getButtonVal() {
         return mButtonVal;
     }
+
 private:
     int mButtonVal;
     int mL_LastButtonState; 

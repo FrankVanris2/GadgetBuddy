@@ -12,6 +12,7 @@
 #include "LCDDisplay/LCDScreen.h"
 #include "TempHumidSensor/TempHumidSensor.h"
 #include "RTCClock/RTCClock.h"
+#include "AirQuality/AirQuality.h"
 
 class GadgetBuddyManager : public MachineComponentsInterface {
 public:
@@ -25,6 +26,7 @@ private:
     Buttons mButtons; // Buttons object as a member
     TempHumidSensor mTempHumidSensor; // DHT11 object as a member
     RTCClock mRtcClock;
+    AirQuality mAirQual;
     LCDScreen mLcdScreen; // LCDScreen object as a member
 };
 

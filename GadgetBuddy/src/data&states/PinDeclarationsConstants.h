@@ -19,4 +19,8 @@
 #define DHT_INTERVAL 5000
 #define DHTTYPE DHT11
 
+/** MQ135 essential information */
+#define MQ135_PIN 0
+#define MQ_INTERVAL 3000
+
 #endif

@@ -13,12 +13,13 @@
 #include "Displays/RadioScreenStrategy.h"
 
  
- LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref):
+ LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref, AirQuality& airqual_ref):
       lcd(0x27, 20, 4),
       mCurrentScreenState(MAIN_SCREEN),
       mButtonsRef(buttons_ref),
       mTempHumidRef(temphumid_ref),
       mRTCRef(rtc_ref),
+      mAirQualRef(airqual_ref),
       mLastUpdate(0),
       mForceUpdate(true) 
 {
@@ -28,7 +29,7 @@
 void LCDScreen::initializeDisplayStrategies() {
    mDisplayStrategies[MAIN_SCREEN] = new MainScreenStrategy(mRTCRef);
    mDisplayStrategies[TEMP_HUMID_SCREEN] = new TempHumidScreenStrategy(mTempHumidRef);
-   mDisplayStrategies[AIR_QUALITY_SCREEN] = new AirQualityScreenStrategy();
+   mDisplayStrategies[AIR_QUALITY_SCREEN] = new AirQualityScreenStrategy(mAirQualRef);
    mDisplayStrategies[RADIO_SCREEN] = new RadioScreenStrategy();
 }
 
@@ -99,6 +100,11 @@ const char* LCDScreen::checkForErrors() {
    // Check sensor error
    if (mTempHumidRef.hasError()) {
       return mTempHumidRef.getErrorMessage();
+   }
+
+   // Check air quality sensor error
+   if (mAirQualRef.hasError()) {
+      return mAirQualRef.getErrorMessage();
    }
 
    return nullptr;

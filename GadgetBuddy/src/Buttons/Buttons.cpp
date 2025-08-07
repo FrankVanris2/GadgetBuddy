@@ -46,6 +46,7 @@ void Buttons::loop() {
     processButtonDebounce(rReading, currentTime, 
                           mR_LastButtonState, mRButtonState, 
                           rLastDebounceTime, false);
+
 }
 
 // Generalizes the debounce and action logic for a single button

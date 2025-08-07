@@ -19,7 +19,6 @@ public:
     virtual void obtainingTemperature_HumidityData() = 0;
     virtual float averagingTempData(float temp) = 0;
     virtual float averagingHumidData(float humidity) = 0;
-    virtual const char* getErrorMessage() = 0;
 };
 
 #endif
