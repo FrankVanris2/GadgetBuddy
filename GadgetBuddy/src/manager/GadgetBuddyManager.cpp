@@ -19,18 +19,19 @@ GadgetBuddyManager::GadgetBuddyManager() :
 
 //setup for all setup functions
 void GadgetBuddyManager::setup() {
-    mAirQual.setup();
-    mRtcClock.setup();
-    mTempHumidSensor.setup();
-    mButtons.setup();
     mLcdScreen.setup();
+    mButtons.setup();
+    mTempHumidSensor.setup();
+    mRtcClock.setup();
+    mAirQual.setup();
+    
 }
 
 //loop for all loop functions
 void GadgetBuddyManager::loop() {
+    mButtons.loop();
     mRtcClock.loop();
     mTempHumidSensor.loop();
     mAirQual.loop();
-    mButtons.loop();
     mLcdScreen.loop();
 }

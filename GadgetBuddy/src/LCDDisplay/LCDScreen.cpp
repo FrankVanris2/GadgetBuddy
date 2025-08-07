@@ -102,6 +102,11 @@ const char* LCDScreen::checkForErrors() {
       return mTempHumidRef.getErrorMessage();
    }
 
+   // Check air quality sensor error
+   if (mAirQualRef.hasError()) {
+      return mAirQualRef.getErrorMessage();
+   }
+
    return nullptr;
 }
 

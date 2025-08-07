@@ -17,9 +17,13 @@ public:
     void setup() override;
     void loop() override;
 
-    float getAirQualityData() const { return mCO2_PPM; }
-    float getRawADCReading() const { return mAirQualityReading; }
+    float getAirQualityData() const override { return mCO2_PPM; }
+    float getRawADCReading() const override { return mRawADCReading; }
+    float getR0Value() const override{ return mR0; }
 
+    // Additional methods for better user experience
+    const char* getAirQualityStatus() const;
+    
     // ErrorReportingInterface methods
     const char* getErrorMessage() override;
     bool hasError() override { return mHasError; }
@@ -31,11 +35,22 @@ private:
     unsigned long previousMillis;
     bool mHasError;
 
-    float mAirQualityReading;
+    float mRawADCReading;
     float mCO2_PPM;
-
     float mR0;
 
+    // MQ135 calculation constants
+    static const float LOAD_RESISTANCE; // 10k ohm load resistor
+    static const float CLEAN_AIR_RATIO; // Rs/R0 ratio in clean air
+    static const float CO2_CURVE_A; // Curve coefficient A
+    static const float CO2_CURVE_B; // Curve coefficient B
+    static const float VOLTAGE_SUPPLY; // Arduino supply voltage
+
+    // Private helpers
+    void performSensorReading();
+    bool validateSensorReading(float ppmValue);
+    void updateErrorState(bool hasError);
     float calculatePPM(int adcReading);
+    float calculateResistance(int adcReading);
 };
 #endif

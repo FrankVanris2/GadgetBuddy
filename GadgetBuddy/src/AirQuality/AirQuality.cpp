@@ -9,63 +9,130 @@
 
 const char* MQ_READ_ERROR_MSG = "MQ Read Error!";
 
+const float AirQuality::LOAD_RESISTANCE = 1000.0f; // 1k ohm load resistor
+const float AirQuality::CLEAN_AIR_RATIO = 3.6f; // Rs/R0 ratio in clean air
+const float AirQuality::CO2_CURVE_A = 110.47f; // Curve coefficient A
+const float AirQuality::CO2_CURVE_B = -2.862f; // Curve coefficient B
+const float AirQuality::VOLTAGE_SUPPLY = 5.0f; // Arduino supply voltage
+
 AirQuality::AirQuality(int dataPin, unsigned long mq_interval) :
     DATA_PIN(dataPin),
     MQ_INTERVAL(mq_interval),
     previousMillis(0),
     mHasError(false),
-    mAirQualityReading(0.0f),
-    mCO2_PPM(0.0f),
-    mR0(0.0f)
+    mRawADCReading(0.0f),
+    mCO2_PPM(400.0f),
+    mR0(7600.0f) // Reduced R0 for 1k load resistor (was 76000)
 {}
 
 void AirQuality::setup() {
-    Serial.println("Initializing MQ setup.");
-    // IMPORTANT: the MQ sensor requires a burn-in period of up to 24-48 hours. It's best
-    // to keep it running during this period before calibrating.
-    // Call calibrateR0() after the burn-in period to set the R0 value;
-    // Call calibrateR0(); in GadgetBuddy::setup() AFTER burn-in.
+    Serial.println("Initializing Air Quality setup.");
 }
 
 void AirQuality::loop() {
     unsigned long currentMillis = millis();
     if((unsigned long) (currentMillis - previousMillis) >= MQ_INTERVAL) {
         previousMillis = currentMillis;
+        performSensorReading();
+    }
+}
 
-        int raw_adc_reading = analogRead(DATA_PIN);
+void AirQuality::performSensorReading() {
+    // Read raw ADC value
+    int rawADC = analogRead(DATA_PIN);
+    mRawADCReading = static_cast<float>(rawADC);
 
-        if(raw_adc_reading == 0 || raw_adc_reading == 1023) {
-            mHasError = true; 
-        } else {
-            clearError();
-            mAirQualityReading = static_cast<float>(raw_adc_reading);
+    // Check for sensor connection issues
+    if(rawADC == 0 || rawADC >= 1023) {
+        updateErrorState(true);
+        mCO2_PPM = 0.0f;
+        return;
+    }
 
-            // Manual PPM calculation
-            mCO2_PPM = calculatePPM(raw_adc_reading);
-        }
+    // Calculate PPM from ADC reading
+    float calculatedPPM = calculatePPM(rawADC);
+
+    // Validate the reading
+    if(validateSensorReading(calculatedPPM)) {
+        mCO2_PPM = calculatedPPM;
+        updateErrorState(false);
+    } else {
+        updateErrorState(true);
     }
 }
 
 float AirQuality::calculatePPM(int adcReading) {
-    // Convert ADC to voltage
-    float voltage = (adcReading / 1023.0) * 5.0;
+    float sensorResistance = calculateResistance(adcReading);
 
-    // Calculate sensor resistance
-    float sensorResistance = ((5.0 - voltage) / voltage) * 10000; // Assuming a 10k load resistor
+    // Calculate Rs/R0 ratio
+    float ratio = sensorResistance / mR0;
 
-    // Calculate ratio (Rs/R0)
-    // R0 should be calibrated in clean air (around 76000 ohms for MQ135)
-    float R0 = 76000.0;
-    float ratio = sensorResistance / R0;
+    // Ensure ratio is within reasonable bounds
+    if (ratio <= 0) {
+        return 0.0f;
+    }
 
-    // MQ135 CO2 curve: PPM = 110.47 * pow(ratio, -2.862)
-    float ppm = 110.47 * pow(ratio, -2.862);
+    // Calculate PPM using MQ-135 CO2 curve: PPM = A * pow(ratio, B)
+    float ppm = CO2_CURVE_A * pow(ratio, CO2_CURVE_B);
+    
+    // Clamp to reasonable values for corrected sensor - lowered minimum
+    if (ppm < 1.0f) ppm = 1.0f;
+    if (ppm > 10000.0f) ppm = 10000.0f;
+
     return ppm;
 }
 
-const char* AirQuality::getErrorMessage() {
-    if(hasError()) {
-        return MQ_READ_ERROR_MSG;
+float AirQuality::calculateResistance(int adcReading) {
+    float voltage = (static_cast<float>(adcReading) / 1024.0f) * VOLTAGE_SUPPLY;
+    
+    // Avoid division by zero
+    if (voltage <= 0.01f) {
+        voltage = 0.01f;
     }
-    return nullptr;
+
+    // Calculate sensor resistance using voltage divider: Rs = ((Vcc - V) / V) * Rl
+    float resistance = ((VOLTAGE_SUPPLY - voltage) / voltage) * LOAD_RESISTANCE;
+    return resistance;
+}
+
+bool AirQuality::validateSensorReading(float ppmValue) {
+    // Check for invalid readings
+    if(isnan(ppmValue) || isinf(ppmValue)) {
+        return false;
+    }
+
+    // Check for reasonable CO2 range (1 ppm to 10,000 ppm) - lowered minimum
+    if(ppmValue < 1.0f || ppmValue > 10000.0f) {
+        return false;
+    }
+    return true;
+}
+
+void AirQuality::updateErrorState(bool hasError) {
+    if (hasError) {
+        mHasError = true;
+    } else {
+        clearError();
+    }
+}
+
+const char* AirQuality::getAirQualityStatus() const {
+    if(mHasError) return "ERROR";
+
+    // CO2 levels classification - adjusted for actual sensor readings
+    if(mCO2_PPM < 3) return "EXCELLENT";
+    else if(mCO2_PPM < 5) return "VERY GOOD";
+    else if(mCO2_PPM < 8) return "GOOD";
+    else if(mCO2_PPM < 15) return "FAIR";
+    else if(mCO2_PPM < 25) return "POOR";
+    else if (mCO2_PPM < 50) return "BAD";
+    else return "HAZARDOUS";
+}
+
+const char* AirQuality::getErrorMessage() {
+    if (!hasError()) {
+        return nullptr;
+    }
+
+    return MQ_READ_ERROR_MSG;
 }
