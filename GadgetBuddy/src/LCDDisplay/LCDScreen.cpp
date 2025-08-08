@@ -8,18 +8,20 @@
 #include "LCDScreen.h"
 #include  "data&states/ScreenStates.h"
 #include "Displays/MainScreenStrategy.h"
+#include "Displays/CompassScreenStrategy.h"
 #include "Displays/TempHumidScreenStrategy.h"
 #include "Displays/AirQualityScreenStrategy.h"
 #include "Displays/RadioScreenStrategy.h"
 
  
- LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref, AirQuality& airqual_ref):
+ LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref, AirQuality& airqual_ref, Compass& compass_ref):
       lcd(0x27, 20, 4),
       mCurrentScreenState(MAIN_SCREEN),
       mButtonsRef(buttons_ref),
       mTempHumidRef(temphumid_ref),
       mRTCRef(rtc_ref),
       mAirQualRef(airqual_ref),
+      mCompassRef(compass_ref),
       mLastUpdate(0),
       mForceUpdate(true) 
 {
@@ -28,6 +30,7 @@
 
 void LCDScreen::initializeDisplayStrategies() {
    mDisplayStrategies[MAIN_SCREEN] = new MainScreenStrategy(mRTCRef);
+   mDisplayStrategies[COMPASS_SCREEN] = new CompassScreenStrategy(mCompassRef);
    mDisplayStrategies[TEMP_HUMID_SCREEN] = new TempHumidScreenStrategy(mTempHumidRef);
    mDisplayStrategies[AIR_QUALITY_SCREEN] = new AirQualityScreenStrategy(mAirQualRef);
    mDisplayStrategies[RADIO_SCREEN] = new RadioScreenStrategy();
@@ -85,13 +88,17 @@ void LCDScreen::initializeDisplayStrategies() {
  }
 
 DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
-   if (mCurrentScreenState >= 0 && mCurrentScreenState < 4) {
+   if (mCurrentScreenState >= 0 && mCurrentScreenState <= 5) { // Use RADIO_SCREEN as upper bound
       return mDisplayStrategies[mCurrentScreenState];
    }
    return nullptr;
 }
 
 const char* LCDScreen::checkForErrors() {
+
+   // TODO: Implement error checking for Compass
+
+
    // Check RTC error first
    if (mRTCRef.hasError()) {
       return mRTCRef.getErrorMessage();
@@ -118,7 +125,3 @@ void LCDScreen::displayErrorScreen(const char* errorMessage) {
    lcd.setCursor(0,2);
    lcd.print("Check connections");
 }
-
-   
-
- 

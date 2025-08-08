@@ -14,7 +14,8 @@ GadgetBuddyManager::GadgetBuddyManager() :
     mTempHumidSensor(DHT11_PIN, DHTTYPE, DHT_INTERVAL),
     mRtcClock(),
     mAirQual(MQ135_PIN, MQ_INTERVAL),
-    mLcdScreen(mButtons, mTempHumidSensor, mRtcClock, mAirQual)
+    mCompass(),
+    mLcdScreen(mButtons, mTempHumidSensor, mRtcClock, mAirQual, mCompass)
 {}
 
 //setup for all setup functions
