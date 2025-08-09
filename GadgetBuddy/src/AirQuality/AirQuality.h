@@ -38,6 +38,10 @@ private:
     float mRawADCReading;
     float mCO2_PPM;
     float mR0;
+    
+    // Warmup period variables
+    unsigned long mWarmupStartTime;
+    bool mIsWarmedUp;
 
     // MQ135 calculation constants
     static const float LOAD_RESISTANCE; // 10k ohm load resistor

@@ -27,6 +27,8 @@ AirQuality::AirQuality(int dataPin, unsigned long mq_interval) :
 
 void AirQuality::setup() {
     Serial.println("Initializing Air Quality setup.");
+    mWarmupStartTime = millis();
+    mIsWarmedUp = false;
 }
 
 void AirQuality::loop() {
@@ -38,6 +40,17 @@ void AirQuality::loop() {
 }
 
 void AirQuality::performSensorReading() {
+    // Check if sensor is still warming up (1 minute = 60000 ms)
+    if (!mIsWarmedUp) {
+        if (millis() - mWarmupStartTime < 60000) {
+            mCO2_PPM = 0.0f; // Set to 0 during warmup
+            return;
+        } else {
+            mIsWarmedUp = true;
+            Serial.println("Sensor warmup complete!");
+        }
+    }
+
     // Read raw ADC value
     int rawADC = analogRead(DATA_PIN);
     mRawADCReading = static_cast<float>(rawADC);
@@ -118,6 +131,7 @@ void AirQuality::updateErrorState(bool hasError) {
 
 const char* AirQuality::getAirQualityStatus() const {
     if(mHasError) return "ERROR";
+    if(!mIsWarmedUp) return "WARM UP";
 
     // CO2 levels classification - adjusted for your preferred ranges
     if(mCO2_PPM < 25) return "EXCELLENT";
