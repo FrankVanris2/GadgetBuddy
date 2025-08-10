@@ -9,7 +9,6 @@
 
 #include "Interfaces/CompassInterface.h"
 #include "Interfaces/ErrorReportingInterface.h"
-
 class Compass : public CompassInterface, public ErrorReportingInterface {
 public:
     Compass();

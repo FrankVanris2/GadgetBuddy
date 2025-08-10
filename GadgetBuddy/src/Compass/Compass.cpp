@@ -9,7 +9,7 @@
  Compass::Compass() : mHasError(false) {}
 
  void Compass::setup() {
-     // Initialization code here
+     // Initialization code here    
  }
 
  void Compass::loop() {

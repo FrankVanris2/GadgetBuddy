@@ -29,6 +29,11 @@ void AirQuality::setup() {
     Serial.println("Initializing Air Quality setup.");
     mWarmupStartTime = millis();
     mIsWarmedUp = false;
+
+    #ifdef ESP32
+        analogReadResolution(12);
+        analogSetAttenuation(ADC_11db);
+    #endif
 }
 
 void AirQuality::loop() {
@@ -47,20 +52,27 @@ void AirQuality::performSensorReading() {
             return;
         } else {
             mIsWarmedUp = true;
-            Serial.println("Sensor warmup complete!");
         }
     }
 
     // Read raw ADC value
-    int rawADC = analogRead(DATA_PIN);
+    int rawADC = analogRead(DATA_PIN); 
     mRawADCReading = static_cast<float>(rawADC);
 
-    // Check for sensor connection issues
-    if(rawADC == 0 || rawADC >= 1023) {
-        updateErrorState(true);
-        mCO2_PPM = 0.0f;
-        return;
-    }
+    #ifdef ESP32
+        if (rawADC == 0 || rawADC >= 4095) {
+            updateErrorState(true);
+            mCO2_PPM = 0.0f;
+            return;
+        }
+    #else 
+        // Check for sensor connection issues
+        if(rawADC == 0 || rawADC >= 1023) {
+            updateErrorState(true);
+            mCO2_PPM = 0.0f;
+            return;
+        }
+    #endif
 
     // Calculate PPM from ADC reading
     float calculatedPPM = calculatePPM(rawADC);
@@ -96,8 +108,14 @@ float AirQuality::calculatePPM(int adcReading) {
 }
 
 float AirQuality::calculateResistance(int adcReading) {
-    float voltage = (static_cast<float>(adcReading) / 1024.0f) * VOLTAGE_SUPPLY;
-    
+    #ifdef ESP32
+        float voltage = adcReading * (3.3f / 4095.0f);
+
+        voltage = voltage * (3.0f / 2.0f);
+    #else 
+        float voltage = adcReading * (5.0f / 1023.0f);
+    #endif
+
     // Avoid division by zero
     if (voltage <= 0.01f) {
         voltage = 0.01f;

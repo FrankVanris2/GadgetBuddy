@@ -25,6 +25,8 @@ void GadgetBuddyManager::setup() {
     mTempHumidSensor.setup();
     mRtcClock.setup();
     mAirQual.setup();
+
+    //mCompass.setup();
     
 }
 
@@ -35,4 +37,5 @@ void GadgetBuddyManager::loop() {
     mTempHumidSensor.loop();
     mAirQual.loop();
     mLcdScreen.loop();
+    //mCompass.loop();
 }
