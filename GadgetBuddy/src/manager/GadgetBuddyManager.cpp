@@ -24,10 +24,8 @@ void GadgetBuddyManager::setup() {
     mButtons.setup();
     mTempHumidSensor.setup();
     mRtcClock.setup();
-    mAirQual.setup();
-
-    //mCompass.setup();
-    
+    mAirQual.setup();  
+    mCompass.setup(); // uncomment when using hardware
 }
 
 //loop for all loop functions
@@ -37,5 +35,5 @@ void GadgetBuddyManager::loop() {
     mTempHumidSensor.loop();
     mAirQual.loop();
     mLcdScreen.loop();
-    //mCompass.loop();
+    mCompass.loop(); //uncomment when using hardware
 }

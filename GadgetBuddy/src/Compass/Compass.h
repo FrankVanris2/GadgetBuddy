@@ -17,6 +17,13 @@ public:
     void setup() override;
     void loop() override;
 
+    // CompassInterface methods
+    int getHeading() const override;
+    const char* getDirection() const override;
+    int getX() const override;
+    int getY() const override;
+    int getZ() const override;
+
     // Error handling
     const char* getErrorMessage() override;
     bool hasError() override { return mHasError; }
@@ -25,5 +32,14 @@ public:
 private:
     QMC5883LCompass mCompass;
     bool mHasError;
+    char mDirection[4];
+
+    // Cached readings
+    int mX, mY, mZ, mHeading;
+
+    // Helper methods
+    void updateReadings();
+    bool validateReadings();
+
 };
 #endif

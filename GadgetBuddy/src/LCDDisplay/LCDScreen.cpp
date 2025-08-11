@@ -128,12 +128,14 @@ LCDScreen::~LCDScreen() {
 
 const char* LCDScreen::checkForErrors() {
 
-   // TODO: Implement error checking for Compass
-
-
    // Check RTC error first
    if (mRTCRef.hasError()) {
       return mRTCRef.getErrorMessage();
+   }
+
+   // Check for compass error
+   if(mCompassRef.hasError()) {
+      return mCompassRef.getErrorMessage();
    }
 
    // Check sensor error

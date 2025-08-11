@@ -19,7 +19,20 @@ public:
         lcd.print(F("Compass: "));
         
         lcd.setCursor(0,1);
-        lcd.print(F("To Be Added..."));
+        lcd.print(F("Direction: "));
+        lcd.print(mCompassRef.getDirection());
+
+        lcd.setCursor(0,2);
+        lcd.print(F("Heading: "));
+        lcd.print(mCompassRef.getHeading());
+
+        lcd.setCursor(0,3);
+        lcd.print(F("X:"));
+        lcd.print(mCompassRef.getX());
+        lcd.print(F(" Y:"));
+        lcd.print(mCompassRef.getY());
+        lcd.print(F(" Z:"));
+        lcd.print(mCompassRef.getZ());
     }
 
     const char* getScreenName() override {
