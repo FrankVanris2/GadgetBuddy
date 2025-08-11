@@ -9,10 +9,11 @@ Desc: States between different screens.
 
 enum ScreenStates {
     MAIN_SCREEN = 0,
+    COMPASS_SCREEN,
     TEMP_HUMID_SCREEN,
     AIR_QUALITY_SCREEN,
     RADIO_SCREEN,
-    ERROR_SCREEN
+    ERROR_SCREEN,
 };
 
 #endif

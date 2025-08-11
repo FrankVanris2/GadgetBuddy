@@ -7,20 +7,35 @@
  #ifndef PIN_DECLARATION_CONSTANTS_H
  #define PIN_DECLARATION_CONSTANTS_H
 
+ #include "ScreenStates.h"
+
+
+ #ifdef ESP32
+    // ESP32 pin definitions 
+    #define DHT11_PIN 4
+    #define MQ135_PIN 36
+    #define GB_LEFT_BUTTON_PIN 18
+    #define GB_RIGHT_BUTTON_PIN 19
+    // I2C Pins: SDA = 21, SCL = 22
+#else 
+    // Arduino Uno pins (keep existing)
+    #define DHT11_PIN 11
+    #define MQ135_PIN A0
+    #define GB_LEFT_BUTTON_PIN 13
+    #define GB_RIGHT_BUTTON_PIN 12
+#endif
+
  /** Button essential information */
- #define GB_LEFT_BUTTON_PIN 13
- #define GB_RIGHT_BUTTON_PIN 12
+
  #define GB_MIN_BUTTON_VAL 0
- #define GB_MAX_BUTTON_VAL 3
+ #define GB_MAX_BUTTON_VAL 4
  #define GB_DEBOUNCE_DELAY 50
 
 /** DHT11 essential information */
-#define DHT11_PIN 11
 #define DHT_INTERVAL 5000
 #define DHTTYPE DHT11
 
 /** MQ135 essential information */
-#define MQ135_PIN 0
 #define MQ_INTERVAL 3000
 
 #endif

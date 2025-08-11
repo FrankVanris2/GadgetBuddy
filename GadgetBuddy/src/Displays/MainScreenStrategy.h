@@ -16,14 +16,14 @@ public:
 
     void display(LiquidCrystal_I2C& lcd) override {
         lcd.setCursor(5,0);
-        lcd.print("GadgetBuddy");
+        lcd.print(F("GadgetBuddy"));
         
         lcd.setCursor(0,1);
-        lcd.print("Date: ");
+        lcd.print(F("Date: "));
         lcd.print(mRTCRef.getDate());
 
         lcd.setCursor(0,2);
-        lcd.print("Time: ");
+        lcd.print(F("Time: "));
         lcd.print(mRTCRef.getTime());
     }
 

@@ -26,7 +26,14 @@ AirQuality::AirQuality(int dataPin, unsigned long mq_interval) :
 {}
 
 void AirQuality::setup() {
-    Serial.println("Initializing Air Quality setup.");
+    Serial.println(F("Initializing Air Quality setup."));
+    mWarmupStartTime = millis();
+    mIsWarmedUp = false;
+
+    #ifdef ESP32
+        analogReadResolution(12);
+        analogSetAttenuation(ADC_11db);
+    #endif
 }
 
 void AirQuality::loop() {
@@ -38,16 +45,34 @@ void AirQuality::loop() {
 }
 
 void AirQuality::performSensorReading() {
+    // Check if sensor is still warming up (1 minute = 60000 ms)
+    if (!mIsWarmedUp) {
+        if (millis() - mWarmupStartTime < 60000) {
+            mCO2_PPM = 0.0f; // Set to 0 during warmup
+            return;
+        } else {
+            mIsWarmedUp = true;
+        }
+    }
+
     // Read raw ADC value
-    int rawADC = analogRead(DATA_PIN);
+    int rawADC = analogRead(DATA_PIN); 
     mRawADCReading = static_cast<float>(rawADC);
 
-    // Check for sensor connection issues
-    if(rawADC == 0 || rawADC >= 1023) {
-        updateErrorState(true);
-        mCO2_PPM = 0.0f;
-        return;
-    }
+    #ifdef ESP32
+        if (rawADC == 0 || rawADC >= 4095) {
+            updateErrorState(true);
+            mCO2_PPM = 0.0f;
+            return;
+        }
+    #else 
+        // Check for sensor connection issues
+        if(rawADC == 0 || rawADC >= 1023) {
+            updateErrorState(true);
+            mCO2_PPM = 0.0f;
+            return;
+        }
+    #endif
 
     // Calculate PPM from ADC reading
     float calculatedPPM = calculatePPM(rawADC);
@@ -83,8 +108,14 @@ float AirQuality::calculatePPM(int adcReading) {
 }
 
 float AirQuality::calculateResistance(int adcReading) {
-    float voltage = (static_cast<float>(adcReading) / 1024.0f) * VOLTAGE_SUPPLY;
-    
+    #ifdef ESP32
+        float voltage = adcReading * (3.3f / 4095.0f);
+
+        voltage = voltage * (3.0f / 2.0f);
+    #else 
+        float voltage = adcReading * (5.0f / 1023.0f);
+    #endif
+
     // Avoid division by zero
     if (voltage <= 0.01f) {
         voltage = 0.01f;
@@ -117,15 +148,16 @@ void AirQuality::updateErrorState(bool hasError) {
 }
 
 const char* AirQuality::getAirQualityStatus() const {
-    if(mHasError) return "ERROR";
+    if(mHasError) return "ERROR  ";
+    if(!mIsWarmedUp) return "WARM UP  ";
 
-    // CO2 levels classification - adjusted for actual sensor readings
-    if(mCO2_PPM < 3) return "EXCELLENT";
-    else if(mCO2_PPM < 5) return "VERY GOOD";
-    else if(mCO2_PPM < 8) return "GOOD";
-    else if(mCO2_PPM < 15) return "FAIR";
-    else if(mCO2_PPM < 25) return "POOR";
-    else if (mCO2_PPM < 50) return "BAD";
+    // CO2 levels classification - adjusted for your preferred ranges
+    if(mCO2_PPM < 25) return "EXCELLENT";
+    else if(mCO2_PPM < 30) return "VERY GOOD";
+    else if(mCO2_PPM < 40) return "GOOD     ";
+    else if(mCO2_PPM < 50) return "FAIR";
+    else if(mCO2_PPM < 60) return "POOR";
+    else if (mCO2_PPM < 70) return "BAD      ";
     else return "HAZARDOUS";
 }
 

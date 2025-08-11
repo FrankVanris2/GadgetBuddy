@@ -13,6 +13,7 @@
 #include "TempHumidSensor/TempHumidSensor.h"
 #include "RTCClock/RTCClock.h"
 #include "AirQuality/AirQuality.h"
+#include "Compass/Compass.h"
 
 class GadgetBuddyManager : public MachineComponentsInterface {
 public:
@@ -27,6 +28,7 @@ private:
     TempHumidSensor mTempHumidSensor; // DHT11 object as a member
     RTCClock mRtcClock;
     AirQuality mAirQual;
+    Compass mCompass;
     LCDScreen mLcdScreen; // LCDScreen object as a member
 };
 
