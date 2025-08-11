@@ -16,17 +16,17 @@ public:
 
     void display(LiquidCrystal_I2C& lcd) override {
         lcd.setCursor(0,0);
-        lcd.print("Temp/Humid Screen:");
+        lcd.print(F("Temp/Humid Screen:"));
 
         lcd.setCursor(0,1);
-        lcd.print("Temp: ");
+        lcd.print(F("Temp: "));
         lcd.print(mSensorRef.getTemperatureData());
-        lcd.print(" C");
+        lcd.print(F(" C"));
 
         lcd.setCursor(0,2);
-        lcd.print("Humidity: ");
+        lcd.print(F("Humidity: "));
         lcd.print(mSensorRef.getHumidityData());
-        lcd.print(" %");
+        lcd.print(F(" %"));
     }
 
     const char* getScreenName() override {

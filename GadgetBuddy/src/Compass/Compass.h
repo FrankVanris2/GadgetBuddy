@@ -9,6 +9,8 @@
 
 #include "Interfaces/CompassInterface.h"
 #include "Interfaces/ErrorReportingInterface.h"
+#include <QMC5883LCompass.h>
+
 class Compass : public CompassInterface, public ErrorReportingInterface {
 public:
     Compass();
@@ -21,6 +23,7 @@ public:
     void clearError() override { mHasError = false; }
 
 private:
+    QMC5883LCompass mCompass;
     bool mHasError;
 };
 #endif

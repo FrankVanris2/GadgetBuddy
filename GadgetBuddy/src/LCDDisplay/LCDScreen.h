@@ -21,7 +21,8 @@ class LCDScreen : public LCDInterface {
 public:
 
     LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtcc_ref, AirQuality& airqual_ref, Compass& compass_ref);
-
+    ~LCDScreen();
+    
     void setup() override;
     void loop() override;
 
@@ -32,9 +33,10 @@ private:
     void displayErrorScreen(const char* errorMessage);
     const char* checkForErrors();
 
-    // Strategy pattern - each screen has its own display strategy
-    void initializeDisplayStrategies();
+    // Strategy pattern - updated to dynamic loading
     DisplayStrategy* getCurrentDisplayStrategy();
+    void cleanupDisplayStrategy();
+    
 
     LiquidCrystal_I2C lcd;
     int mCurrentScreenState;
@@ -45,8 +47,9 @@ private:
     AirQuality& mAirQualRef; // Stores a reference to the AirQuality sensor
     Compass& mCompassRef; // Stores a reference to the Compass sensor
 
-    // Display strategies for each screen
-    DisplayStrategy* mDisplayStrategies[5];
+    // Dynamic strategy loading - only one at a time
+    DisplayStrategy* mCurrentStrategy;
+    int mLastScreenState;
 
     // Update control
     unsigned long mLastUpdate;

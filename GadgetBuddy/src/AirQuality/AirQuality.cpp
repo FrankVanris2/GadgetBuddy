@@ -26,7 +26,7 @@ AirQuality::AirQuality(int dataPin, unsigned long mq_interval) :
 {}
 
 void AirQuality::setup() {
-    Serial.println("Initializing Air Quality setup.");
+    Serial.println(F("Initializing Air Quality setup."));
     mWarmupStartTime = millis();
     mIsWarmedUp = false;
 
@@ -148,16 +148,16 @@ void AirQuality::updateErrorState(bool hasError) {
 }
 
 const char* AirQuality::getAirQualityStatus() const {
-    if(mHasError) return "ERROR";
-    if(!mIsWarmedUp) return "WARM UP";
+    if(mHasError) return "ERROR  ";
+    if(!mIsWarmedUp) return "WARM UP  ";
 
     // CO2 levels classification - adjusted for your preferred ranges
     if(mCO2_PPM < 25) return "EXCELLENT";
     else if(mCO2_PPM < 30) return "VERY GOOD";
-    else if(mCO2_PPM < 40) return "GOOD";
+    else if(mCO2_PPM < 40) return "GOOD     ";
     else if(mCO2_PPM < 50) return "FAIR";
     else if(mCO2_PPM < 60) return "POOR";
-    else if (mCO2_PPM < 70) return "BAD";
+    else if (mCO2_PPM < 70) return "BAD      ";
     else return "HAZARDOUS";
 }
 

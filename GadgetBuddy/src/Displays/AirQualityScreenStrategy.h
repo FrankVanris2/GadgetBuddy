@@ -18,14 +18,14 @@ public:
 
     void display(LiquidCrystal_I2C& lcd) override {
         lcd.setCursor(0,0);
-        lcd.print("Air Quality:");
+        lcd.print(F("Air Quality:"));
         
         lcd.setCursor(0,1);
-        lcd.print("Status: ");
+        lcd.print(F("Status: "));
         lcd.print(mSensorRef.getAirQualityStatus());
         
         lcd.setCursor(0,2);
-        lcd.print("PPM: ");
+        lcd.print(F("PPM: "));
         lcd.print(mSensorRef.getAirQualityData(), 1);
     }
 

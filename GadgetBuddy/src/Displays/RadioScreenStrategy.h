@@ -15,10 +15,10 @@ public:
 
     void display(LiquidCrystal_I2C& lcd) override {
         lcd.setCursor(0, 0);
-        lcd.print("Radio Station:");
+        lcd.print(F("Radio Station:"));
         
         lcd.setCursor(0, 1);
-        lcd.print("To be added ...");
+        lcd.print(F("To be added ..."));
     }
 
     const char* getScreenName() override {

@@ -16,10 +16,10 @@ public:
 
     void display(LiquidCrystal_I2C& lcd) override {
         lcd.setCursor(0,0);
-        lcd.print("Compass: ");
+        lcd.print(F("Compass: "));
         
         lcd.setCursor(0,1);
-        lcd.print("To Be Added...");
+        lcd.print(F("To Be Added..."));
     }
 
     const char* getScreenName() override {

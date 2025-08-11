@@ -22,19 +22,11 @@
       mRTCRef(rtc_ref),
       mAirQualRef(airqual_ref),
       mCompassRef(compass_ref),
+      mCurrentStrategy(nullptr),
+      mLastScreenState(-1), 
       mLastUpdate(0),
       mForceUpdate(true) 
-{
-   initializeDisplayStrategies();
-}
-
-void LCDScreen::initializeDisplayStrategies() {
-   mDisplayStrategies[MAIN_SCREEN] = new MainScreenStrategy(mRTCRef);
-   mDisplayStrategies[COMPASS_SCREEN] = new CompassScreenStrategy(mCompassRef);
-   mDisplayStrategies[TEMP_HUMID_SCREEN] = new TempHumidScreenStrategy(mTempHumidRef);
-   mDisplayStrategies[AIR_QUALITY_SCREEN] = new AirQualityScreenStrategy(mAirQualRef);
-   mDisplayStrategies[RADIO_SCREEN] = new RadioScreenStrategy();
-}
+{}
 
  void LCDScreen::setup() {
    lcd.init();                      // initialize the lcd 
@@ -87,11 +79,51 @@ void LCDScreen::initializeDisplayStrategies() {
    }
  }
 
+// NEW DYNAMIC STRATEGY LOADING FUNCTION:
 DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
-   if (mCurrentScreenState >= 0 && mCurrentScreenState <= 5) { // Use RADIO_SCREEN as upper bound
-      return mDisplayStrategies[mCurrentScreenState];
+   // Only create new strategy if screen changed
+   if(mCurrentScreenState != mLastScreenState) {
+      // Clean up old strategy
+      delete mCurrentStrategy;
+      mCurrentStrategy = nullptr;
+
+      // Create new strategy based on current screen
+      switch(mCurrentScreenState) {
+         case MAIN_SCREEN:
+            mCurrentStrategy = new MainScreenStrategy(mRTCRef);
+            break;
+         case COMPASS_SCREEN:
+            mCurrentStrategy = new CompassScreenStrategy(mCompassRef);
+            break;
+         case TEMP_HUMID_SCREEN:
+            mCurrentStrategy = new TempHumidScreenStrategy(mTempHumidRef);
+            break;
+         case AIR_QUALITY_SCREEN:
+            mCurrentStrategy = new AirQualityScreenStrategy(mAirQualRef);
+            break;
+         case RADIO_SCREEN:
+            mCurrentStrategy = new RadioScreenStrategy();
+            break;
+         default:
+            mCurrentStrategy = new MainScreenStrategy(mRTCRef); // Fallback
+            break;
+      }
+
+      mLastScreenState = mCurrentScreenState;
    }
-   return nullptr;
+
+   return mCurrentStrategy;
+}
+
+// Add destructor to clean up
+void LCDScreen::cleanupDisplayStrategy() {
+   delete mCurrentStrategy;
+   mCurrentStrategy = nullptr;
+}
+
+// Add to destructor
+LCDScreen::~LCDScreen() {
+   cleanupDisplayStrategy();
 }
 
 const char* LCDScreen::checkForErrors() {
@@ -119,9 +151,9 @@ const char* LCDScreen::checkForErrors() {
 
 void LCDScreen::displayErrorScreen(const char* errorMessage) {
    lcd.setCursor(0,0);
-   lcd.print("SYSTEM ERROR: ");
+   lcd.print(F("SYSTEM ERROR: "));
    lcd.setCursor(0,1);
    lcd.print(errorMessage);
    lcd.setCursor(0,2);
-   lcd.print("Check connections");
+   lcd.print(F("Check connections"));
 }
