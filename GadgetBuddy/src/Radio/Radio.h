@@ -8,6 +8,8 @@
 #define RADIO_H
 #include "Interfaces/RadioInterface.h"
 #include "Interfaces/ErrorReportingInterface.h"
+#include <radio.h>
+#include <TEA5767.h>
 
 class Radio : public RadioInterface, public ErrorReportingInterface {
 public:
@@ -22,6 +24,7 @@ public:
     void clearError() override { mHasError = false; }
 
 private:
+    TEA5767 mRadio;
     bool mHasError;
 };
 
