@@ -9,6 +9,7 @@
 #include "Interfaces/RadioInterface.h"
 #include "Interfaces/ErrorReportingInterface.h"
 #include <radio.h>
+#include <Wire.h>
 #include <TEA5767.h>
 
 class Radio : public RadioInterface, public ErrorReportingInterface {
@@ -18,6 +19,9 @@ public:
     void setup() override;
     void loop() override;
 
+    // Add test method - DELETE THIS AFTER TESTING
+    void runTEA5767Test();
+
     // ErrorReportingInterface implementation
     const char* getErrorMessage() override;
     bool hasError() override { return mHasError; }
@@ -26,6 +30,10 @@ public:
 private:
     TEA5767 mRadio;
     bool mHasError;
+
+    // Test variables - DELETE AFTER TESTING
+    unsigned long mLastUpdate;
+    static const unsigned long TEST_INTERVAL = 3000;
 };
 
 #endif
