@@ -7,15 +7,8 @@
 
 
 //MAIN setup
-void setup() {
-  #ifdef ESP32
-    Serial.begin(115200);
-    Serial.println(F("GadgetBuddy starting on ESP32..."));
-  #else
-  Serial.begin(9600);
-  Serial.println(F("GadgetBuddy starting on Arduino..."));
-  #endif
-  
+void setup() {  
+  Serial.begin(115200);
   gadgetBuddyManager.setup();
 }
 
