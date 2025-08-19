@@ -33,6 +33,7 @@
  #define GB_MIN_BUTTON_VAL 0
  #define GB_MAX_BUTTON_VAL 4
  #define GB_DEBOUNCE_DELAY 50
+ #define RADIO_DEBOUNCE_DELAY 15
 
 /** DHT11 essential information */
 #define DHT_INTERVAL 5000

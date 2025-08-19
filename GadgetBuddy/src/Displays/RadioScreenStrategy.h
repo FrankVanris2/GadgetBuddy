@@ -28,7 +28,7 @@ public:
         
         lcd.setCursor(0,3);
         if (mRadioRef.isMuted()) {
-            lcd.print(F("Status: MUTED"));
+            lcd.print(F("Status: MUTED  "));
         } else {
             lcd.print(F("Status: PLAYING"));
         }

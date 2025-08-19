@@ -80,6 +80,7 @@
    }
  }
 
+
 // NEW DYNAMIC STRATEGY LOADING FUNCTION:
 DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
    // Only create new strategy if screen changed

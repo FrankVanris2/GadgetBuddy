@@ -9,7 +9,7 @@
 
 RadioButtons::RadioButtons(int muteButton, unsigned long debounceDelay)
     : mMuteButton(muteButton), 
-    mIsMuted(false), 
+    mIsMuted(true), 
     mLastRawState(HIGH),
     mDebouncedState(HIGH),
     mLastDebounceTimer(0),
@@ -22,6 +22,10 @@ void RadioButtons::setup() {
     // Initialize button state
     mDebouncedState = digitalRead(mMuteButton);
     mLastRawState = mDebouncedState;
+
+    // Debugging purposes
+    Serial.print(F("Radio button initialized, state: "));
+    Serial.println(mDebouncedState == HIGH ? "HIGH" : "LOW");
 
 }
 
@@ -43,13 +47,17 @@ void RadioButtons::processButtonDebounce(int currentReading, unsigned long curre
     if ((currentTime - lastDebounceTimer) > mDebounceDelay) {
         if (currentReading != debouncedState) {
             debouncedState = currentReading;
+
+            // Debugging purposes:
+            Serial.print(F("Button state changed to: "));
+            Serial.println(debouncedState == HIGH ? "HIGH (released)" : "LOW (pressed)");
         }
     }
 
     lastRawState = currentReading; // Update the last raw state
 }
 void RadioButtons::updateButtonState() {
-    bool reading = digitalRead(mMuteButton);
+    int reading = digitalRead(mMuteButton);
     unsigned long currentTime = millis();
 
     // Use the interface method with our member variables
@@ -59,10 +67,17 @@ void RadioButtons::updateButtonState() {
 }
 
 bool RadioButtons::wasMutePressed() {
-    bool lastButtonState = HIGH;
-    bool currentButtonState = mDebouncedState;
+    static int lastButtonState = HIGH;
+    int currentButtonState = mDebouncedState;
+
     bool pressed = (lastButtonState == HIGH && currentButtonState == LOW);
+
     lastButtonState = currentButtonState;
+
+    if (pressed) {
+        Serial.println(F("Button press detected!"));
+    }
+    
     return pressed;
 }
 
