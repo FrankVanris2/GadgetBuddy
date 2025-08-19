@@ -14,7 +14,7 @@
 #include "Displays/RadioScreenStrategy.h"
 
  
- LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref, AirQuality& airqual_ref, Compass& compass_ref):
+ LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref, AirQuality& airqual_ref, Compass& compass_ref, Radio& radio_ref):
       lcd(0x27, 20, 4),
       mCurrentScreenState(MAIN_SCREEN),
       mButtonsRef(buttons_ref),
@@ -22,6 +22,7 @@
       mRTCRef(rtc_ref),
       mAirQualRef(airqual_ref),
       mCompassRef(compass_ref),
+      mRadioRef(radio_ref),
       mCurrentStrategy(nullptr),
       mLastScreenState(-1), 
       mLastUpdate(0),
@@ -102,7 +103,7 @@ DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
             mCurrentStrategy = new AirQualityScreenStrategy(mAirQualRef);
             break;
          case RADIO_SCREEN:
-            mCurrentStrategy = new RadioScreenStrategy();
+            mCurrentStrategy = new RadioScreenStrategy(mRadioRef);
             break;
          default:
             mCurrentStrategy = new MainScreenStrategy(mRTCRef); // Fallback
@@ -146,6 +147,10 @@ const char* LCDScreen::checkForErrors() {
    // Check air quality sensor error
    if (mAirQualRef.hasError()) {
       return mAirQualRef.getErrorMessage();
+   }
+
+   if (mRadioRef.hasError()) {
+      return mRadioRef.getErrorMessage();
    }
 
    return nullptr;

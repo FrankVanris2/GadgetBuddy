@@ -11,6 +11,7 @@
 #include <radio.h>
 #include <Wire.h>
 #include <TEA5767.h>
+#include "Buttons/RadioButtons.h"
 
 class Radio : public RadioInterface, public ErrorReportingInterface {
 public:
@@ -19,8 +20,14 @@ public:
     void setup() override;
     void loop() override;
 
-    // Add test method - DELETE THIS AFTER TESTING
-    void runTEA5767Test();
+    // Adding mute functionality?
+    void setMute(bool muted);
+    bool isMuted() const { return mIsMuted; }
+    void toggleMute();
+
+    // Station info for LCD Display
+    const char* getStationName() const;
+    float getFrequency() const;
 
     // ErrorReportingInterface implementation
     const char* getErrorMessage() override;
@@ -30,10 +37,16 @@ public:
 private:
     TEA5767 mRadio;
     bool mHasError;
+    bool mIsMuted;
+
+    // ADDING RADIO BUTTONS TO RADIO CLASS
+    RadioButtons mMuteButton;
 
     // Test variables - DELETE AFTER TESTING
-    unsigned long mLastUpdate;
-    static const unsigned long TEST_INTERVAL = 3000;
+    static const int CLASSICAL_STATION = 9810; //98.1 MHz
+    static const int RADIO_BAND = RADIO_BAND_FM;
+
+    void handleMuteButton();
 };
 
 #endif

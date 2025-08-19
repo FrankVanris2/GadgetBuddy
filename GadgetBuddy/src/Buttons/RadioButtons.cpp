@@ -7,14 +7,63 @@
 #include "RadioButtons.h"
 #include <Arduino.h>
 
-RadioButtons::RadioButtons(int leftButton, int rightButton)
-    : mLeftButton(leftButton), mRightButton(rightButton) {}
+RadioButtons::RadioButtons(int muteButton, unsigned long debounceDelay)
+    : mMuteButton(muteButton), 
+    mIsMuted(false), 
+    mLastRawState(HIGH),
+    mDebouncedState(HIGH),
+    mLastDebounceTimer(0),
+    mDebounceDelay(debounceDelay)
+{}
 
 void RadioButtons::setup() {
-    pinMode(mLeftButton, INPUT_PULLUP);
-    pinMode(mRightButton, INPUT_PULLUP);
+    pinMode(mMuteButton, INPUT_PULLUP);
+
+    // Initialize button state
+    mDebouncedState = digitalRead(mMuteButton);
+    mLastRawState = mDebouncedState;
+
 }
 
 void RadioButtons::loop() {
-    // Implement the logic for switching radio stations
+    updateButtonState();
 }
+
+
+void RadioButtons::processButtonDebounce(int currentReading, unsigned long currentTime,
+                               int& lastRawState, int& debouncedState,
+                               unsigned long& lastDebounceTimer,
+                               bool isLeftButton) {
+    // Check if the button state has changed
+    if (currentReading != lastRawState) {
+        lastDebounceTimer = currentTime; // Reset the debounce timer
+    }
+
+    // If the button state has been stable for the debounce delay, update the debounced state
+    if ((currentTime - lastDebounceTimer) > mDebounceDelay) {
+        if (currentReading != debouncedState) {
+            debouncedState = currentReading;
+        }
+    }
+
+    lastRawState = currentReading; // Update the last raw state
+}
+void RadioButtons::updateButtonState() {
+    bool reading = digitalRead(mMuteButton);
+    unsigned long currentTime = millis();
+
+    // Use the interface method with our member variables
+    processButtonDebounce(reading, currentTime,
+                           mLastRawState, mDebouncedState,
+                           mLastDebounceTimer, false);
+}
+
+bool RadioButtons::wasMutePressed() {
+    bool lastButtonState = HIGH;
+    bool currentButtonState = mDebouncedState;
+    bool pressed = (lastButtonState == HIGH && currentButtonState == LOW);
+    lastButtonState = currentButtonState;
+    return pressed;
+}
+
+

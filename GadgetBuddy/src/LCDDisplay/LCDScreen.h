@@ -16,11 +16,12 @@
 #include "RTCClock/RTCClock.h"
 #include "AirQuality/AirQuality.h"
 #include "Compass/Compass.h"
+#include "Radio/Radio.h"
 
 class LCDScreen : public LCDInterface {
 public:
 
-    LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtcc_ref, AirQuality& airqual_ref, Compass& compass_ref);
+    LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtcc_ref, AirQuality& airqual_ref, Compass& compass_ref, Radio& radio_ref);
     ~LCDScreen();
     
     void setup() override;
@@ -46,6 +47,7 @@ private:
     RTCClock& mRTCRef; // Stores a reference to the RTCClock
     AirQuality& mAirQualRef; // Stores a reference to the AirQuality sensor
     Compass& mCompassRef; // Stores a reference to the Compass sensor
+    Radio& mRadioRef; // Stores a reference to the Radio
 
     // Dynamic strategy loading - only one at a time
     DisplayStrategy* mCurrentStrategy;

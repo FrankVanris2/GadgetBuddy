@@ -7,6 +7,7 @@
 #include "Radio.h"
 #include <Arduino.h>
 #include <Wire.h>
+#include "data&states/PinDeclarationsConstants.h"
 
 const char* RADIO_READ_ERROR_MSG = "Radio Read Error!";
 
@@ -14,58 +15,55 @@ const char* RADIO_READ_ERROR_MSG = "Radio Read Error!";
 #define FIX_BAND RADIO_BAND_FM
 #define FIX_STATION 9810 // 98.10 MHz
 
-Radio::Radio() : mHasError(false), mLastUpdate(0) {}
+Radio::Radio() : mHasError(false), mIsMuted(false),
+            mMuteButton(RADIO_MUTE_PIN, GB_DEBOUNCE_DELAY)
+{}
 
 void Radio::setup() {
     Serial.println(F("Initializing Radio setup."));
+
+    mMuteButton.setup();
 
     Wire.begin();
 
     // Initialize the Radio
     mRadio.init();
-
-    // Enable debug information
-    mRadio.debugEnable();
-
-    // Set to a local FM Station
     mRadio.setBandFrequency(FIX_BAND, FIX_STATION);
     mRadio.setVolume(2);
-    mRadio.setMono(true);
+    mRadio.setMono(true); // I have a mono setup change if needed
 
-    Serial.println(F("Radio setup completed successfully."));
-    Serial.print(F("Tuned to: "));
-    Serial.print(FIX_STATION / 100.0, 1);
-    Serial.println(F(" MHz"));
-    mHasError = false;
-   
+    mHasError = false;   
 }
 
 void Radio::loop() {
-    // Handle radio functionality
-    runTEA5767Test(); // - TEMPORARY DELETE AFTER TEST
+    mMuteButton.loop();
+    handleMuteButton();
 }
 
-// DELETE AFTER TEST
-void Radio::runTEA5767Test() {
-    if (mHasError) return;
-
-    unsigned long currentMillis = millis();
-    if (currentMillis - mLastUpdate >= TEST_INTERVAL) {
-        mLastUpdate = currentMillis;
-
-        char s[12];
-        mRadio.formatFrequency(s, sizeof(s));
-        Serial.print(F("Station: "));
-        Serial.println(s);
-
-        Serial.print(F("Radio: "));
-        mRadio.debugRadioInfo();
-
-        Serial.print(F("Audio: "));
-        mRadio.debugAudioInfo();
-
-        Serial.println(F("---"));
+void Radio::handleMuteButton() {
+    if (mMuteButton.wasMutePressed()) {
+        toggleMute();
     }
+}
+void Radio::setMute(bool muted) {
+    mIsMuted = muted;
+    if (muted) {
+        mRadio.setVolume(0);
+    } else {
+        mRadio.setVolume(2);
+    }
+}
+
+void Radio::toggleMute() {
+    setMute(!mIsMuted);
+}
+
+const char* Radio::getStationName() const {
+    return "Classical 98.1";
+}
+
+float Radio::getFrequency() const {
+    return CLASSICAL_STATION / 100.0;
 }
 
 const char* Radio::getErrorMessage() {

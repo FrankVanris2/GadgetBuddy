@@ -11,14 +11,31 @@
 
 class RadioButtons : public ButtonInterface {
 public:
-    RadioButtons(int leftPin, int rightPin);
+    RadioButtons(int muteButton, unsigned long debounceDelay);
 
     void setup() override;
     void loop() override;
 
+    void processButtonDebounce(int currentReading, unsigned long currentTime,
+                               int& lastRawState, int& debouncedState,
+                               unsigned long& lastDebounceTimer,
+                               bool isLeftButton) override;
+
+    // Mute functionality
+    bool wasMutePressed();
+    bool isMuted() const { return mIsMuted; }
+
 private:
-    int mLeftButton;
-    int mRightButton;
+    int mMuteButton;
+    bool mIsMuted;
+
+    // Button state tracking for interface compatibility
+    int mLastRawState;
+    int mDebouncedState;
+    unsigned long mLastDebounceTimer;
+    unsigned long mDebounceDelay;
+
+    void updateButtonState();
 };
 
 #endif

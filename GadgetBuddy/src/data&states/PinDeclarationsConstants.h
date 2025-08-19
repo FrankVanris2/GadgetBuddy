@@ -16,6 +16,7 @@
     #define MQ135_PIN 36
     #define GB_LEFT_BUTTON_PIN 18
     #define GB_RIGHT_BUTTON_PIN 19
+    #define RADIO_MUTE_PIN 23
     // I2C Pins: SDA = 21, SCL = 22
 #else 
     // Arduino Uno pins (keep existing)
@@ -23,6 +24,8 @@
     #define MQ135_PIN A0
     #define GB_LEFT_BUTTON_PIN 13
     #define GB_RIGHT_BUTTON_PIN 12
+    #define RADIO_MUTE_PIN 10
+
 #endif
 
  /** Button essential information */
