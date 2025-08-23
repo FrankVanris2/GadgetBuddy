@@ -20,8 +20,8 @@
 #define SCL_PIN 22
 
 // I2C (1) Pins: SDA = 25, SCL = 26
-#define OTHER_SDA_PIN 25
-#define OTHER_SCL_PIN 26
+#define RADIO_SDA_PIN 25
+#define RADIO_SCL_PIN 26
 
  /** Button essential information */
 

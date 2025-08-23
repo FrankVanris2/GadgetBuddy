@@ -24,7 +24,7 @@ GadgetBuddyManager::GadgetBuddyManager() :
 void GadgetBuddyManager::setup() {
 
     // 1. Setup radio FIRST on standard I2C
-    mRadio.setup();
+   // mRadio.setup(); // uncomment when using hardware
 
     // 2. Setup non-I2C components
     mButtons.setup();
