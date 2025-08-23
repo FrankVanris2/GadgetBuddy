@@ -63,8 +63,8 @@
     {
       "type": "wokwi-resistor",
       "id": "r1",
-      "top": -197.65,
-      "left": -28.8,
+      "top": -245.65,
+      "left": -86.4,
       "attrs": { "value": "1000" }
     }
   ],
@@ -85,7 +85,7 @@
     [ "rtc1:SDA", "bb1:22t.e", "green", [ "v0" ] ],
     [ "rtc1:SCL", "bb1:21t.e", "green", [ "v0" ] ],
     [ "lcd1:SDA", "bb1:22t.d", "green", [ "v57.8", "h-86.4", "v182.4" ] ],
-    [ "lcd1:SCL", "bb1:21t.d", "green", [ "h-38.4", "v230.7" ] ],
+    [ "lcd1:SCL", "bb1:21t.d", "green", [ "h-48", "v230.7" ] ],
     [ "bb1:22t.c", "esp:D21", "green", [ "v-96", "h15" ] ],
     [ "bb1:21t.c", "esp:D22", "green", [ "v-76.8", "h34.1" ] ],
     [ "gas1:VCC", "esp:5V", "red", [ "h-48", "v279.3", "h-95.2" ] ],
@@ -94,6 +94,8 @@
     [ "esp:3V3", "bb1:tp.1", "red", [ "v0" ] ],
     [ "bb1:12b.f", "bb1:tn.9", "black", [ "v-96" ] ],
     [ "bb1:10b.f", "esp:D23", "cyan", [ "v-345.6", "h-67.1" ] ],
+    [ "bb1:tn.20", "bb1:tn.21", "black", [ "v0" ] ],
+    [ "bb1:tp.20", "bb1:tp.21", "red", [ "v0" ] ],
     [ "btn1:1.l", "bb1:9t.b", "", [ "$bb" ] ],
     [ "btn1:2.l", "bb1:7t.b", "", [ "$bb" ] ],
     [ "btn1:1.r", "bb1:9t.e", "", [ "$bb" ] ],
@@ -111,8 +113,8 @@
     [ "btn3:2.l", "bb1:10b.g", "", [ "$bb" ] ],
     [ "btn3:1.r", "bb1:12b.j", "", [ "$bb" ] ],
     [ "btn3:2.r", "bb1:10b.j", "", [ "$bb" ] ],
-    [ "r1:2", "gas1:AOUT", "gold", [ "h56.4", "v96", "h134.4" ] ],
-    [ "r1:1", "esp:VP", "gold", [ "h-38.4", "v19.2" ] ]
+    [ "esp:VP", "r1:1", "gold", [ "v-38.4", "h-18.9" ] ],
+    [ "r1:2", "gas1:AOUT", "gold", [ "v0", "h94.8", "v144" ] ]
   ],
   "dependencies": {}
 }

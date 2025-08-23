@@ -6,6 +6,7 @@
 
 #include <LiquidCrystal_I2C.h>
 #include "LCDScreen.h"
+#include "data&states/PinDeclarationsConstants.h"
 #include  "data&states/ScreenStates.h"
 #include "Displays/MainScreenStrategy.h"
 #include "Displays/CompassScreenStrategy.h"
@@ -13,24 +14,23 @@
 #include "Displays/AirQualityScreenStrategy.h"
 #include "Displays/RadioScreenStrategy.h"
 
- 
- LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref, AirQuality& airqual_ref, Compass& compass_ref, Radio& radio_ref):
+ LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref/*, AirQuality& airqual_ref*/, Compass& compass_ref, Radio& radio_ref):
       lcd(0x27, 20, 4),
       mCurrentScreenState(MAIN_SCREEN),
       mButtonsRef(buttons_ref),
       mTempHumidRef(temphumid_ref),
       mRTCRef(rtc_ref),
-      mAirQualRef(airqual_ref),
+      // mAirQualRef(airqual_ref),
       mCompassRef(compass_ref),
       mRadioRef(radio_ref),
       mCurrentStrategy(nullptr),
       mLastScreenState(-1), 
       mLastUpdate(0),
-      mForceUpdate(true) 
+      mForceUpdate(true)
 {}
 
  void LCDScreen::setup() {
-   lcd.init();                      // initialize the lcd 
+   lcd.init();               // initialize the lcd
    lcd.backlight();
    updateAndDisplayScreen(); // testing
  }
@@ -101,7 +101,7 @@ DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
             mCurrentStrategy = new TempHumidScreenStrategy(mTempHumidRef);
             break;
          case AIR_QUALITY_SCREEN:
-            mCurrentStrategy = new AirQualityScreenStrategy(mAirQualRef);
+            mCurrentStrategy = new AirQualityScreenStrategy(/*mAirQualRef*/);
             break;
          case RADIO_SCREEN:
             mCurrentStrategy = new RadioScreenStrategy(mRadioRef);
@@ -145,10 +145,10 @@ const char* LCDScreen::checkForErrors() {
       return mTempHumidRef.getErrorMessage();
    }
 
-   // Check air quality sensor error
-   if (mAirQualRef.hasError()) {
+   // Check air quality sensor error - TO BE ADDED PROPERLY
+   /*if (mAirQualRef.hasError()) {
       return mAirQualRef.getErrorMessage();
-   }
+   }*/
 
    if (mRadioRef.hasError()) {
       return mRadioRef.getErrorMessage();

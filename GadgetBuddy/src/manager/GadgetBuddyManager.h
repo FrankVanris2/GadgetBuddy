@@ -28,7 +28,7 @@ private:
     Buttons mButtons; // Buttons object as a member
     TempHumidSensor mTempHumidSensor; // DHT11 object as a member
     RTCClock mRtcClock;
-    AirQuality mAirQual;
+    // AirQuality mAirQual;
     Compass mCompass;
     Radio mRadio;
     LCDScreen mLcdScreen; // LCDScreen object as a member

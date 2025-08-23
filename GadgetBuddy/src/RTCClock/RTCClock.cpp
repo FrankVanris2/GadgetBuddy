@@ -5,6 +5,7 @@
 */
 
 #include "RTCClock.h"
+#include "data&states/PinDeclarationsConstants.h"
 
 
 const char* RTC_READ_ERROR_MSG = "RTC Read Error!";

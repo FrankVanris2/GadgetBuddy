@@ -15,7 +15,13 @@
 #define GB_LEFT_BUTTON_PIN 18
 #define GB_RIGHT_BUTTON_PIN 19
 #define RADIO_MUTE_PIN 23
-// I2C Pins: SDA = 21, SCL = 22
+// I2C (0) Pins: SDA = 21, SCL = 22
+#define SDA_PIN 21
+#define SCL_PIN 22
+
+// I2C (1) Pins: SDA = 25, SCL = 26
+#define OTHER_SDA_PIN 25
+#define OTHER_SCL_PIN 26
 
  /** Button essential information */
 

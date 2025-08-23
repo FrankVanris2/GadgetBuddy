@@ -19,19 +19,15 @@ public:
         lcd.print(F("Radio Station:"));
 
         lcd.setCursor(0,1);
-        lcd.print(mRadioRef.getStationName());
+        lcd.print(F("Status: PLAYING"));
 
         lcd.setCursor(0,2);
         lcd.print(F("Frequency: "));
-        lcd.print(mRadioRef.getFrequency(), 1);
+        lcd.print(F("98.1"));
         lcd.print(F("MHz"));
         
         lcd.setCursor(0,3);
-        if (mRadioRef.isMuted()) {
-            lcd.print(F("Status: MUTED  "));
-        } else {
-            lcd.print(F("Status: PLAYING"));
-        }
+        lcd.print(F("work zone"));
     }
 
     const char* getScreenName() override {

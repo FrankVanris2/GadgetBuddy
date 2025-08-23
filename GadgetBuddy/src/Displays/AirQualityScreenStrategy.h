@@ -12,7 +12,8 @@
 
 class AirQualityScreenStrategy : public DisplayStrategy {
 public:
-    AirQualityScreenStrategy(AirQuality& sensor) : mSensorRef(sensor) {}
+    // AirQualityScreenStrategy(AirQuality& sensor) : mSensorRef(sensor) {}
+    AirQualityScreenStrategy() {}
 
     
 
@@ -22,11 +23,13 @@ public:
         
         lcd.setCursor(0,1);
         lcd.print(F("Status: "));
-        lcd.print(mSensorRef.getAirQualityStatus());
+        // lcd.print(mSensorRef.getAirQualityStatus());
         
         lcd.setCursor(0,2);
         lcd.print(F("PPM: "));
-        lcd.print(mSensorRef.getAirQualityData(), 1);
+        // lcd.print(mSensorRef.getAirQualityData(), 1);
+        lcd.setCursor(0,3); 
+        lcd.print(F("Needed fixes"));
     }
 
     const char* getScreenName() override {
@@ -34,7 +37,7 @@ public:
     }
 
 private:
-    AirQuality& mSensorRef;
+    // AirQuality& mSensorRef;
 };
 
 #endif

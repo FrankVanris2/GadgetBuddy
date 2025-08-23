@@ -5,6 +5,7 @@
  */
 
  #include "Compass.h"
+ #include "data&states/PinDeclarationsConstants.h"
 
  const char* COMPASS_ERROR_MSG = "Compass Error!";
 
@@ -17,10 +18,9 @@
  
 
  void Compass::setup() {
-     // Initialization code here
-
      mCompass.init();
      mCompass.setMagneticDeclination(15, 1);    
+     mHasError = false;
  }
 
  void Compass::loop() {
