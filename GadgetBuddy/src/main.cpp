@@ -1,14 +1,20 @@
 /*
 * By: Frank Vanris
 * Date: 8/12/2024
-* Desc: the main where the manager will concurrently allow the gadget to run*/
+* Desc: the main where the manager will concurrently allow the gadget to run
+*/
 #include <Arduino.h>
 #include "manager/GadgetBuddyManager.h"
 
-
 //MAIN setup
 void setup() {  
+#if defined(ESP32)
   Serial.begin(115200);
+#elif defined(ARDUINO_UNO) || defined(ARDUINO_AVR_UNO)
+  Serial.begin(9600);
+#else
+  Serial.begin(9600); // Default to 9600 if unknown board
+#endif
   gadgetBuddyManager.setup();
 }
 

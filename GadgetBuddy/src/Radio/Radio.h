@@ -31,7 +31,6 @@ public:
 private:
     TEA5767 mRadio;
     bool mHasError;
-
     void handleMuteButton();
 };
 

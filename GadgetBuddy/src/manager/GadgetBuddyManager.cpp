@@ -5,6 +5,7 @@
 * and loops for the gadget that I will be making*/
 #include "manager/GadgetBuddyManager.h"
 #include "data&states/PinDeclarationsConstants.h"
+#include <Wire.h>
 
 //universal object
 GadgetBuddyManager gadgetBuddyManager;
@@ -22,9 +23,10 @@ GadgetBuddyManager::GadgetBuddyManager() :
 
 //setup for all setup functions
 void GadgetBuddyManager::setup() {
+    Wire.begin();
 
     // 1. Setup radio FIRST on standard I2C
-   // mRadio.setup(); // uncomment when using hardware
+   mRadio.setup(); // uncomment when using hardware
 
     // 2. Setup non-I2C components
     mButtons.setup();
@@ -35,17 +37,18 @@ void GadgetBuddyManager::setup() {
     mLcdScreen.setup();
     
     // 4. Setup other I2C devices (use existing Wire setup)
-    // mCompass.setup(); // uncomment when using hardware
+    mCompass.setup(); // uncomment when using hardware
     mRtcClock.setup();
 }
 
 //loop for all loop functions
 void GadgetBuddyManager::loop() {
+    mLcdScreen.loop();
     mButtons.loop();
     mTempHumidSensor.loop();
     // mAirQual.loop();
-    mLcdScreen.loop();
-    // mCompass.loop(); //uncomment when using hardware
+    
+    mCompass.loop(); //uncomment when using hardware
     mRtcClock.loop();
 }
  
