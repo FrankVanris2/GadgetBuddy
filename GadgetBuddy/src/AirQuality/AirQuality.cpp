@@ -5,7 +5,12 @@
 */
 
 #include "AirQuality.h"
+
+#ifdef PLATFORMIO_UNIT_TEST
+#include "mocks/MockArduino.h"
+#else
 #include <Arduino.h>
+#endif
 
 const char* MQ_READ_ERROR_MSG = "MQ Read Error!";
 
