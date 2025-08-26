@@ -11,7 +11,6 @@
 #include "Displays/CompassScreenStrategy.h"
 #include "Displays/TempHumidScreenStrategy.h"
 #include "Displays/AirQualityScreenStrategy.h"
-#include "Displays/RadioScreenStrategy.h"
 
  
  LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref, AirQuality& airqual_ref, Compass& compass_ref):
@@ -100,9 +99,6 @@ DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
             break;
          case AIR_QUALITY_SCREEN:
             mCurrentStrategy = new AirQualityScreenStrategy(mAirQualRef);
-            break;
-         case RADIO_SCREEN:
-            mCurrentStrategy = new RadioScreenStrategy();
             break;
          default:
             mCurrentStrategy = new MainScreenStrategy(mRTCRef); // Fallback

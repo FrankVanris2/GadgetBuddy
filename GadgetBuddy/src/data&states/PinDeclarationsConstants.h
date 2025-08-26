@@ -28,7 +28,7 @@
  /** Button essential information */
 
  #define GB_MIN_BUTTON_VAL 0
- #define GB_MAX_BUTTON_VAL 4
+ #define GB_MAX_BUTTON_VAL 3
  #define GB_DEBOUNCE_DELAY 50
 
 /** DHT11 essential information */
