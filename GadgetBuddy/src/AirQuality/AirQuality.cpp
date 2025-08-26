@@ -7,7 +7,7 @@
 #include "AirQuality.h"
 
 #ifdef PLATFORMIO_UNIT_TEST
-#include "mocks/MockArduino.h"
+#include "../mocks/MockArduino.h"
 #else
 #include <Arduino.h>
 #endif
