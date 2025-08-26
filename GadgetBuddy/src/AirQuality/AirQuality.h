@@ -23,6 +23,11 @@ public:
 
     // Additional methods for better user experience
     const char* getAirQualityStatus() const;
+
+    // Calculations and validations needed
+    float calculatePPM(int adcReading);
+    bool validateSensorReading(float ppmValue);
+    float calculateResistance(int adcReading);
     
     // ErrorReportingInterface methods
     const char* getErrorMessage() override;
@@ -52,9 +57,7 @@ private:
 
     // Private helpers
     void performSensorReading();
-    bool validateSensorReading(float ppmValue);
     void updateErrorState(bool hasError);
-    float calculatePPM(int adcReading);
-    float calculateResistance(int adcReading);
+    
 };
 #endif
