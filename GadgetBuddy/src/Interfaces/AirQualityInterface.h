@@ -18,6 +18,7 @@ public:
     virtual float getAirQualityData() const = 0;
     virtual float getRawADCReading() const  = 0;
     virtual float getR0Value() const = 0;
+    virtual float getCO2PPMValue() const = 0;
 
 };
 #endif

@@ -12,10 +12,11 @@
 #include "Displays/TempHumidScreenStrategy.h"
 #include "Displays/AirQualityScreenStrategy.h"
 
- 
- LCDScreen::LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref, AirQuality& airqual_ref, Compass& compass_ref):
+
+LCDScreen::LCDScreen(LED& led_ref, Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtc_ref, AirQuality& airqual_ref, Compass& compass_ref):
       lcd(0x27, 20, 4),
       mCurrentScreenState(MAIN_SCREEN),
+      mLedRef(led_ref),
       mButtonsRef(buttons_ref),
       mTempHumidRef(temphumid_ref),
       mRTCRef(rtc_ref),
@@ -96,9 +97,11 @@ DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
             break;
          case TEMP_HUMID_SCREEN:
             mCurrentStrategy = new TempHumidScreenStrategy(mTempHumidRef);
+            mLedRef.updateLEDForScreen(ScreenStates::TEMP_HUMID_SCREEN, mTempHumidRef.getTemperatureData(), 0.0f, mLedRef);
             break;
          case AIR_QUALITY_SCREEN:
             mCurrentStrategy = new AirQualityScreenStrategy(mAirQualRef);
+            mLedRef.updateLEDForScreen(ScreenStates::AIR_QUALITY_SCREEN, 0.0f, mAirQualRef.getCO2PPMValue(), mLedRef);
             break;
          default:
             mCurrentStrategy = new MainScreenStrategy(mRTCRef); // Fallback

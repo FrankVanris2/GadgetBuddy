@@ -10,30 +10,33 @@
 GadgetBuddyManager gadgetBuddyManager;
 
 GadgetBuddyManager::GadgetBuddyManager() : 
+    mLed(LED_RED_PIN, LED_GREEN_PIN, LED_BLUE_PIN),
     mButtons(GB_LEFT_BUTTON_PIN, GB_RIGHT_BUTTON_PIN, GB_MIN_BUTTON_VAL, GB_MAX_BUTTON_VAL, GB_DEBOUNCE_DELAY), 
     mTempHumidSensor(DHT11_PIN, DHTTYPE, DHT_INTERVAL),
     mRtcClock(),
     mAirQual(MQ135_PIN, MQ_INTERVAL),
     mCompass(),
-    mLcdScreen(mButtons, mTempHumidSensor, mRtcClock, mAirQual, mCompass)
+    mLcdScreen(mLed, mButtons, mTempHumidSensor, mRtcClock, mAirQual, mCompass)
 {}
 
 //setup for all setup functions
 void GadgetBuddyManager::setup() {
-    mLcdScreen.setup();
+    mLed.setup();
+    /*mLcdScreen.setup();
     mButtons.setup();
     mTempHumidSensor.setup();
     mRtcClock.setup();
-    mAirQual.setup();  
-    mCompass.setup(); // uncomment when using hardware
+    mAirQual.setup();  */
+    // mCompass.setup(); // uncomment when using hardware
 }
 
 //loop for all loop functions
 void GadgetBuddyManager::loop() {
-    mButtons.loop();
+    /*mButtons.loop();
     mRtcClock.loop();
     mTempHumidSensor.loop();
     mAirQual.loop();
-    mLcdScreen.loop();
-    mCompass.loop(); //uncomment when using hardware
+    mLcdScreen.loop();*/
+    mLed.turnGreen();
+    // mCompass.loop(); //uncomment when using hardware
 }

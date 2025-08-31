@@ -8,6 +8,7 @@
 #define GADGET_BUDDY_MANAGER_H
 
 #include "Interfaces/MachineComponentsInterface.h"
+#include "LED/LED.h"
 #include "Buttons/Buttons.h"
 #include "LCDDisplay/LCDScreen.h"
 #include "TempHumidSensor/TempHumidSensor.h"
@@ -24,11 +25,12 @@ public:
     void loop() override;
 
 private:
+    LED mLed;
     Buttons mButtons; // Buttons object as a member
     TempHumidSensor mTempHumidSensor; // DHT11 object as a member
     RTCClock mRtcClock;
     AirQuality mAirQual;
-    Compass mCompass;
+    Compass mCompass; 
     LCDScreen mLcdScreen; // LCDScreen object as a member
 };
 

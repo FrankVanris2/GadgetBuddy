@@ -23,6 +23,10 @@
     #define MQ135_PIN A0
     #define GB_LEFT_BUTTON_PIN 13
     #define GB_RIGHT_BUTTON_PIN 12
+
+    #define LED_RED_PIN 10
+    #define LED_GREEN_PIN 9
+    #define LED_BLUE_PIN 8
 #endif
 
  /** Button essential information */
