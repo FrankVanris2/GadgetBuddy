@@ -103,7 +103,7 @@ DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
             break;
          case AIR_QUALITY_SCREEN:
             mCurrentStrategy = new AirQualityScreenStrategy(mAirQualRef);
-            mLedRef.updateLEDForScreen(ScreenStates::AIR_QUALITY_SCREEN, 0.0f, mAirQualRef.getCO2PPMValue(), mLedRef);
+            mLedRef.updateLEDForScreen(ScreenStates::AIR_QUALITY_SCREEN, 0.0f, mAirQualRef.getAirQualityData(), mLedRef);
             break;
          default:
             mCurrentStrategy = new MainScreenStrategy(mRTCRef); // Fallback

@@ -20,7 +20,6 @@ public:
     float getAirQualityData() const override { return mCO2_PPM; }
     float getRawADCReading() const override { return mRawADCReading; }
     float getR0Value() const override{ return mR0; }
-    float getCO2PPMValue() const override { return mCO2_PPM; }
 
     // Additional methods for better user experience
     const char* getAirQualityStatus() const;
