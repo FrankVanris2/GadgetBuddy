@@ -1,40 +1,70 @@
-# Creating a personal Pipboy AKA GadgetBuddy
-I am a personal fan of the fallout franchise ranging down to Fallout 3. I think my favorite game by far will always be Fallout New Vegas. Because of these games I always wanted to create myself my very own pipboy. I 
-have always admired those devices in the game. The rustic and classic styles that were implemented in the design made me want to pursue my own creation/version of the pipboy. This is why I will be creating my own 
-personal embedded device that resembles a pipboy.
+# GadgetBuddy: A Functional Embedded Device Inspired by the PipBoy
+
+Over the past 3 months, I have designed and built GadgetBuddy, a device inspired by the iconic PipBoy from the Fallout franchise. As a long-time fan of Fallout (especially Fallout New Vegas), I wanted to create a practical, real-world version of the PipBoy, focusing on features that would be genuinely useful in a survival scenario. While time constraints limited the scope of the project, I am proud to have delivered a modular, extensible device that demonstrates core embedded systems concepts and best practices.
 
 <div style="text-align: center;">
 <img src="https://github.com/user-attachments/assets/fb1897d2-c71e-400b-8209-96cbfc2160ee" alt="Pipboy from Fallout 3" width="500" height="300">
 </div>
 
-## Plan
-Now this isn't a main project, it's more of a hobby project for myself. But I will be treating this project professionally, I will be following the guidelines of the SOLID framework, along with unit testing my code.
-I will make sure to do things modular and have no dependencies whatsoever. The pipboy I will be creating will not resemble the pip boy in the images, the goal of this pipboy however is to make sure it has usable 
-functionality. This pipboy in general should be considered useful to the user.
+## What I Learned
 
-## Features
-The pipboy (Now known as Gadgetbuddy) I will be creating will have basic user friendly functionality:
+This project was a deep dive into Test Driven Development (TDD) and the SOLID principles of software design. Every feature was developed with testing in mind, and each branch included its own set of unit tests to ensure reliability and maintainability. I learned to balance ambition with realism, focusing on delivering a minimum viable product (MVP) within a tight timeline. This experience taught me to prioritize features, manage scope, and make tough decisions about what to include or defer.
 
-1. Temperature/Humidity reader.
-2. Time reader.
-3. Compass reader.
-4. Battery reader.
-5. Buttons to switch between different screens.
-6. Power on and off.
-7. LED's ranging from red, yellow, and green. (To tell user if something is wrong).
-8. Simple LCD Screen to project information to the user.
+I also gained valuable experience in modular design, allowing components to be swapped or upgraded with minimal impact on the overall system. This approach made the codebase more flexible and easier to maintain.
 
-These are the other items that are currently on the wishlist that I would like to add for this project:
+## Features Implemented in GadgetBuddy
 
-1. Radio (obtain specific radio stations).
-2. Radio knob (to switch between stations).
+**Added:**
+1. Temperature/Humidity sensor with LED status indication (green/yellow/red for safe/moderate/unsafe conditions)
+2. RTC clock for accurate timekeeping
+3. Compass module (GY-271) for directional awareness
+4. Air Quality sensor with LED status indication
+5. Button interface for screen navigation
+6. Four distinct screen states: Main (clock), Compass, Temp/Humidity, Air Quality
 
-## Simple High-level Design Architecture
+**Not Added (due to time/resource constraints):**
+1. Radio screen (for listening to FM stations)
+2. On/off button for the radio
+3. Rotary encoder for radio station selection
+4. Dedicated power switch for standalone operation
+5. Battery integration for portable use
+6. Battery status display on the main screen
+
+## High-Level Design Architecture
+
+The initial architecture remained largely unchanged throughout development, focusing on modularity and clear separation of concerns.
 ![GadgetBuddyArchitecture](https://github.com/user-attachments/assets/93aa00ef-e8a5-475b-8d41-6e0748dac4e1)
 
-## Current Focus
-Designing and establishing a codebase that supports modular integrated testing while adhering to SOLID principles. Additionally, leveraging fundamental GitHub skills to enhance the project's usability and efficiency.
+## Low-Level Design Architecture
 
-## Essential Documents for developers
-Essential Documents when it comes to Unit Testing, Hardware, And Actions:
-1. ![Unit Testing with PlatformIO](https://github.com/FrankVanris2/GadgetBuddy/blob/main/Documentation/UnitTestingPlatformIO.md)
+**Note:** The Compass module (GY-271) is not depicted in the Wokwi diagram due to the simulator’s limited component library. It connects via standard SDA/SCL I2C lines in hardware.  
+Additionally, the RGB LED in Wokwi does not function as expected; however, it works correctly on physical hardware. If you are testing this device yourself, please verify LED functionality using actual hardware rather than the Wokwi simulator
+<img width="962" height="577" alt="Architecture_GadgetBuddy" src="https://github.com/user-attachments/assets/93bfd43b-6935-4e5a-bcf6-b356912838ce" />
+
+## Screenshots
+
+### Main Screen
+![MainScreen](https://github.com/user-attachments/assets/bfaca8c7-df64-43cd-bdf7-3e3e58ebd339)
+
+### Compass Screen
+![CompassScreen](https://github.com/user-attachments/assets/5d50ae83-8e20-4d04-987e-632ac725687a)
+
+### Temp/Humidity Screen
+![Temp_HumidityScreen](https://github.com/user-attachments/assets/1f489fa3-9543-4c4d-b737-c9cf1205ef7f)
+
+### Air Quality Screen
+![Air_QualScreen](https://github.com/user-attachments/assets/e0faea5d-d1ba-402a-9a00-91ab4aeda657)
+
+## Accomplishments
+
+Despite the limited timeframe, I successfully delivered a modular, testable embedded device that meets the core requirements of a survival assistant. Most components are designed to be easily replaceable or upgradable, and features can be added or removed with minimal refactoring. While not every module (such as the LED or Compass) received full unit test coverage, the project demonstrates a strong commitment to code quality and maintainability.
+
+I also documented the development process and created essential guides for future contributors, including unit testing instructions and hardware integration notes.
+
+## Essential Documents for Developers
+
+- [Unit Testing with PlatformIO](https://github.com/FrankVanris2/GadgetBuddy/blob/main/Documentation/UnitTestingPlatformIO.md)
+
+---
+
+This project represents a significant step in my journey as an embedded systems developer, combining inspiration from gaming with practical engineering and software
