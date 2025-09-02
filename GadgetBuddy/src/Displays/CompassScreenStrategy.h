@@ -1,8 +1,12 @@
 /**
- * By: Frank Vanris
- * Date: 8/7/2025
- * Desc: Strategy for displaying the compass screen.
-*/
+ * @file CompassScreenStrategy.h
+ * @author Frank Vanris
+ * @date 8/7/2025
+ * @brief Strategy class for displaying compass information on the LCD.
+ *
+ * This class implements the logic for presenting compass direction, heading,
+ * and axis readings on the LCD display using the Compass sensor module.
+ */
 
 #ifndef COMPASS_SCREEN_STRATEGY_H
 #define COMPASS_SCREEN_STRATEGY_H

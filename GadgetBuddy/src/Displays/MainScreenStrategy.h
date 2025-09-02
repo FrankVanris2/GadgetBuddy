@@ -1,8 +1,12 @@
 /**
- * By: Frank Vanris
- * Date: 8/1/2025
- * Desc: Creating the Main Screen Interface for the Display
-*/
+ * @file MainScreenStrategy.h
+ * @author Frank Vanris
+ * @date 8/1/2025
+ * @brief Strategy class for displaying the main screen interface on the LCD.
+ *
+ * This class implements the logic for presenting the main screen, including
+ * date and time information, using the RTCClock module.
+ */
 
 #ifndef MAIN_SCREEN_STRATEGY_H
 #define MAIN_SCREEN_STRATEGY_H

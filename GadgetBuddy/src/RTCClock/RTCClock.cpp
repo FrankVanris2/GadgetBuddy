@@ -1,22 +1,24 @@
 /**
- * By: Frank Vanris
- * Date: 7/30/2025
- * Desc: Implementing an RTCClock for the main screen.
-*/
+ * @file RTCClock.cpp
+ * @author Frank Vanris
+ * @date 7/30/2025
+ * @brief Implementation of the RTCClock class for GadgetBuddy main screen time and date display.
+ *
+ * This file contains logic for interfacing with the RTC_DS1307 real-time clock,
+ * including initialization, time/date formatting, error handling, and integration
+ * with the main screen display.
+ */
 
 #include "RTCClock.h"
-
 
 const char* RTC_READ_ERROR_MSG = "RTC Read Error!";
 
 RTCClock::RTCClock() : mHasError(false), mTimeData(""), mDateData("") {}
 
 void RTCClock::setup() {
-    // Setting up rtc module:
     if(!rtc.begin()) {
         mHasError = true;
     }
-
 
     if (isConnectedToComputer()) {
         rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
@@ -34,7 +36,6 @@ void RTCClock::recordDateAndTime() {
 
     DateTime now = rtc.now();
 
-    // Check if RTC is running (valid time)
     if (!now.isValid()) {
         mHasError = true;
         mDateData = "";
@@ -42,18 +43,15 @@ void RTCClock::recordDateAndTime() {
         return; 
     }
 
-    // Clear strings before formatting
     mDateData = "";
     mTimeData = "";
 
-    // Formatted Date as: "MM/DD/YYYY"
     if (now.month() < 10) mDateData += "0";
     mDateData += String(now.month()) + "/";
     if (now.day() < 10) mDateData += "0";
     mDateData += String(now.day()) + "/";
     mDateData += String(now.year());
 
-    // Formatted Time as: "HH:MM:SS" in 24-hour format
     if (now.hour() < 10) mTimeData += "0";
     mTimeData += String(now.hour()) + ":";
     if (now.minute() < 10) mTimeData += "0";
@@ -71,7 +69,7 @@ const char* RTCClock::getErrorMessage() {
 
 bool RTCClock::isConnectedToComputer() {
    if (!Serial) {
-        return false; // Not connected to a computer
+        return false;
    }
 
    if (millis() < 5000) {

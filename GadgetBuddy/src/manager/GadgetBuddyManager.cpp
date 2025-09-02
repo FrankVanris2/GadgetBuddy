@@ -1,12 +1,16 @@
-/*
-* By: Frank Vanris
-* Date: 8/12/2024
-* Desc: Creating a manager class that will hold all of the important setups
-* and loops for the gadget that I will be making*/
+/**
+ * @file GadgetBuddyManager.cpp
+ * @author Frank Vanris
+ * @date 8/12/2024
+ * @brief Implementation of the GadgetBuddyManager class, coordinating all hardware modules and main logic.
+ *
+ * This file contains the logic for initializing, managing, and updating all essential components
+ * of the GadgetBuddy device, including LED, buttons, LCD screen, sensors, and navigation modules.
+ */
+
 #include "manager/GadgetBuddyManager.h"
 #include "data&states/PinDeclarationsConstants.h"
 
-//universal object
 GadgetBuddyManager gadgetBuddyManager;
 
 GadgetBuddyManager::GadgetBuddyManager() : 
@@ -19,7 +23,6 @@ GadgetBuddyManager::GadgetBuddyManager() :
     mLcdScreen(mLed, mButtons, mTempHumidSensor, mRtcClock, mAirQual, mCompass)
 {}
 
-//setup for all setup functions
 void GadgetBuddyManager::setup() {
     mLed.setup();
     mLcdScreen.setup();
@@ -27,7 +30,7 @@ void GadgetBuddyManager::setup() {
     mTempHumidSensor.setup();
     mRtcClock.setup();
     mAirQual.setup();  
-    mCompass.setup(); // uncomment when using hardware
+    // mCompass.setup(); // uncomment when using hardware
 }
 
 //loop for all loop functions
@@ -37,5 +40,5 @@ void GadgetBuddyManager::loop() {
     mTempHumidSensor.loop();
     mAirQual.loop();
     mLcdScreen.loop();
-    mCompass.loop(); //uncomment when using hardware
+    // mCompass.loop(); //uncomment when using hardware
 }

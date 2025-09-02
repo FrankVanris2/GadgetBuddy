@@ -1,8 +1,12 @@
 /**
- * By: Frank Vanris
- * Date: 8/1/2025
- * Desc: Implementing the Air Quality Screen Strategy for the LCD Display
-*/
+ * @file AirQualityScreenStrategy.h
+ * @author Frank Vanris
+ * @date 8/1/2025
+ * @brief Strategy class for displaying air quality information on the LCD.
+ *
+ * This class implements the logic for presenting air quality status and PPM readings
+ * on the LCD display using the AirQuality sensor module.
+ */
 
 #ifndef AIR_QUALITY_SCREEN_STRATEGY_H
 #define AIR_QUALITY_SCREEN_STRATEGY_H
@@ -13,8 +17,6 @@
 class AirQualityScreenStrategy : public DisplayStrategy {
 public:
     AirQualityScreenStrategy(AirQuality& sensor) : mSensorRef(sensor) {}
-
-    
 
     void display(LiquidCrystal_I2C& lcd) override {
         lcd.setCursor(0,0);

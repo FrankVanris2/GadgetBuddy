@@ -1,8 +1,13 @@
 /**
- * By: Frank Vanris
- * Date: 7/17/2025
- * Desc: I will be defining a buttons class that will change between the states of the screen. 
- * (Current goal: click a button see the counter increase on the Display screen)
+ * @file Buttons.cpp
+ * @author Frank Vanris
+ * @date 7/17/2025
+ * @brief Implementation of the Buttons class for screen state navigation.
+ *
+ * This file defines the logic for handling left and right button inputs,
+ * including debouncing and updating the screen state counter. The Buttons
+ * class enables users to switch between different display screens by
+ * pressing the corresponding buttons.
  */
 
  #include <Arduino.h>

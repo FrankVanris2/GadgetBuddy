@@ -1,16 +1,17 @@
 /**
- * By: Frank Vanris
- * Date: 7/18/2025
- * Desc: Obtaining Temperature Data and Humidity Data from the DHT Sensor
+ * @file TempHumidSensor.cpp
+ * @author Frank Vanris
+ * @date 7/18/2025
+ * @brief Implementation of the TempHumidSensor class for GadgetBuddy.
+ *
+ * This file contains logic for obtaining temperature and humidity data from the DHT sensor,
+ * including averaging, error handling, and integration with the main device workflow.
  */
 
  #include <Arduino.h>
  #include "TempHumidSensor.h"
 
- // Define your error message as a const char* literal (stored in Flash)
 const char* DHT_READ_ERROR_MSG = "DHT Read Error!";
-
-
 
  TempHumidSensor::TempHumidSensor(int dataPin, int dht_type, unsigned long dhtInterval) :
     DATA_PIN(dataPin),
