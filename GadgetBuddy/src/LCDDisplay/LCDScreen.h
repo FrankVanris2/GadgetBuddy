@@ -1,7 +1,12 @@
 /**
- * By: Frank Vanris
- * Date: 7/5/2025
- * Desc: Implementing the LCD Screen for visualization purposes so that the user can see what is occurring visually on the LCDScreen
+ * @file LCDScreen.h
+ * @author Frank Vanris
+ * @date 7/5/2025
+ * @brief LCD screen visualization class for GadgetBuddy.
+ *
+ * This class implements the LCD screen logic, enabling users to visually monitor
+ * sensor data and device status. It uses the strategy pattern for dynamic screen
+ * switching and integrates with all major hardware modules.
  */
 
 #ifndef LCD_SCREEN_H
@@ -18,45 +23,84 @@
 #include "AirQuality/AirQuality.h"
 #include "Compass/Compass.h"
 
+/**
+ * @class LCDScreen
+ * @brief Handles visualization and screen management for GadgetBuddy.
+ */
 class LCDScreen : public LCDInterface {
 public:
+    /**
+     * @brief Constructor.
+     * @param led_ref Reference to LED module.
+     * @param buttons_ref Reference to Buttons module.
+     * @param temphumid_ref Reference to TempHumidSensor module.
+     * @param rtcc_ref Reference to RTCClock module.
+     * @param airqual_ref Reference to AirQuality module.
+     * @param compass_ref Reference to Compass module.
+     */
+    LCDScreen(LED& led_ref, Buttons& buttons_ref, TempHumidSensor& temphumid_ref,
+              RTCClock& rtcc_ref, AirQuality& airqual_ref, Compass& compass_ref);
 
-    LCDScreen(LED& led_ref, Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtcc_ref, AirQuality& airqual_ref, Compass& compass_ref);
+    /**
+     * @brief Destructor.
+     */
     ~LCDScreen();
-    
+
+    /**
+     * @brief Initialize the LCD screen and related modules.
+     */
     void setup() override;
+
+    /**
+     * @brief Main loop for updating and displaying screen content.
+     */
     void loop() override;
 
 private:
-
-    // Private LCD Implementation details (Not needed within my LCD Interface)
+    /**
+     * @brief Update sensor data and display the current screen.
+     */
     void updateAndDisplayScreen();
+
+    /**
+     * @brief Display an error screen with the provided message.
+     * @param errorMessage Error message to display.
+     */
     void displayErrorScreen(const char* errorMessage);
+
+    /**
+     * @brief Check for errors in connected modules.
+     * @return Error message if any error is present, nullptr otherwise.
+     */
     const char* checkForErrors();
 
-    // Strategy pattern - updated to dynamic loading
+    /**
+     * @brief Get the current display strategy based on screen state.
+     * @return Pointer to the current DisplayStrategy.
+     */
     DisplayStrategy* getCurrentDisplayStrategy();
+
+    /**
+     * @brief Clean up the current display strategy instance.
+     */
     void cleanupDisplayStrategy();
-    
 
-    LiquidCrystal_I2C lcd;
-    int mCurrentScreenState;
-    
-    LED& mLedRef; // Store a reference to the LED object
-    Buttons& mButtonsRef; // Store a reference to the Buttons object
-    TempHumidSensor& mTempHumidRef; // Stores a reference to the DHT11 sensor
-    RTCClock& mRTCRef; // Stores a reference to the RTCClock
-    AirQuality& mAirQualRef; // Stores a reference to the AirQuality sensor
-    Compass& mCompassRef; // Stores a reference to the Compass sensor
+    LiquidCrystal_I2C lcd;         ///< LCD display instance
+    int mCurrentScreenState;       ///< Current screen state index
 
-    // Dynamic strategy loading - only one at a time
-    DisplayStrategy* mCurrentStrategy;
-    int mLastScreenState;
+    LED& mLedRef;                  ///< Reference to LED module
+    Buttons& mButtonsRef;          ///< Reference to Buttons module
+    TempHumidSensor& mTempHumidRef;///< Reference to TempHumidSensor module
+    RTCClock& mRTCRef;             ///< Reference to RTCClock module
+    AirQuality& mAirQualRef;       ///< Reference to AirQuality module
+    Compass& mCompassRef;          ///< Reference to Compass module
 
-    // Update control
-    unsigned long mLastUpdate;
-    static const unsigned long UPDATE_INTERVAL = 500;
-    bool mForceUpdate;
+    DisplayStrategy* mCurrentStrategy; ///< Pointer to current display strategy
+    int mLastScreenState;              ///< Last screen state index
+
+    unsigned long mLastUpdate;         ///< Last update timestamp
+    static const unsigned long UPDATE_INTERVAL = 500; ///< Update interval (ms)
+    bool mForceUpdate;                 ///< Force update flag
 };
 
 #endif

@@ -1,8 +1,12 @@
 /**
- * By: Frank Vanris
- * Date: 8/1/2025
- * Desc: Dislaying the Temperature and Humidity Screen
-*/
+ * @file TempHumidScreenStrategy.h
+ * @author Frank Vanris
+ * @date 8/1/2025
+ * @brief Strategy class for displaying temperature and humidity information on the LCD.
+ *
+ * This class implements the logic for presenting temperature and humidity readings
+ * on the LCD display using the TempHumidSensor module.
+ */
 
 #ifndef TEMP_HUMID_SCREEN_STRATEGY_H
 #define TEMP_HUMID_SCREEN_STRATEGY_H

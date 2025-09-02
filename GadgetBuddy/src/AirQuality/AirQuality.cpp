@@ -1,8 +1,13 @@
 /**
- * By: Frank Vanris
- * Date: 8/5/2025
- * Desc: Obtaining Air Quality Data to Display on the LCD Screen
-*/
+ * @file AirQuality.cpp
+ * @author Frank Vanris
+ * @date 8/5/2025
+ * @brief Implementation for obtaining and processing air quality data to display on the LCD screen.
+ *
+ * This file contains the logic for reading, validating, and reporting air quality data
+ * from the MQ135 sensor. It includes sensor initialization, periodic sampling, error handling,
+ * and conversion of raw readings to CO2 PPM values for user display.
+ */
 
 #include "AirQuality.h"
 
@@ -132,12 +137,10 @@ float AirQuality::calculateResistance(int adcReading) {
 }
 
 bool AirQuality::validateSensorReading(float ppmValue) {
-    // Check for invalid readings
     if(isnan(ppmValue) || isinf(ppmValue)) {
         return false;
     }
 
-    // Check for reasonable CO2 range (1 ppm to 10,000 ppm) - lowered minimum
     if(ppmValue < 1.0f || ppmValue > 10000.0f) {
         return false;
     }
@@ -156,7 +159,6 @@ const char* AirQuality::getAirQualityStatus() const {
     if(mHasError) return "ERROR  ";
     if(!mIsWarmedUp) return "WARM UP  ";
 
-    // CO2 levels classification - adjusted for your preferred ranges
     if(mCO2_PPM < 25) return "EXCELLENT";
     else if(mCO2_PPM < 30) return "VERY GOOD";
     else if(mCO2_PPM < 40) return "GOOD     ";

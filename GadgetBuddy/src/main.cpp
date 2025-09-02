@@ -1,12 +1,16 @@
-/*
-* By: Frank Vanris
-* Date: 8/12/2024
-* Desc: the main where the manager will concurrently allow the gadget to run*/
+/**
+ * @file main.cpp
+ * @author Frank Vanris
+ * @date 8/12/2024
+ * @brief Main entry point for GadgetBuddy, running the central manager.
+ *
+ * This file initializes the GadgetBuddyManager and starts the main application loop,
+ * coordinating all hardware modules and device logic.
+ */
+
 #include <Arduino.h>
 #include "manager/GadgetBuddyManager.h"
 
-
-//MAIN setup
 void setup() {
   #ifdef ESP32
     Serial.begin(115200);
@@ -19,7 +23,6 @@ void setup() {
   gadgetBuddyManager.setup();
 }
 
-//MAIN loop
 void loop() {
   gadgetBuddyManager.loop();
 }

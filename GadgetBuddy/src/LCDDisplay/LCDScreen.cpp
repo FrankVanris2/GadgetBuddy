@@ -1,8 +1,13 @@
 /**
- * By: Frank Vanris
- * Date: 7/5/2025
- * Desc: Displaying information on the LCD screen for users.
-*/
+ * @file LCDScreen.cpp
+ * @author Frank Vanris
+ * @date 7/5/2025
+ * @brief Implementation of the LCDScreen class for GadgetBuddy.
+ *
+ * This file contains the logic for visualizing sensor data and device status
+ * on the LCD display, including dynamic screen switching, error handling,
+ * and integration with all major hardware modules.
+ */
 
 #include <LiquidCrystal_I2C.h>
 #include "LCDScreen.h"
@@ -29,20 +34,18 @@ LCDScreen::LCDScreen(LED& led_ref, Buttons& buttons_ref, TempHumidSensor& temphu
 {}
 
  void LCDScreen::setup() {
-   lcd.init();                      // initialize the lcd 
+   lcd.init();                      
    lcd.backlight();
-   updateAndDisplayScreen(); // testing
+   updateAndDisplayScreen(); 
  }
 
  void LCDScreen::loop() {
     updateAndDisplayScreen();
  }
 
- // this is for testing purposes to ensure that the buttons work
  void LCDScreen::updateAndDisplayScreen() {
    unsigned long currentMillis = millis();
 
-   // Check for errors first
    const char* errorMsg = checkForErrors();
    if(errorMsg != nullptr) {
       if(mCurrentScreenState != ERROR_SCREEN) {
@@ -56,7 +59,6 @@ LCDScreen::LCDScreen(LED& led_ref, Buttons& buttons_ref, TempHumidSensor& temphu
 
    int desiredScreenState = mButtonsRef.getButtonVal();
 
-   // Screen changed - force update
    if(mCurrentScreenState != desiredScreenState) {
       mCurrentScreenState = desiredScreenState;
       lcd.clear();
@@ -64,7 +66,6 @@ LCDScreen::LCDScreen(LED& led_ref, Buttons& buttons_ref, TempHumidSensor& temphu
       mLastUpdate = currentMillis;
    }
 
-   // Throttle updates to reduce flickering
    if (!mForceUpdate && (currentMillis - mLastUpdate < UPDATE_INTERVAL)) {
       return;
    }
@@ -72,22 +73,17 @@ LCDScreen::LCDScreen(LED& led_ref, Buttons& buttons_ref, TempHumidSensor& temphu
    mLastUpdate = currentMillis;
    mForceUpdate = false;
 
-   // Use Strategy pattern to display the current screen
    DisplayStrategy* currentStrategy = getCurrentDisplayStrategy();
    if (currentStrategy != nullptr) {
       currentStrategy->display(lcd);
    }
  }
 
-// NEW DYNAMIC STRATEGY LOADING FUNCTION:
 DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
-   // Only create new strategy if screen changed
    if(mCurrentScreenState != mLastScreenState) {
-      // Clean up old strategy
       delete mCurrentStrategy;
       mCurrentStrategy = nullptr;
 
-      // Create new strategy based on current screen
       switch(mCurrentScreenState) {
          case MAIN_SCREEN:
             mCurrentStrategy = new MainScreenStrategy(mRTCRef);
@@ -109,42 +105,34 @@ DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
             mCurrentStrategy = new MainScreenStrategy(mRTCRef); // Fallback
             break;
       }
-
       mLastScreenState = mCurrentScreenState;
    }
-
    return mCurrentStrategy;
 }
 
-// Add destructor to clean up
 void LCDScreen::cleanupDisplayStrategy() {
    delete mCurrentStrategy;
    mCurrentStrategy = nullptr;
 }
 
-// Add to destructor
 LCDScreen::~LCDScreen() {
    cleanupDisplayStrategy();
 }
 
 const char* LCDScreen::checkForErrors() {
 
-   // Check RTC error first
    if (mRTCRef.hasError()) {
       return mRTCRef.getErrorMessage();
    }
 
-   // Check for compass error
    if(mCompassRef.hasError()) {
       return mCompassRef.getErrorMessage();
    }
 
-   // Check sensor error
    if (mTempHumidRef.hasError()) {
       return mTempHumidRef.getErrorMessage();
    }
 
-   // Check air quality sensor error
    if (mAirQualRef.hasError()) {
       return mAirQualRef.getErrorMessage();
    }

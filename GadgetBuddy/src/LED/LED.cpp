@@ -1,8 +1,13 @@
 /**
- * By: Frank Vanris
- * Date: 8/31/2025
- * Desc: Creating an LED class to manage RGB LED states and behaviors.
-*/
+ * @file LED.cpp
+ * @author Frank Vanris
+ * @date 8/31/2025
+ * @brief Implementation of the LED class for GadgetBuddy, managing RGB LED states and behaviors.
+ *
+ * This file contains logic for controlling an RGB LED to indicate device status,
+ * including color changes for temperature and air quality warnings, and integration
+ * with screen state logic.
+ */
 
 #include "LED.h"
 #include <Arduino.h>
@@ -10,8 +15,6 @@
 LED::LED(int redPin, int greenPin, int bluePin) :
     mRedPin(redPin), mGreenPin(greenPin), mBluePin(bluePin) {
 }
-
-
 
 void LED::setup() {
     pinMode(mRedPin, OUTPUT);
