@@ -91,9 +91,11 @@ DisplayStrategy* LCDScreen::getCurrentDisplayStrategy() {
       switch(mCurrentScreenState) {
          case MAIN_SCREEN:
             mCurrentStrategy = new MainScreenStrategy(mRTCRef);
+            mLedRef.turnOff();
             break;
          case COMPASS_SCREEN:
             mCurrentStrategy = new CompassScreenStrategy(mCompassRef);
+            mLedRef.turnOff();
             break;
          case TEMP_HUMID_SCREEN:
             mCurrentStrategy = new TempHumidScreenStrategy(mTempHumidRef);

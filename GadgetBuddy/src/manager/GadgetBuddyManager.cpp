@@ -22,21 +22,20 @@ GadgetBuddyManager::GadgetBuddyManager() :
 //setup for all setup functions
 void GadgetBuddyManager::setup() {
     mLed.setup();
-    /*mLcdScreen.setup();
+    mLcdScreen.setup();
     mButtons.setup();
     mTempHumidSensor.setup();
     mRtcClock.setup();
-    mAirQual.setup();  */
-    // mCompass.setup(); // uncomment when using hardware
+    mAirQual.setup();  
+    mCompass.setup(); // uncomment when using hardware
 }
 
 //loop for all loop functions
 void GadgetBuddyManager::loop() {
-    /*mButtons.loop();
+    mButtons.loop();
     mRtcClock.loop();
     mTempHumidSensor.loop();
     mAirQual.loop();
-    mLcdScreen.loop();*/
-    mLed.turnGreen();
-    // mCompass.loop(); //uncomment when using hardware
+    mLcdScreen.loop();
+    mCompass.loop(); //uncomment when using hardware
 }
