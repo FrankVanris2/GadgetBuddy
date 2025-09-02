@@ -41,19 +41,19 @@ public:
      * @brief Get the latest calculated CO2 PPM value.
      * @return The CO2 concentration in PPM.
      */
-    float getAirQualityData() const override;
+    float getAirQualityData() const override { return mCO2_PPM; }
 
     /**
      * @brief Get the latest raw ADC reading from the sensor.
      * @return The raw ADC value.
      */
-    float getRawADCReading() const override;
+    float getRawADCReading() const override { return mRawADCReading; }
 
     /**
      * @brief Get the calculated R0 value (sensor baseline resistance).
      * @return The R0 value.
      */
-    float getR0Value() const override;
+    float getR0Value() const override { return mR0; }
 
     /**
      * @brief Get a human-readable air quality status string.
@@ -94,12 +94,12 @@ public:
      * @brief Check if the sensor is currently in an error state.
      * @return True if error present, false otherwise.
      */
-    bool hasError() override;
+    bool hasError() override { return mHasError; }
 
     /**
      * @brief Clear the current error state.
      */
-    void clearError() override;
+    void clearError() override { mHasError = false; }
 
 private:
     // Configuration

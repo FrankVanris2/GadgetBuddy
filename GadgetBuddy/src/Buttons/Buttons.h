@@ -43,7 +43,7 @@ public:
      * @brief Get the current button value (screen state index).
      * @return The current button value.
      */
-    int getButtonVal();
+    int getButtonVal() { return mButtonVal; }
 
 private:
     int mButtonVal;                ///< Current button value (screen state index)

@@ -42,13 +42,13 @@ public:
      * @brief Get the current date as a string.
      * @return Date string.
      */
-    String getDate();
+    String getDate() { return mDateData; }
 
     /**
      * @brief Get the current time as a string.
      * @return Time string. Time is in military format.
      */
-    String getTime();
+    String getTime() { return mTimeData; }
 
     // ErrorReportingInterface methods
 
