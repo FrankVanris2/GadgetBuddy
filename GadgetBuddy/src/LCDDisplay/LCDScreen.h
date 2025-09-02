@@ -8,6 +8,7 @@
 #define LCD_SCREEN_H
 
 #include <LiquidCrystal_I2C.h>
+#include "LED/LED.h"
 #include "Interfaces/LCDInterface.h"
 #include "Interfaces/DisplayStrategy.h"
 #include "Interfaces/ErrorReportingInterface.h"
@@ -20,7 +21,7 @@
 class LCDScreen : public LCDInterface {
 public:
 
-    LCDScreen(Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtcc_ref, AirQuality& airqual_ref, Compass& compass_ref);
+    LCDScreen(LED& led_ref, Buttons& buttons_ref, TempHumidSensor& temphumid_ref, RTCClock& rtcc_ref, AirQuality& airqual_ref, Compass& compass_ref);
     ~LCDScreen();
     
     void setup() override;
@@ -40,7 +41,8 @@ private:
 
     LiquidCrystal_I2C lcd;
     int mCurrentScreenState;
-
+    
+    LED& mLedRef; // Store a reference to the LED object
     Buttons& mButtonsRef; // Store a reference to the Buttons object
     TempHumidSensor& mTempHumidRef; // Stores a reference to the DHT11 sensor
     RTCClock& mRTCRef; // Stores a reference to the RTCClock
