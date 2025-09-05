@@ -87,6 +87,7 @@ With these starting points, developers can explore ways to enhance the embedded 
 ## Essential Documents for Developers
 
 - [Unit Testing with PlatformIO](https://github.com/FrankVanris2/GadgetBuddy/blob/main/Documentation/UnitTestingPlatformIO.md)
+- [Power Audit Page](https://github.com/FrankVanris2/GadgetBuddy/tree/main/PowerAuditPage)
 
 ---
 
