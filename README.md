@@ -61,6 +61,29 @@ Despite the limited timeframe, I successfully delivered a modular, testable embe
 
 I also documented the development process and created essential guides for future contributors, including unit testing instructions and hardware integration notes.
 
+## Future Developments for Hobbyists/Developers alike
+Since this project has been finalized on my side, that doesn't mean that other people can't continue contributing on this repo. If anyone wishes to continue please go ahead, the last thing I was working on was ensuring compatibility between the ESP32 and the Arduino. And I believe I did so properly. However, the only thing I didn't really finalize was the Low-Level sketch for the ESP32. If anyone wants a starting point here are some things that you can work on:
+
+**Easy:**
+- Diagram.Json for ESP32 support
+- MQ135 fix for ESP32 support
+- Resolve any of the bugs that are minor issues on the current codebase.
+- Add a voltage reader mechanic for reading battery life of a standalone battery.
+- (**For Hardware Hobbyists**) Add a switch to power on and off the device.
+
+**Medium:**
+- Add a calibration mode for the MQ135 sensor to ensure that the MQ135 is properly able to read data.
+- Try to reduce memory usage more for the Arduino Uno board.
+- Construct a Chassy to store and hold all of the electronic components. (Ensure the design is similar to a PipBoy).
+
+**Hard:**
+- Add the Final Radio feature on this device. Ensure a new Screen state.
+- Implement a rotary encoder to switch between different stations of the Radio.
+- Implement a button that switches off the radio on and off in the background.
+- Design a PCB Board with all the given hardware components.
+
+With these starting points, developers can explore ways to enhance the embedded device to suit their own needs—and potentially complete it for sharing with friends and colleagues. While I wish I had more time to dedicate to this project, I’m proud of what I was able to accomplish in just three months. I’m excited to continue building and sharing more projects in the future.
+
 ## Essential Documents for Developers
 
 - [Unit Testing with PlatformIO](https://github.com/FrankVanris2/GadgetBuddy/blob/main/Documentation/UnitTestingPlatformIO.md)
